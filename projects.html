@@ -6,6 +6,26 @@
     <title>Projects</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const images = document.querySelectorAll(".gallery img");
+
+        function fadeInOnScroll() {
+            images.forEach(img => {
+                const rect = img.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.85) {
+                    img.classList.add("fade-in");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", fadeInOnScroll);
+        fadeInOnScroll(); // Run once to check initial position
+    });
+</script>
+
+
 <body>
     <header>
         <h1>My Projects</h1>
