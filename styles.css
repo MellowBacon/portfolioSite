@@ -169,21 +169,23 @@ h3 {
 /* Navigation Bar */
 nav {
     background: #333;
-    padding: 15px 40px; /* More padding on both sides */
+    padding: 15px 50px; /* Adds more left & right padding */
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
     display: flex;
-    justify-content: space-between; /* Space between menu & icons */
+    justify-content: space-between; /* Spaces menu & icons */
     align-items: center;
+    box-sizing: border-box; /* Ensures padding doesn’t push items off */
 }
 
 /* Navigation Menu */
 .nav-links {
     display: flex;
-    gap: 25px; /* Adds spacing between menu items */
+    gap: 25px;
 }
+
 
     .nav-links a {
         color: #fff;
@@ -200,8 +202,10 @@ nav {
 /* Social Media Icons */
 .social-icons {
     display: flex;
-    gap: 20px; /* Adds space between icons */
-    margin-right: 10px; /* Moves icons slightly left */
+    gap: 15px;
+    margin-right: 0; /* Reset any extra margins */
+    max-width: 300px; /* Prevents icons from stretching too far */
+    flex-wrap: nowrap; /* Prevents wrapping */
 }
 
     .social-icons a {
