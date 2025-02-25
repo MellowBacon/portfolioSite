@@ -51,14 +51,16 @@ footer {
 }
 
 .gallery {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three images per row */
+    gap: 15px;
     justify-content: center;
-    gap: 10px;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
     .gallery img {
-        width: 150px; /* Default thumbnail size */
+        width: 100%; /* Ensures images fill the grid cells */
         height: auto;
         border-radius: 5px;
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -66,6 +68,14 @@ footer {
     }
 
         .gallery img:hover {
-            transform: scale(1.5); /* Enlarge the image on hover */
+            transform: scale(1.2); /* Enlarges image on hover */
             box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
         }
+
+    /* Center last row if it has fewer than 3 images */
+    .gallery::after {
+        content: "";
+        display: block;
+        width: 100%;
+    }
+
