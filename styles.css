@@ -265,14 +265,14 @@ nav {
     padding: 12px 25px;
     font-size: 1.2em;
     color: white;
-    background: #ffcc00;
+    background: #333;
     border-radius: 5px;
     text-decoration: none;
     transition: background 0.3s;
 }
 
     .btn:hover {
-        background: #e6b800;
+        background: #616161;
     }
 
 
