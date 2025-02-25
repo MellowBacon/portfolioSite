@@ -225,7 +225,7 @@ nav {
     }
 
     .social-icons img {
-        width: 25px; /* Adjust size */
+        width: 35px; /* Adjust size */
         height: auto;
         transition: transform 0.3s ease-in-out;
     }
