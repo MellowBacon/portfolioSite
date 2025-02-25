@@ -169,7 +169,7 @@ h3 {
 /* Sticky Navigation Bar */
 nav {
     background: #333;
-    padding: 15px 50px;
+    padding: 15px 40px; /* Reduce padding to prevent overflow */
     position: fixed;
     top: 0;
     width: 100%;
@@ -177,9 +177,11 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-sizing: border-box;
-    transition: transform 0.3s ease-in-out;
+    box-sizing: border-box; /* Prevents padding from increasing width */
+    max-width: 100vw; /* Ensures navbar does not exceed screen width */
+    left: 0; /* Makes sure it starts from the left edge */
 }
+
 
 /* When scrolling down, hide the navbar */
 .nav-hidden {
