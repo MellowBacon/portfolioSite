@@ -456,6 +456,11 @@ nav {
     .social-icons {
         gap: 10px;
     }
+
+        .social-icons img {
+            width: 35px; /* Increase icon size */
+            height: auto;
+        }
 }
 
 /* Show Mobile Menu When Active */
