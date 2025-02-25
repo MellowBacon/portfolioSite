@@ -367,3 +367,80 @@ footer {
             width: 20px; /* Make icons slightly smaller on mobile */
         }
 }
+
+
+/* Default Navbar Styling */
+nav {
+    background: #333;
+    padding: 15px 50px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Navigation Menu */
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
+
+/* Social Media Icons */
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+/* Hamburger Menu (Hidden by Default) */
+.menu-icon {
+    display: none;
+    font-size: 1.8em;
+    color: white;
+    cursor: pointer;
+}
+
+/* Mobile Menu (Hidden by Default) */
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: #333;
+    text-align: center;
+    padding: 20px 0;
+    z-index: 999;
+}
+
+    .mobile-menu a {
+        color: white;
+        text-decoration: none;
+        padding: 15px;
+        display: block;
+        font-size: 1.2em;
+    }
+
+/* Show Hamburger Menu & Adjust Layout on Mobile */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Hide normal menu */
+    }
+
+    .menu-icon {
+        display: block; /* Show hamburger menu */
+    }
+
+    .social-icons {
+        gap: 10px;
+    }
+}
+
+/* Show Mobile Menu When Active */
+.mobile-menu.show {
+    display: flex;
+}
