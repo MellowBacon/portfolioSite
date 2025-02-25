@@ -20,7 +20,7 @@
         function fadeInOnScroll() {
             images.forEach(img => {
                 const rect = img.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.9) {
+                if (rect.top < window.innerHeight * 0.85) {
                     img.classList.add("fade-in");
                 }
             });
@@ -29,7 +29,7 @@
         window.addEventListener("scroll", function () {
             let currentScrollY = window.scrollY;
 
-            // Navbar Hiding Logic
+            // Navbar hiding behavior
             if (currentScrollY === 0) {
                 nav.classList.remove("nav-hidden");
             } else if (currentScrollY > lastScrollY && !isScrollingDown) {
@@ -40,13 +40,13 @@
                 nav.classList.remove("nav-hidden");
             }
 
-            // Run fade-in effect on images
+            // Trigger fade-in effect for images
             fadeInOnScroll();
 
             lastScrollY = currentScrollY;
         });
 
-        // Ensure images fade in properly on first load
+        // Run fade-in effect once on load
         fadeInOnScroll();
     });
 
@@ -55,6 +55,7 @@
         mobileMenu.classList.toggle("show");
     }
 </script>
+
 
 
 <body>
