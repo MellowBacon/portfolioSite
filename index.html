@@ -16,17 +16,21 @@
         const nav = document.querySelector("nav");
 
         window.addEventListener("scroll", function () {
-            if (window.scrollY > lastScrollY) {
-                // Scrolling down - hide header
+            if (window.scrollY === 0) {
+                // User is at the very top - always show navbar
+                nav.classList.remove("nav-hidden");
+            } else if (window.scrollY > lastScrollY) {
+                // Scrolling down - hide navbar
                 nav.classList.add("nav-hidden");
             } else {
-                // Scrolling up - show header
+                // Scrolling up - show navbar
                 nav.classList.remove("nav-hidden");
             }
             lastScrollY = window.scrollY;
         });
     });
 </script>
+
 
 <body>
     <header>
