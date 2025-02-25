@@ -173,18 +173,20 @@ nav {
     position: fixed;
     top: 0;
     width: 100%;
-    text-align: center;
     z-index: 1000;
+    display: flex;
+    justify-content: flex-end; /* Moves menu to the right */
+    padding-right: 30px; /* Adds some spacing from the right */
 }
 
     nav ul {
         list-style: none;
         padding: 0;
         margin: 0;
+        display: flex;
     }
 
         nav ul li {
-            display: inline;
             margin: 0 15px;
         }
 
@@ -199,6 +201,7 @@ nav {
                 nav ul li a:hover {
                     color: #ffcc00;
                 }
+
 
 /* Hero Section */
 .hero {
