@@ -176,7 +176,7 @@ nav {
     z-index: 1000;
     display: flex;
     justify-content: flex-end; /* Moves menu to the right */
-    padding-right: 30px; /* Adds some spacing from the right */
+    padding-right: 120px; /* Adds some spacing from the right */
 }
 
     nav ul {
