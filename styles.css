@@ -206,24 +206,29 @@ nav {
             color: #ffcc00;
         }
 
-/* Social Media Icons */
+/* Social Media Icons (Align Properly to the Right) */
 .social-icons {
     display: flex;
     gap: 15px;
-    margin-right: 0; /* Reset any extra margins */
-    max-width: 300px; /* Prevents icons from stretching too far */
-    flex-wrap: nowrap; /* Prevents wrapping */
+    margin-left: auto; /* Push icons to the right */
 }
 
     .social-icons a {
-        color: #fff;
-        font-size: 1.5em;
-        transition: color 0.3s ease-in-out;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-        .social-icons a:hover {
-            color: #ffcc00;
+    .social-icons img {
+        width: 25px; /* Adjust size */
+        height: auto;
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .social-icons img:hover {
+            transform: scale(1.2);
         }
+
 
 
 
@@ -352,21 +357,27 @@ footer {
 /* Adjust navbar for mobile screens */
 @media (max-width: 768px) {
     nav {
-        padding: 15px 20px; /* Reduce side padding for better fit */
+        padding: 15px 20px; /* Reduce side padding */
     }
 
     .nav-links {
-        gap: 15px; /* Reduce space between menu items */
+        display: none; /* Hide main menu */
+    }
+
+    .menu-icon {
+        display: block; /* Show hamburger menu */
     }
 
     .social-icons {
         gap: 10px; /* Reduce space between icons */
+        margin-left: auto; /* Keep them aligned right */
     }
 
         .social-icons img {
-            width: 20px; /* Make icons slightly smaller on mobile */
+            width: 20px; /* Slightly smaller for mobile */
         }
 }
+
 
 
 /* Default Navbar Styling */
