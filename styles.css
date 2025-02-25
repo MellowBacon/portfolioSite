@@ -68,7 +68,7 @@ footer {
     }
 
         .gallery img:hover {
-            transform: scale(1.2); /* Enlarges image on hover */
+            transform: scale(2.0); /* Enlarges image on hover */
             box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
         }
 
