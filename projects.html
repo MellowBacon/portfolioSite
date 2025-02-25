@@ -15,10 +15,21 @@
         let lastScrollY = window.scrollY;
         const nav = document.querySelector("nav");
         let isScrollingDown = false;
+        const images = document.querySelectorAll(".gallery img");
+
+        function fadeInOnScroll() {
+            images.forEach(img => {
+                const rect = img.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.9) {
+                    img.classList.add("fade-in");
+                }
+            });
+        }
 
         window.addEventListener("scroll", function () {
             let currentScrollY = window.scrollY;
 
+            // Navbar Hiding Logic
             if (currentScrollY === 0) {
                 nav.classList.remove("nav-hidden");
             } else if (currentScrollY > lastScrollY && !isScrollingDown) {
@@ -29,8 +40,14 @@
                 nav.classList.remove("nav-hidden");
             }
 
+            // Run fade-in effect on images
+            fadeInOnScroll();
+
             lastScrollY = currentScrollY;
         });
+
+        // Ensure images fade in properly on first load
+        fadeInOnScroll();
     });
 
     function toggleMenu() {
@@ -38,6 +55,7 @@
         mobileMenu.classList.toggle("show");
     }
 </script>
+
 
 <body>
     <header>
