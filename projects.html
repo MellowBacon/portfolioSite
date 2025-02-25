@@ -3,77 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects</title>
+    <title>Projects - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" type="image/png" href="favicon.png">
 </head>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const images = document.querySelectorAll(".gallery img");
+        let lastScrollY = window.scrollY;
+        const nav = document.querySelector("nav");
+        let isScrollingDown = false;
 
-        function fadeInOnScroll() {
-            images.forEach(img => {
-                const rect = img.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.85) {
-                    img.classList.add("fade-in");
-                }
-            });
-        }
+        window.addEventListener("scroll", function () {
+            let currentScrollY = window.scrollY;
 
-        window.addEventListener("scroll", fadeInOnScroll);
-        fadeInOnScroll(); // Run once to check initial position
-    });
-</script>
-
-<!-- Lightbox Modal -->
-<div class="lightbox" id="lightbox">
-    <button class="close-btn" onclick="closeLightbox()">✖</button>
-    <img id="lightbox-img" src="" alt="Expanded Image">
-</div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const images = document.querySelectorAll(".gallery img");
-        const lightbox = document.getElementById("lightbox");
-        const lightboxImg = document.getElementById("lightbox-img");
-
-        images.forEach(img => {
-            img.addEventListener("click", function () {
-                lightboxImg.src = this.src; // Set clicked image
-                lightbox.classList.add("show"); // Show lightbox
-            });
-        });
-
-        lightbox.addEventListener("click", function (event) {
-            if (event.target !== lightboxImg) {
-                closeLightbox();
+            if (currentScrollY === 0) {
+                nav.classList.remove("nav-hidden");
+            } else if (currentScrollY > lastScrollY && !isScrollingDown) {
+                isScrollingDown = true;
+                nav.classList.add("nav-hidden");
+            } else if (currentScrollY < lastScrollY && isScrollingDown) {
+                isScrollingDown = false;
+                nav.classList.remove("nav-hidden");
             }
+
+            lastScrollY = currentScrollY;
         });
-
-        function closeLightbox() {
-            lightbox.classList.remove("show"); // Hide lightbox
-        }
-
-        window.closeLightbox = closeLightbox; // Make function accessible to button
     });
-</script>
 
+    function toggleMenu() {
+        const mobileMenu = document.querySelector(".mobile-menu");
+        mobileMenu.classList.toggle("show");
+    }
+</script>
 
 <body>
     <header>
-        <h1>My Projects</h1>
         <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="projects.html">Projects</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
+            <!-- Hamburger Menu Icon (Mobile) -->
+            <div class="menu-icon" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="projects.html">Projects</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+            <!-- Social Media Icons -->
+            <div class="social-icons">
+                <a href="https://www.instagram.com/nbello.creates/" target="_blank">
+                    <img src="Instagram.png" alt="Instagram" class="custom-icon">
+                </a>
+                <a href="https://bsky.app/profile/noahbello.bsky.social" target="_blank">
+                    <img src="bluesky.png" alt="Bluesky" class="custom-icon">
+                </a>
+                <a href="https://nbello.itch.io/" target="_blank">
+                    <img src="itchio.png" alt="Itch.io" class="custom-icon">
+                </a>
+            </div>
         </nav>
     </header>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-menu">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
     <section class="photo-wall">
         <h2>Projects</h2>
-        
 
         <!-- Row 1: Photography -->
         <h3>Photography</h3>
@@ -86,7 +92,7 @@
         <!-- Row 2: Photogrammetry -->
         <h3>Photogrammetry</h3>
         <div class="gallery">
-            <img src="KitBashPCEdited.png" alt="Photogrammetry 2">
+            <img src="KitBashPCEdited.png" alt="Photogrammetry 1">
             <img src="Insta Shot 1- Splat.jpg" alt="Photogrammetry 2">
             <img src="Insta Shot 2- Splat.jpg" alt="Photogrammetry 3">
         </div>
@@ -94,19 +100,52 @@
         <!-- Row 3: 3D Modeling -->
         <h3>3D Modeling</h3>
         <div class="gallery">
-            <img src="fidgettoonlines.png" alt="3D Modeling 2" />
-            <img src="Jelly.png" alt="3D Modeling 2" />
-            <img src="Les Paul.jpg" alt="3D Modeling 2" />
+            <img src="fidgettoonlines.png" alt="3D Modeling 1">
+            <img src="Jelly.png" alt="3D Modeling 2">
+            <img src="Les Paul.jpg" alt="3D Modeling 3">
         </div>
 
         <!-- Row 4: Environment Game Art -->
         <h3>Environment & Game Art</h3>
         <div class="gallery">
-            <img src="Toadally Dreadful.jpg" alt="Environment Game Art 1">
-            <img src="Toadally Dreadful 2.jpg" alt="3D Modeling 3">
-            <img src="TD3.png" alt="3D Modeling 3">
+            <img src="Toadally Dreadful.jpg" alt="Environment Art 1">
+            <img src="Toadally Dreadful 2.jpg" alt="Environment Art 2">
+            <img src="TD3.png" alt="Environment Art 3">
         </div>
     </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <button class="close-btn" onclick="closeLightbox()">✖</button>
+        <img id="lightbox-img" src="" alt="Expanded Image">
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const images = document.querySelectorAll(".gallery img");
+            const lightbox = document.getElementById("lightbox");
+            const lightboxImg = document.getElementById("lightbox-img");
+
+            images.forEach(img => {
+                img.addEventListener("click", function () {
+                    lightboxImg.src = this.src;
+                    lightbox.classList.add("show");
+                });
+            });
+
+            lightbox.addEventListener("click", function (event) {
+                if (event.target !== lightboxImg) {
+                    closeLightbox();
+                }
+            });
+
+            function closeLightbox() {
+                lightbox.classList.remove("show");
+            }
+
+            window.closeLightbox = closeLightbox;
+        });
+    </script>
 
     <footer>
         <p>&copy; 2025 My Portfolio</p>
