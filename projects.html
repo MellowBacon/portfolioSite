@@ -20,7 +20,9 @@
         function fadeInOnScroll() {
             images.forEach(img => {
                 const rect = img.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.85) {
+                const isVisible = rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
+
+                if (isVisible) {
                     img.classList.add("fade-in");
                 }
             });
@@ -46,8 +48,8 @@
             lastScrollY = currentScrollY;
         });
 
-        // Run fade-in effect once on load
-        fadeInOnScroll();
+        // Run fade-in effect once on load (but only if images are actually in view)
+        setTimeout(fadeInOnScroll, 100); // Small delay to ensure correct detection
     });
 
     function toggleMenu() {
@@ -55,6 +57,7 @@
         mobileMenu.classList.toggle("show");
     }
 </script>
+
 
 
 
