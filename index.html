@@ -15,22 +15,29 @@
     document.addEventListener("DOMContentLoaded", function () {
         let lastScrollY = window.scrollY;
         const nav = document.querySelector("nav");
+        let isScrollingDown = false;
 
         window.addEventListener("scroll", function () {
-            if (window.scrollY === 0) {
-                // User is at the very top - always show navbar
+            let currentScrollY = window.scrollY;
+
+            if (currentScrollY === 0) {
+                // At the top, always show navbar
                 nav.classList.remove("nav-hidden");
-            } else if (window.scrollY > lastScrollY) {
-                // Scrolling down - hide navbar
+            } else if (currentScrollY > lastScrollY && !isScrollingDown) {
+                // Scrolling down - hide navbar smoothly
+                isScrollingDown = true;
                 nav.classList.add("nav-hidden");
-            } else {
-                // Scrolling up - show navbar
+            } else if (currentScrollY < lastScrollY && isScrollingDown) {
+                // Scrolling up - show navbar smoothly
+                isScrollingDown = false;
                 nav.classList.remove("nav-hidden");
             }
-            lastScrollY = window.scrollY;
+
+            lastScrollY = currentScrollY;
         });
     });
 </script>
+
 
 <header>
 
