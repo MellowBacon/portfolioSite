@@ -25,6 +25,39 @@
     });
 </script>
 
+<!-- Lightbox Modal -->
+<div class="lightbox" id="lightbox">
+    <button class="close-btn" onclick="closeLightbox()">✖</button>
+    <img id="lightbox-img" src="" alt="Expanded Image">
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const images = document.querySelectorAll(".gallery img");
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+
+        images.forEach(img => {
+            img.addEventListener("click", function () {
+                lightboxImg.src = this.src; // Set clicked image
+                lightbox.classList.add("show"); // Show lightbox
+            });
+        });
+
+        lightbox.addEventListener("click", function (event) {
+            if (event.target !== lightboxImg) {
+                closeLightbox();
+            }
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove("show"); // Hide lightbox
+        }
+
+        window.closeLightbox = closeLightbox; // Make function accessible to button
+    });
+</script>
+
 
 <body>
     <header>
