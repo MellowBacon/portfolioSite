@@ -166,19 +166,26 @@ h3 {
 }
 
 
-/* Navigation Bar */
+/* Sticky Navigation Bar */
 nav {
     background: #333;
-    padding: 15px 50px; /* Adds more left & right padding */
+    padding: 15px 50px;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
     display: flex;
-    justify-content: space-between; /* Spaces menu & icons */
+    justify-content: space-between;
     align-items: center;
-    box-sizing: border-box; /* Ensures padding doesn’t push items off */
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out;
 }
+
+/* When scrolling down, hide the navbar */
+.nav-hidden {
+    transform: translateY(-100%);
+}
+
 
 /* Navigation Menu */
 .nav-links {
