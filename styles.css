@@ -48,10 +48,12 @@ footer {
 .photo-wall {
     text-align: center;
     padding: 20px;
-    background: transparent; /* Remove white background */
+    background: #fff; /* Make sure the background is visible */
     position: relative;
-    z-index: 1; /* Ensures it stays behind the images */
+    z-index: 1; /* Ensures the white container stays behind images */
+    overflow: visible; /* Prevents images from being clipped */
 }
+
 
 
 h3 {
@@ -74,12 +76,13 @@ h3 {
         height: auto;
         border-radius: 5px;
         cursor: pointer;
-        opacity: 0;
-        transform: translateY(30px) scale(1);
+        opacity: 1; /* Make sure they are visible */
+        transform: translateY(0) scale(1); /* Reset position */
         transition: opacity 1s ease-out, transform 1s ease-out;
-        position: relative; /* Ensures images appear above containers */
-        z-index: 2; /* Moves images above the white section */
+        position: relative; /* Ensure images are above other elements */
+        z-index: 2;
     }
+
 
 
 /* Ensures the fade-in effect only applies when scrolling */
