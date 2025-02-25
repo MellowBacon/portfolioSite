@@ -347,3 +347,23 @@ footer {
     .custom-icon:hover {
         transform: scale(1.2);
     }
+
+
+/* Adjust navbar for mobile screens */
+@media (max-width: 768px) {
+    nav {
+        padding: 15px 20px; /* Reduce side padding for better fit */
+    }
+
+    .nav-links {
+        gap: 15px; /* Reduce space between menu items */
+    }
+
+    .social-icons {
+        gap: 10px; /* Reduce space between icons */
+    }
+
+        .social-icons img {
+            width: 20px; /* Make icons slightly smaller on mobile */
+        }
+}
