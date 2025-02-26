@@ -3,27 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me</title>
+    <title>About - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" type="image/png" href="favicon.png">
 </head>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let lastScrollY = window.scrollY;
+        const nav = document.querySelector("nav");
+        let isScrollingDown = false;
+
+        function fadeInOnScroll() {
+            document.querySelectorAll(".fade-in-section").forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.85) {
+                    section.classList.add("visible");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", function () {
+            let currentScrollY = window.scrollY;
+
+            if (currentScrollY === 0) {
+                nav.classList.remove("nav-hidden");
+            } else if (currentScrollY > lastScrollY && !isScrollingDown) {
+                isScrollingDown = true;
+                nav.classList.add("nav-hidden");
+            } else if (currentScrollY < lastScrollY && isScrollingDown) {
+                isScrollingDown = false;
+                nav.classList.remove("nav-hidden");
+            }
+
+            fadeInOnScroll();
+            lastScrollY = currentScrollY;
+        });
+
+        setTimeout(fadeInOnScroll, 300);
+    });
+
+    function toggleMenu() {
+        document.querySelector(".mobile-menu").classList.toggle("show");
+    }
+</script>
+
 <body>
     <header>
-        <h1>About Me</h1>
         <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="projects.html">Projects</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
+            <!-- Hamburger Menu (Mobile) -->
+            <div class="menu-icon" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="projects.html">Projects</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+            <!-- Social Media Icons -->
+            <div class="social-icons">
+                <a href="https://www.instagram.com/nbello.creates/" target="_blank">
+                    <img src="Instagram.png" alt="Instagram" class="custom-icon">
+                </a>
+                <a href="https://bsky.app/profile/noahbello.bsky.social" target="_blank">
+                    <img src="bluesky.png" alt="Bluesky" class="custom-icon">
+                </a>
+                <a href="https://nbello.itch.io/" target="_blank">
+                    <img src="itchio.png" alt="Itch.io" class="custom-icon">
+                </a>
+            </div>
         </nav>
     </header>
-    <section>
-        <h2>Who I Am</h2>
-        <p>Write a short bio about yourself here.</p>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-menu">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <!-- About Section -->
+    <section class="fade-in-section about-section">
+        <h2>About Noah Bello</h2>
+
+        <!-- Optional: Add an image here -->
+        <div class="about-image">
+            <img src="your-image.jpg" alt="Noah Bello">
+        </div>
+
+        <p>
+            Noah Bello’s work explores the evolving relationship between the physical and digital.
+            He is drawn to the ways technology shapes perception, distorts memory, and reconfigures
+            the organic into something new. His process often begins with real, scanned environments
+            then shifts into something altered.
+        </p>
+
+        <p>
+            By merging organic forms with digital systems, Bello’s work explores the shifting boundaries
+            between the physical and virtual. His practice examines how digital reconstruction can alter,
+            distort, or extend the life of natural forms, raising questions about transformation, memory,
+            and perception in an increasingly digitized world.
+        </p>
     </section>
+
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2025 My Portfolio</p>
+        <p>&copy; 2025 Noah Bello</p>
     </footer>
 </body>
 </html>
