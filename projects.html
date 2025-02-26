@@ -138,11 +138,19 @@
 
             images.forEach(img => {
                 img.addEventListener("click", function () {
-                    lightboxImg.src = this.getAttribute("data-fullsize");
-                    lightbox.classList.add("show");
+                    // Fade out the image before changing source
+                    lightboxImg.style.opacity = "0";
+
+                    // Wait for animation, then change src and fade back in
+                    setTimeout(() => {
+                        lightboxImg.src = this.getAttribute("data-fullsize");
+                        lightbox.classList.add("show");
+                        lightboxImg.style.opacity = "1";
+                    }, 200); // Delay to clear previous image
                 });
             });
 
+            // Close lightbox when clicking outside the image
             lightbox.addEventListener("click", function (event) {
                 if (event.target !== lightboxImg) {
                     closeLightbox();
@@ -151,11 +159,13 @@
 
             function closeLightbox() {
                 lightbox.classList.remove("show");
+                lightboxImg.style.opacity = "0"; // Ensures it fades out when closing
             }
 
             window.closeLightbox = closeLightbox;
         });
     </script>
+
 
     <footer>
         <p>&copy; 2025 My Portfolio</p>
