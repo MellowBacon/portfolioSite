@@ -157,21 +157,23 @@ h3 {
     }
 
 /* Adjust gallery layout for smaller screens */
-@media (max-width: 900px) {
-    .gallery {
-        grid-template-columns: repeat(2, 1fr); /* Switch to 2 columns */
-        max-width: 100%;
-    }
-}
-
 @media (max-width: 600px) {
     .gallery {
-        grid-template-columns: repeat(1, 1fr); /* Switch to 1 column on small screens */
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; /* Ensures images are centered */
+        gap: 15px;
     }
 
         .gallery img {
-            max-width: 90%; /* Make images take up more space */
+            max-width: 90%;
+            height: auto;
+            margin: 0 auto;
         }
+
+    body {
+        overflow-x: hidden; /* Prevents horizontal scrolling */
+    }
 }
 
 
