@@ -6,6 +6,13 @@ body {
     text-align: center;
 }
 
+    /* Apply special background & no scrolling ONLY on the homepage */
+    body.homepage {
+        background: url('splatbackground.png') no-repeat center center/cover;
+        height: 100vh; /* Full viewport height */
+        overflow: hidden; /* Prevent scrolling */
+    }
+
 header {
     background: #333;
     color: #fff;
