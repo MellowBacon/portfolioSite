@@ -31,7 +31,6 @@
         window.addEventListener("scroll", function () {
             let currentScrollY = window.scrollY;
 
-            // Navbar hiding behavior
             if (currentScrollY === 0) {
                 nav.classList.remove("nav-hidden");
             } else if (currentScrollY > lastScrollY && !isScrollingDown) {
@@ -42,14 +41,11 @@
                 nav.classList.remove("nav-hidden");
             }
 
-            // Run fade-in effect when scrolling
             fadeInOnScroll();
-
             lastScrollY = currentScrollY;
         });
 
-        // Ensure images fade in on load **only if they are in view**
-        setTimeout(fadeInOnScroll, 300); // Small delay to ensure correct detection
+        setTimeout(fadeInOnScroll, 300);
     });
 
     function toggleMenu() {
@@ -58,28 +54,18 @@
     }
 </script>
 
-
-
-
-
-
 <body>
     <header>
         <nav>
-            <!-- Hamburger Menu Icon (Mobile) -->
             <div class="menu-icon" onclick="toggleMenu()">
                 <i class="fas fa-bars"></i>
             </div>
-
-            <!-- Navigation Links -->
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="about.html">About</a>
                 <a href="projects.html">Projects</a>
                 <a href="contact.html">Contact</a>
             </div>
-
-            <!-- Social Media Icons -->
             <div class="social-icons">
                 <a href="https://www.instagram.com/nbello.creates/" target="_blank">
                     <img src="Instagram.png" alt="Instagram" class="custom-icon">
@@ -94,7 +80,6 @@
         </nav>
     </header>
 
-    <!-- Mobile Navigation Menu -->
     <div class="mobile-menu">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
@@ -108,33 +93,17 @@
         <!-- Row 1: Photography -->
         <h3>Photography</h3>
         <div class="gallery">
-            <img src="DSC03226_Original.jpg" alt="Photography 2">
-            <img src="DSC03183_Original.jpg" alt="Photography 1">
-            <img src="DSC03230_Original.jpg" alt="Photography 3">
+            <img src="thumbnails/DSC03226_Thumb.jpg" data-fullsize="DSC03226_Original.jpg" alt="Photography 2">
+            <img src="thumbnails/DSC03183_Thumb.jpg" data-fullsize="DSC03183_Original.jpg" alt="Photography 1">
+            <img src="thumbnails/DSC03230_Thumb.jpg" data-fullsize="DSC03230_Original.jpg" alt="Photography 3">
         </div>
 
         <!-- Row 2: Photogrammetry -->
         <h3>Photogrammetry</h3>
         <div class="gallery">
-            <img src="KitBashPCEdited.png" alt="Photogrammetry 1">
-            <img src="Insta Shot 1- Splat.jpg" alt="Photogrammetry 2">
-            <img src="Insta Shot 2- Splat.jpg" alt="Photogrammetry 3">
-        </div>
-
-        <!-- Row 3: 3D Modeling -->
-        <h3>3D Modeling</h3>
-        <div class="gallery">
-            <img src="fidgettoonlines.png" alt="3D Modeling 1">
-            <img src="Jelly.png" alt="3D Modeling 2">
-            <img src="Les Paul.jpg" alt="3D Modeling 3">
-        </div>
-
-        <!-- Row 4: Environment Game Art -->
-        <h3>Environment & Game Art</h3>
-        <div class="gallery">
-            <img src="Toadally Dreadful.jpg" alt="Environment Art 1">
-            <img src="Toadally Dreadful 2.jpg" alt="Environment Art 2">
-            <img src="TD3.png" alt="Environment Art 3">
+            <img src="thumbnails/KitBashPCEdited_Thumb.png" data-fullsize="KitBashPCEdited.png" alt="Photogrammetry 1">
+            <img src="thumbnails/InstaShot1_Thumb.jpg" data-fullsize="Insta Shot 1- Splat.jpg" alt="Photogrammetry 2">
+            <img src="thumbnails/InstaShot2_Thumb.jpg" data-fullsize="Insta Shot 2- Splat.jpg" alt="Photogrammetry 3">
         </div>
     </section>
 
@@ -152,7 +121,7 @@
 
             images.forEach(img => {
                 img.addEventListener("click", function () {
-                    lightboxImg.src = this.src;
+                    lightboxImg.src = this.getAttribute("data-fullsize");
                     lightbox.classList.add("show");
                 });
             });
