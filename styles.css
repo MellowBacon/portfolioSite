@@ -92,13 +92,16 @@ h3 {
 
 
 /* Restoring hover enlarge effect */
-.gallery img:hover {
-    transform: scale(1.2) !important; /* Enlarge when hovered */
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    position: relative; /* Ensures it appears above other images */
-    z-index: 10; /* Moves the hovered image to the front */
+@media (min-width: 768px) {
+    .gallery img:hover {
+        transform: scale(1.2) !important;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        position: relative;
+        z-index: 10;
+    }
 }
+
 
 
 
