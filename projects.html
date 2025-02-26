@@ -138,15 +138,20 @@
 
             images.forEach(img => {
                 img.addEventListener("click", function () {
-                    // Fade out the image before changing source
+                    // Fade out image before updating src
                     lightboxImg.style.opacity = "0";
 
-                    // Wait for animation, then change src and fade back in
+                    // Clear the current image first to prevent flickering
                     setTimeout(() => {
-                        lightboxImg.src = this.getAttribute("data-fullsize");
+                        lightboxImg.src = ""; // Remove old image
+                        lightboxImg.src = this.getAttribute("data-fullsize"); // Set new image
                         lightbox.classList.add("show");
-                        lightboxImg.style.opacity = "1";
-                    }, 200); // Delay to clear previous image
+
+                        // Fade in after slight delay
+                        setTimeout(() => {
+                            lightboxImg.style.opacity = "1";
+                        }, 100);
+                    }, 100); // Delay before setting new src
                 });
             });
 
@@ -159,12 +164,16 @@
 
             function closeLightbox() {
                 lightbox.classList.remove("show");
-                lightboxImg.style.opacity = "0"; // Ensures it fades out when closing
+                lightboxImg.style.opacity = "0"; // Ensures fade-out before closing
+                setTimeout(() => {
+                    lightboxImg.src = ""; // Fully clear image after closing
+                }, 200);
             }
 
             window.closeLightbox = closeLightbox;
         });
     </script>
+
 
 
     <footer>
