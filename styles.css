@@ -136,12 +136,14 @@ h3 {
 
     /* Lightbox image */
     .lightbox img {
-        max-width: 90%;
-        max-height: 90%;
+        width: auto;
+        max-width: 90vw;
+        max-height: 80vh;
         border-radius: 5px;
         box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.3);
         z-index: 1001; /* Image is also above everything */
     }
+
 
     /* Close button */
     .lightbox .close-btn {
