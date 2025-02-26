@@ -504,41 +504,51 @@ nav {
     text-align: center;
 }
 
-/* Contact Form */
-.contact-form {
+
+/* Contact Form Styling */
+form {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1); /* Light transparency */
+    backdrop-filter: blur(10px); /* Subtle blur effect */
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-    .contact-form label {
+    form label {
         font-weight: bold;
-        text-align: left;
+        margin-bottom: 5px;
+        color: white;
     }
 
-    .contact-form input,
-    .contact-form textarea {
+    form input,
+    form textarea {
         width: 100%;
         padding: 10px;
+        margin-bottom: 15px;
         border: 1px solid #ccc;
         border-radius: 5px;
+        font-size: 1em;
     }
 
-    .contact-form button {
-        padding: 12px 20px;
-        font-size: 1.1em;
-        color: white;
-        background: #333;
+    form button {
+        padding: 10px;
+        background: #ffcc00;
         border: none;
-        border-radius: 5px;
+        color: black;
+        font-weight: bold;
         cursor: pointer;
-        transition: background 0.3s;
+        border-radius: 5px;
+        transition: background 0.3s ease-in-out;
     }
 
-        .contact-form button:hover {
-            background: #555;
+        form button:hover {
+            background: #ffaa00;
         }
+
 
 /* Fade-in Animation */
 .fade-in-section {

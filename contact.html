@@ -16,6 +16,7 @@
         const nav = document.querySelector("nav");
         let isScrollingDown = false;
 
+        // Function to fade in sections when scrolling
         function fadeInOnScroll() {
             document.querySelectorAll(".fade-in-section").forEach(section => {
                 const rect = section.getBoundingClientRect();
@@ -25,6 +26,7 @@
             });
         }
 
+        // Handle navbar visibility on scroll
         window.addEventListener("scroll", function () {
             let currentScrollY = window.scrollY;
 
@@ -38,17 +40,49 @@
                 nav.classList.remove("nav-hidden");
             }
 
-            fadeInOnScroll();
+            fadeInOnScroll(); // Trigger fade-in effect
             lastScrollY = currentScrollY;
         });
 
+        // Ensure fade-in effect runs on load if elements are already in view
         setTimeout(fadeInOnScroll, 300);
-    });
 
-    function toggleMenu() {
-        document.querySelector(".mobile-menu").classList.toggle("show");
-    }
+        // Mobile menu toggle function
+        function toggleMenu() {
+            document.querySelector(".mobile-menu").classList.toggle("show");
+        }
+
+        document.querySelector(".menu-icon").addEventListener("click", toggleMenu);
+
+        // Handle contact form submission with Formspree
+        const contactForm = document.getElementById("contact-form");
+        if (contactForm) {
+            contactForm.addEventListener("submit", async function (event) {
+                event.preventDefault(); // Stop default redirection
+
+                const formData = new FormData(contactForm);
+
+                try {
+                    let response = await fetch(contactForm.action, {
+                        method: contactForm.method,
+                        body: formData,
+                        headers: { "Accept": "application/json" }
+                    });
+
+                    if (response.ok) {
+                        document.getElementById("success-message").style.display = "block"; // Show success message
+                        contactForm.reset(); // Clear form fields
+                    } else {
+                        alert("Oops! Something went wrong.");
+                    }
+                } catch (error) {
+                    alert("Error submitting form. Please try again.");
+                }
+            });
+        }
+    });
 </script>
+
 
 <body>
     <header>
@@ -95,18 +129,19 @@
         <p>Feel free to reach out for collaborations, inquiries, or just to say hello.</p>
 
         <!-- Contact Form -->
-        <form action="mailto:NoahBello.Creates@proton.me" method="post" enctype="text/plain" class="contact-form">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="email">Email:</label>
+        <form id="contact-form" action="https://formspree.io/f/xkgolezg" method="POST">
+            <label for="email">Your Email:</label>
             <input type="email" id="email" name="email" required>
 
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" rows="5" required></textarea>
+            <label for="message">Your Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
 
-            <button type="submit" class="btn">Send Message</button>
+            <button type="submit">Send</button>
+
+            <!-- Success message (hidden by default) -->
+            <p id="success-message" style="display: none; color: green; margin-top: 10px;">Message sent successfully!</p>
         </form>
+
     </section>
 
     <!-- Footer -->
