@@ -3,27 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact</title>
+    <title>Contact - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" type="image/png" href="favicon.png">
 </head>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let lastScrollY = window.scrollY;
+        const nav = document.querySelector("nav");
+        let isScrollingDown = false;
+
+        function fadeInOnScroll() {
+            document.querySelectorAll(".fade-in-section").forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.85) {
+                    section.classList.add("visible");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", function () {
+            let currentScrollY = window.scrollY;
+
+            if (currentScrollY === 0) {
+                nav.classList.remove("nav-hidden");
+            } else if (currentScrollY > lastScrollY && !isScrollingDown) {
+                isScrollingDown = true;
+                nav.classList.add("nav-hidden");
+            } else if (currentScrollY < lastScrollY && isScrollingDown) {
+                isScrollingDown = false;
+                nav.classList.remove("nav-hidden");
+            }
+
+            fadeInOnScroll();
+            lastScrollY = currentScrollY;
+        });
+
+        setTimeout(fadeInOnScroll, 300);
+    });
+
+    function toggleMenu() {
+        document.querySelector(".mobile-menu").classList.toggle("show");
+    }
+</script>
+
 <body>
     <header>
-        <h1>Contact Me</h1>
         <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="projects.html">Projects</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
+            <!-- Hamburger Menu (Mobile) -->
+            <div class="menu-icon" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="projects.html">Projects</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+            <!-- Social Media Icons -->
+            <div class="social-icons">
+                <a href="https://www.instagram.com/nbello.creates/" target="_blank">
+                    <img src="Instagram.png" alt="Instagram" class="custom-icon">
+                </a>
+                <a href="https://bsky.app/profile/noahbello.bsky.social" target="_blank">
+                    <img src="bluesky.png" alt="Bluesky" class="custom-icon">
+                </a>
+                <a href="https://nbello.itch.io/" target="_blank">
+                    <img src="itchio.png" alt="Itch.io" class="custom-icon">
+                </a>
+            </div>
         </nav>
     </header>
-    <section>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-menu">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="fade-in-section contact-section">
         <h2>Get in Touch</h2>
-        <p>Put your email or contact form here.</p>
+        <p>Feel free to reach out for collaborations, inquiries, or just to say hello.</p>
+
+        <!-- Contact Form -->
+        <form action="mailto:your-email@example.com" method="post" enctype="text/plain" class="contact-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+
+            <button type="submit" class="btn">Send Message</button>
+        </form>
     </section>
+
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2025 My Portfolio</p>
+        <p>&copy; 2025 Noah Bello</p>
     </footer>
 </body>
 </html>
