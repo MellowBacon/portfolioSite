@@ -21,12 +21,9 @@
 
         .video-container {
             position: relative;
-            padding-bottom: 35%;
-            height: 0;
+            padding-bottom: 40%;
             overflow: hidden;
-            max-width: 1000px;
-            width: 100%;
-            background: #000;
+            max-width: 900px;
             flex: 1;
         }
 
@@ -64,7 +61,6 @@
             }
 
             .video-caption {
-                padding: 10px;
                 text-align: center !important;
             }
         }
@@ -94,6 +90,23 @@
                 <a href="contact.html">Contact</a>
             </div>
         </nav>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-menu">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <div class="mobile-dropdown">
+                <div class="mobile-dropbtn" onclick="toggleDropdown()">Projects <i class="fa fa-caret-down"></i></div>
+                <div class="mobile-dropdown-content">
+                    <a href="photography.html">Photography</a>
+                    <a href="photogrammetry.html">Photogrammetry</a>
+                    <a href="3d-modeling.html">3D Modeling</a>
+                    <a href="environment-art.html">Environment & Game Art</a>
+                    <a href="video-art.html">Video Art</a>
+                </div>
+            </div>
+            <a href="contact.html">Contact</a>
+        </div>
     </header>
 
     <section class="photo-wall fade-in-section">
@@ -101,21 +114,21 @@
 
         <div class="video-section">
             <div class="video-container">
-                <iframe src="https://player.vimeo.com/video/1064859715?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="Household Experiments"></iframe>
+                <iframe src="https://player.vimeo.com/video/1064859715?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"></iframe>
             </div>
-            <p class="video-caption"><em>Household Experiments</em> is a macro video that shows a different view of simple chemical reactions that can be done with household products. It abstracts the everyday into something otherworldly.</p>
+            <p class="video-caption"><em>Household Experiments</em> is a macro video that shows a different view of simple chemical reactions that can be done with household products. It abstracts the everyday into something otherworldly</p>
         </div>
 
         <div class="video-section reverse">
             <div class="video-container">
-                <iframe src="https://player.vimeo.com/video/1064853626?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="Culture Shock"></iframe>
+                <iframe src="https://player.vimeo.com/video/1064853626?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"></iframe>
             </div>
-            <p class="video-caption"><em>Culture Shock</em> is a video collage project that attempts to immerse the viewer in cultures that have seemed so far away to me. All the videos are found footage from Google Maps, mostly posted in the review section of businesses. In a way, this is a condensed visit to these locations. </p>
+            <p class="video-caption"><em>Culture Shock</em> is a video collage project that attempts to immerse the viewer in cultures that have seemed so far away to me. All the videos are found footage from Google Maps, mostly posted in the review section of businesses. In a way, this is a condensed visit to these locations.</p>
         </div>
 
         <div class="video-section">
             <div class="video-container">
-                <iframe src="https://player.vimeo.com/video/1064867250?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="AI Self Portrait"></iframe>
+                <iframe src="https://player.vimeo.com/video/1064867250?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"></iframe>
             </div>
             <p class="video-caption"><em>AI Self Portrait</em> is an experiment exploring the advancement of AI tech in 2023. The prompt was to use Processing 4 (a coding sketchbook for visual artists) to create digital visualizations and then explain the visuals. I then fed its explanations into a voice synthesizer, which I modified because, by this point, I was pretty spooked. I found it to be an interesting experience that highlighted some strengths and weaknesses of the technology at the time. </p>
         </div>
@@ -139,13 +152,25 @@
             window.addEventListener("scroll", fadeInOnScroll);
             setTimeout(fadeInOnScroll, 300);
             fadeInOnScroll();
+
+            // Reset mobile menu and dropdown on resize
+            window.addEventListener('resize', function () {
+                const mobileMenu = document.querySelector('.mobile-menu');
+                const dropdownContent = document.querySelector('.mobile-dropdown-content');
+                if (window.innerWidth > 768) {
+                    mobileMenu.classList.remove('show');
+                    dropdownContent.classList.remove('show');
+                }
+            });
         });
 
         function toggleMenu() {
-            const mobileMenu = document.querySelector(".mobile-menu");
-            mobileMenu.classList.toggle("show");
+            document.querySelector(".mobile-menu").classList.toggle("show");
+        }
+
+        function toggleDropdown() {
+            document.querySelector(".mobile-dropdown-content").classList.toggle("show");
         }
     </script>
-
 </body>
 </html>

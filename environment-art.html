@@ -33,6 +33,25 @@
                 <a href="contact.html">Contact</a>
             </div>
         </nav>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-menu">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+
+            <div class="mobile-dropdown">
+                <a href="#" class="mobile-dropbtn" onclick="toggleDropdown()">Projects <i class="fa fa-caret-down"></i></a>
+                <div class="mobile-dropdown-content">
+                    <a href="photography.html">Photography</a>
+                    <a href="photogrammetry.html">Photogrammetry</a>
+                    <a href="3d-modeling.html">3D Modeling</a>
+                    <a href="environment-art.html">Environment & Game Art</a>
+                    <a href="video-art.html">Video Art</a>
+                </div>
+            </div>
+
+            <a href="contact.html">Contact</a>
+        </div>
     </header>
 
     <section class="photo-wall fade-in-section">
@@ -103,11 +122,26 @@
             window.addEventListener("scroll", fadeInOnScroll);
             setTimeout(fadeInOnScroll, 300);
             fadeInOnScroll();
+
+            // Reset mobile menu and dropdown on resize
+            window.addEventListener('resize', function () {
+                const mobileMenu = document.querySelector('.mobile-menu');
+                const dropdownContent = document.querySelector('.mobile-dropdown-content');
+                if (window.innerWidth > 768) {
+                    mobileMenu.classList.remove('show');
+                    dropdownContent.classList.remove('show');
+                }
+            });
         });
 
         function toggleMenu() {
             const mobileMenu = document.querySelector(".mobile-menu");
             mobileMenu.classList.toggle("show");
+        }
+
+        function toggleDropdown() {
+            const dropdownContent = document.querySelector(".mobile-dropdown-content");
+            dropdownContent.classList.toggle("show");
         }
     </script>
 
