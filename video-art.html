@@ -21,7 +21,8 @@
 
         .video-container {
             position: relative;
-            padding-bottom: 40%;
+            padding-bottom: 35%; /* desktop ratio */
+            height: 0;
             overflow: hidden;
             max-width: 900px;
             flex: 1;
@@ -55,15 +56,27 @@
             flex-direction: row-reverse;
         }
 
+        /* MOBILE STYLES BELOW */
         @media (max-width: 800px) {
-            .video-section, .reverse {
+            .video-section, .video-section.reverse {
                 flex-direction: column;
+                gap: 15px;
+            }
+
+            .video-container {
+                padding-bottom: 56.25%; /* standard 16:9 ratio for mobile */
+                width: 100%;
+                max-width: 100%;
             }
 
             .video-caption {
+                padding: 10px;
+                max-width: 100%;
+                font-size: 1.1em;
                 text-align: center !important;
             }
         }
+
     </style>
 </head>
 
