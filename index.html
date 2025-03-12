@@ -13,30 +13,36 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        let lastScrollY = window.scrollY;
         const nav = document.querySelector("nav");
-        let isScrollingDown = false;
+        let lastScrollY = window.scrollY;
+        let ticking = false;
 
         window.addEventListener("scroll", function () {
-            let currentScrollY = window.scrollY;
+            lastScrollY = window.scrollY;
 
-            if (currentScrollY === 0) {
-                // At the top, always show navbar
+            if (!ticking) {
+                window.requestAnimationFrame(function () {
+                    handleNavbar(lastScrollY);
+                    ticking = false;
+                });
+
+                ticking = true;
+            }
+        });
+
+        function handleNavbar(currentScrollY) {
+            if (currentScrollY <= 50) { // Give some buffer to the top
                 nav.classList.remove("nav-hidden");
-            } else if (currentScrollY > lastScrollY && !isScrollingDown) {
-                // Scrolling down - hide navbar smoothly
-                isScrollingDown = true;
+            } else if (currentScrollY > lastScrollY) {
                 nav.classList.add("nav-hidden");
-            } else if (currentScrollY < lastScrollY && isScrollingDown) {
-                // Scrolling up - show navbar smoothly
-                isScrollingDown = false;
+            } else {
                 nav.classList.remove("nav-hidden");
             }
-
             lastScrollY = currentScrollY;
-        });
+        }
     });
 </script>
+
 
 
 <header>
