@@ -8,6 +8,58 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="icon" type="image/png" href="favicon3.png">
+
+    <style>
+        /* Single image column view for mobile */
+        @media (max-width: 800px) {
+            .gallery {
+                grid-template-columns: 1fr !important;
+                gap: 40px;
+            }
+
+                .gallery figure {
+                    max-width: 90%;
+                    margin: 0 auto;
+                }
+        }
+
+        /* Lightbox modal style */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+            .lightbox.show {
+                display: flex;
+            }
+
+            .lightbox img {
+                max-width: 95%;
+                max-height: 95%;
+                border-radius: 5px;
+            }
+
+        .close-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            color: white;
+            background: black;
+            border: none;
+            padding: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 
 <body>
@@ -31,6 +83,19 @@
                 </div>
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
+
+                <!-- Social Media Icons -->
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/nbello.creates/" target="_blank">
+                        <img src="Instagram.png" alt="Instagram" class="custom-icon">
+                    </a>
+                    <a href="https://bsky.app/profile/noahbello.bsky.social" target="_blank">
+                        <img src="bluesky.png" alt="Bluesky" class="custom-icon">
+                    </a>
+                    <a href="https://nbello.itch.io/" target="_blank">
+                        <img src="itchio.png" alt="Itch.io" class="custom-icon">
+                    </a>
+                </div>
             </div>
         </nav>
 
@@ -38,7 +103,6 @@
         <div class="mobile-menu">
             <a href="index.html">Home</a>
             <a href="about.html">About</a>
-
             <div class="mobile-dropdown">
                 <a href="#" class="mobile-dropbtn" onclick="toggleDropdown()">Projects <i class="fa fa-caret-down"></i></a>
                 <div class="mobile-dropdown-content">
@@ -49,7 +113,6 @@
                     <a href="video-art.html">Video Art</a>
                 </div>
             </div>
-
             <a href="contact.html">Contact</a>
         </div>
     </header>
@@ -111,6 +174,7 @@
 
             window.closeLightbox = closeLightbox;
 
+            // Fade-in functionality
             function fadeInOnScroll() {
                 document.querySelectorAll(".fade-in-section").forEach(section => {
                     const rect = section.getBoundingClientRect();
@@ -126,24 +190,21 @@
 
             // Reset mobile menu and dropdown on resize
             window.addEventListener('resize', function () {
-                const mobileMenu = document.querySelector('.mobile-menu');
-                const dropdownContent = document.querySelector('.mobile-dropdown-content');
                 if (window.innerWidth > 768) {
-                    mobileMenu.classList.remove('show');
-                    dropdownContent.classList.remove('show');
+                    document.querySelector(".mobile-menu").classList.remove("show");
+                    document.querySelector(".mobile-dropdown-content").classList.remove("show");
                 }
             });
         });
 
         function toggleMenu() {
-            const mobileMenu = document.querySelector(".mobile-menu");
-            mobileMenu.classList.toggle("show");
+            document.querySelector(".mobile-menu").classList.toggle("show");
         }
 
         function toggleDropdown() {
-            const dropdownContent = document.querySelector(".mobile-dropdown-content");
-            dropdownContent.classList.toggle("show");
+            document.querySelector(".mobile-dropdown-content").classList.toggle("show");
         }
     </script>
+
 </body>
 </html>
