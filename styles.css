@@ -236,10 +236,12 @@ nav {
         }
 
 /* Social Media Icons (Align Properly to the Right) */
+/* Social Media Icons (Align to Right) */
 .social-icons {
     display: flex;
     gap: 15px;
     margin-left: auto; /* Push icons to the right */
+    align-items: center; /* Keep them aligned properly */
 }
 
     .social-icons a {
@@ -249,7 +251,7 @@ nav {
     }
 
     .social-icons img {
-        width: 35px; /* Adjust size */
+        width: 30px; /* Adjust size */
         height: auto;
         transition: transform 0.3s ease-in-out;
     }
@@ -257,6 +259,19 @@ nav {
         .social-icons img:hover {
             transform: scale(1.2);
         }
+
+/* Fix for mobile screens */
+@media (max-width: 768px) {
+    .social-icons {
+        gap: 10px; /* Reduce space between icons */
+        margin-left: auto; /* Keep them aligned right */
+    }
+
+        .social-icons img {
+            width: 25px; /* Slightly smaller for mobile */
+        }
+}
+
 
 
 
