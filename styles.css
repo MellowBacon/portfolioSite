@@ -599,3 +599,89 @@ form {
         opacity: 1;
         transform: translateY(0);
     }
+
+
+/* Dropdown Container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: color 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+/* Dropdown Content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    min-width: 160px;
+    z-index: 1000;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.3);
+}
+
+    /* Dropdown Links */
+    .dropdown-content a {
+        color: white;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+        transition: background 0.3s ease;
+    }
+
+        .dropdown-content a:hover {
+            background-color: #555;
+        }
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Ensure dropdown links match other nav links */
+.dropdown .dropbtn:hover {
+    color: #ffcc00;
+}
+
+
+.photo-wall {
+    overflow: visible !important; /* Ensures images aren't clipped */
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: center;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+    .gallery figure {
+        margin: 0;
+    }
+
+    .gallery img {
+        opacity: 1 !important; /* Ensures images are visible immediately */
+        transform: none !important; /* Resets any previous transforms */
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .gallery figcaption {
+        text-align: center;
+        color: #333;
+        font-size: 0.9em;
+        margin-top: 8px;
+    }

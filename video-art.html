@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Art - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" type="image/png" href="favicon3.png">
+
+    <style>
+        .video-container {
+            position: relative;
+            padding-bottom: 40%; /* smaller aspect ratio for smaller display */
+            height: 0;
+            overflow: hidden;
+            max-width: 800px; /* narrower for better fit */
+            margin: 0 auto 20px;
+            background: #000;
+        }
+
+            .video-container iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+        .video-caption {
+            text-align: center;
+            font-size: 0.9em;
+            color: #333;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="menu-icon" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <div class="dropdown">
+                    <a href="#">Projects <i class="fa fa-caret-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="photography.html">Photography</a>
+                        <a href="photogrammetry.html">Photogrammetry</a>
+                        <a href="3d-modeling.html">3D Modeling</a>
+                        <a href="environment-art.html">Environment & Game Art</a>
+                        <a href="video-art.html">Video Art</a>
+                    </div>
+                </div>
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="photo-wall fade-in-section">
+        <h2>Video Art</h2>
+
+        <div class="video-container">
+            <iframe src="https://player.vimeo.com/video/1064859715?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="Household Experiments"></iframe>
+        </div>
+        <p class="video-caption">Caption for "Household Experiments".</p>
+
+        <div class="video-container">
+            <iframe src="https://player.vimeo.com/video/1064853626?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="Culture Shock"></iframe>
+        </div>
+        <p class="video-caption">Caption for "Culture Shock".</p>
+
+        <div class="video-container">
+            <iframe src="https://player.vimeo.com/video/1064867250?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="AI Self Portrait"></iframe>
+        </div>
+        <p class="video-caption">Caption for "AI Self Portrait".</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Noah Bello</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function fadeInOnScroll() {
+                document.querySelectorAll(".fade-in-section").forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.85) {
+                        section.classList.add("visible");
+                    }
+                });
+            }
+
+            window.addEventListener("scroll", fadeInOnScroll);
+            setTimeout(fadeInOnScroll, 300);
+            fadeInOnScroll();
+        });
+
+        function toggleMenu() {
+            const mobileMenu = document.querySelector(".mobile-menu");
+            mobileMenu.classList.toggle("show");
+        }
+    </script>
+
+</body>
+</html>

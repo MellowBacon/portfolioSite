@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photography - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" type="image/png" href="favicon3.png">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="menu-icon" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <div class="dropdown">
+                    <a href="#">Projects <i class="fa fa-caret-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="photography.html">Photography</a>
+                        <a href="photogrammetry.html">Photogrammetry</a>
+                        <a href="3d-modeling.html">3D Modeling</a>
+                        <a href="environment-art.html">Environment & Game Art</a>
+                        <a href="video-art.html">Video Art</a>
+                    </div>
+                </div>
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="photo-wall fade-in-section">
+        <h2>Photography</h2>
+        <div class="gallery">
+            <figure>
+                <img src="thumbnails/DSC03226_Thumb.jpg" data-fullsize="DSC03226_Original.jpg" alt="Photography 2">
+                <figcaption>Caption or description for Photography 2.</figcaption>
+            </figure>
+            <figure>
+                <img src="thumbnails/DSC03183_Thumb.jpg" data-fullsize="DSC03183_Original.jpg" alt="Photography 1">
+                <figcaption>Caption for Photography 1.</figcaption>
+            </figure>
+            <figure>
+                <img src="thumbnails/DSC03230_Thumb.jpg" data-fullsize="DSC03230_Original.jpg" alt="Photography 3">
+                <figcaption>Caption for Photography 3.</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Noah Bello</p>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <button class="close-btn" onclick="closeLightbox()">X</button>
+        <img id="lightbox-img" src="" alt="Expanded Image">
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const images = document.querySelectorAll(".gallery img");
+            const lightbox = document.getElementById("lightbox");
+            const lightboxImg = document.getElementById("lightbox-img");
+
+            images.forEach(img => {
+                img.addEventListener("click", function () {
+                    lightboxImg.src = this.getAttribute("data-fullsize");
+                    lightbox.classList.add("show");
+                });
+            });
+
+            lightbox.addEventListener("click", function (event) {
+                if (event.target !== lightboxImg) {
+                    closeLightbox();
+                }
+            });
+
+            function closeLightbox() {
+                lightbox.classList.remove("show");
+                setTimeout(() => {
+                    lightboxImg.src = "";
+                }, 200);
+            }
+
+            window.closeLightbox = closeLightbox;
+
+            // Fade-in functionality
+            function fadeInOnScroll() {
+                document.querySelectorAll(".fade-in-section").forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.85) {
+                        section.classList.add("visible");
+                    }
+                });
+            }
+
+            window.addEventListener("scroll", fadeInOnScroll);
+            setTimeout(fadeInOnScroll, 300);
+            fadeInOnScroll();
+        });
+    </script>
+
+    <script>
+        function toggleMenu() {
+            const mobileMenu = document.querySelector(".mobile-menu");
+            mobileMenu.classList.toggle("show");
+        }
+    </script>
+
+</body>
+</html>
