@@ -15,35 +15,29 @@
     document.addEventListener("DOMContentLoaded", function () {
         const nav = document.querySelector("nav");
         let lastScrollY = window.scrollY;
+        const threshold = 20; // Prevent small jitters
         let ticking = false;
 
         window.addEventListener("scroll", function () {
-            lastScrollY = window.scrollY;
+            const currentScrollY = window.scrollY;
 
             if (!ticking) {
                 window.requestAnimationFrame(function () {
-                    handleNavbar(lastScrollY);
+                    if (Math.abs(currentScrollY - lastScrollY) > threshold) {
+                        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                            nav.classList.add("nav-hidden");
+                        } else {
+                            nav.classList.remove("nav-hidden");
+                        }
+                        lastScrollY = currentScrollY;
+                    }
                     ticking = false;
                 });
-
                 ticking = true;
             }
         });
-
-        function handleNavbar(currentScrollY) {
-            if (currentScrollY <= 50) { // Give some buffer to the top
-                nav.classList.remove("nav-hidden");
-            } else if (currentScrollY > lastScrollY) {
-                nav.classList.add("nav-hidden");
-            } else {
-                nav.classList.remove("nav-hidden");
-            }
-            lastScrollY = currentScrollY;
-        }
     });
 </script>
-
-
 
 <header>
 
