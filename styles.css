@@ -685,3 +685,37 @@ form {
         font-size: 0.9em;
         margin-top: 8px;
     }
+
+/* Mobile Dropdown Menu */
+.mobile-dropdown {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.mobile-dropbtn {
+    padding: 15px;
+    color: white;
+    font-size: 1.2em;
+}
+
+.mobile-dropdown-content {
+    display: none;
+    flex-direction: column;
+    background-color: #444;
+}
+
+    .mobile-dropdown-content a {
+        padding: 12px 15px;
+        color: white;
+        text-decoration: none;
+        text-align: center;
+    }
+
+        .mobile-dropdown-content a:hover {
+            background-color: #555;
+        }
+
+    .mobile-dropdown-content.show {
+        display: flex;
+    }
