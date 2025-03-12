@@ -10,14 +10,24 @@
     <link rel="icon" type="image/png" href="favicon3.png">
 
     <style>
+        .video-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 80px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
         .video-container {
             position: relative;
-            padding-bottom: 40%; /* smaller aspect ratio for smaller display */
+            padding-bottom: 35%;
             height: 0;
             overflow: hidden;
-            max-width: 800px; /* narrower for better fit */
-            margin: 0 auto 20px;
+            max-width: 1000px;
+            width: 100%;
             background: #000;
+            flex: 1;
         }
 
             .video-container iframe {
@@ -29,10 +39,34 @@
             }
 
         .video-caption {
-            text-align: center;
-            font-size: 0.9em;
+            flex: 1;
+            font-size: 1.3em;
             color: #333;
-            margin-bottom: 40px;
+            padding: 20px;
+            max-width: 500px;
+        }
+
+        .video-section:not(.reverse) .video-caption {
+            text-align: left;
+        }
+
+        .video-section.reverse .video-caption {
+            text-align: right;
+        }
+
+        .reverse {
+            flex-direction: row-reverse;
+        }
+
+        @media (max-width: 800px) {
+            .video-section, .reverse {
+                flex-direction: column;
+            }
+
+            .video-caption {
+                padding: 10px;
+                text-align: center !important;
+            }
         }
     </style>
 </head>
@@ -65,20 +99,26 @@
     <section class="photo-wall fade-in-section">
         <h2>Video Art</h2>
 
-        <div class="video-container">
-            <iframe src="https://player.vimeo.com/video/1064859715?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="Household Experiments"></iframe>
+        <div class="video-section">
+            <div class="video-container">
+                <iframe src="https://player.vimeo.com/video/1064859715?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="Household Experiments"></iframe>
+            </div>
+            <p class="video-caption"><em>Household Experiments</em> is a macro video that shows a different view of simple chemical reactions that can be done with household products. It abstracts the everyday into something otherworldly.</p>
         </div>
-        <p class="video-caption">Caption for "Household Experiments".</p>
 
-        <div class="video-container">
-            <iframe src="https://player.vimeo.com/video/1064853626?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="Culture Shock"></iframe>
+        <div class="video-section reverse">
+            <div class="video-container">
+                <iframe src="https://player.vimeo.com/video/1064853626?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="Culture Shock"></iframe>
+            </div>
+            <p class="video-caption"><em>Culture Shock</em> is a video collage project that attempts to immerse the viewer in cultures that have seemed so far away to me. All the videos are found footage from Google Maps, mostly posted in the review section of businesses. In a way, this is a condensed visit to these locations. </p>
         </div>
-        <p class="video-caption">Caption for "Culture Shock".</p>
 
-        <div class="video-container">
-            <iframe src="https://player.vimeo.com/video/1064867250?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="AI Self Portrait"></iframe>
+        <div class="video-section">
+            <div class="video-container">
+                <iframe src="https://player.vimeo.com/video/1064867250?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="AI Self Portrait"></iframe>
+            </div>
+            <p class="video-caption"><em>AI Self Portrait</em> is an experiment exploring the advancement of AI tech in 2023. The prompt was to use Processing 4 (a coding sketchbook for visual artists) to create digital visualizations and then explain the visuals. I then fed its explanations into a voice synthesizer, which I modified because, by this point, I was pretty spooked. I found it to be an interesting experience that highlighted some strengths and weaknesses of the technology at the time. </p>
         </div>
-        <p class="video-caption">Caption for "AI Self Portrait".</p>
     </section>
 
     <footer>
