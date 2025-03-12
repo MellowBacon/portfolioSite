@@ -10,93 +10,17 @@
     <link rel="icon" type="image/png" href="favicon3.png">
 </head>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let lastScrollY = window.scrollY;
-        const nav = document.querySelector("nav");
-        let isScrollingDown = false;
-
-        // Function to fade in sections when scrolling
-        function fadeInOnScroll() {
-            document.querySelectorAll(".fade-in-section").forEach(section => {
-                const rect = section.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.85) {
-                    section.classList.add("visible");
-                }
-            });
-        }
-
-        // Handle navbar visibility on scroll
-        window.addEventListener("scroll", function () {
-            let currentScrollY = window.scrollY;
-
-            if (currentScrollY === 0) {
-                nav.classList.remove("nav-hidden");
-            } else if (currentScrollY > lastScrollY && !isScrollingDown) {
-                isScrollingDown = true;
-                nav.classList.add("nav-hidden");
-            } else if (currentScrollY < lastScrollY && isScrollingDown) {
-                isScrollingDown = false;
-                nav.classList.remove("nav-hidden");
-            }
-
-            fadeInOnScroll(); // Trigger fade-in effect
-            lastScrollY = currentScrollY;
-        });
-
-        // Ensure fade-in effect runs on load if elements are already in view
-        setTimeout(fadeInOnScroll, 300);
-
-        // Mobile menu toggle function
-        function toggleMenu() {
-            document.querySelector(".mobile-menu").classList.toggle("show");
-        }
-
-        document.querySelector(".menu-icon").addEventListener("click", toggleMenu);
-
-        // Handle contact form submission with Formspree
-        const contactForm = document.getElementById("contact-form");
-        if (contactForm) {
-            contactForm.addEventListener("submit", async function (event) {
-                event.preventDefault(); // Stop default redirection
-
-                const formData = new FormData(contactForm);
-
-                try {
-                    let response = await fetch(contactForm.action, {
-                        method: contactForm.method,
-                        body: formData,
-                        headers: { "Accept": "application/json" }
-                    });
-
-                    if (response.ok) {
-                        document.getElementById("success-message").style.display = "block"; // Show success message
-                        contactForm.reset(); // Clear form fields
-                    } else {
-                        alert("Oops! Something went wrong.");
-                    }
-                } catch (error) {
-                    alert("Error submitting form. Please try again.");
-                }
-            });
-        }
-    });
-</script>
-
-
 <body>
     <header>
         <nav>
-            <!-- Hamburger Menu (Mobile) -->
             <div class="menu-icon" onclick="toggleMenu()">
                 <i class="fas fa-bars"></i>
             </div>
 
-            <!-- Navigation Links -->
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <div class="dropdown">
-                    <a href="#" class="dropbtn">Projects <i class="fa-solid fa-caret-down"></i></a>
+                    <a href="#">Projects <i class="fa fa-caret-down"></i></a>
                     <div class="dropdown-content">
                         <a href="photography.html">Photography</a>
                         <a href="photogrammetry.html">Photogrammetry</a>
@@ -107,31 +31,39 @@
                 </div>
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
-            </div>
 
-
-            <!-- Social Media Icons -->
-            <div class="social-icons">
-                <a href="https://www.instagram.com/nbello.creates/" target="_blank">
-                    <img src="Instagram.png" alt="Instagram" class="custom-icon">
-                </a>
-                <a href="https://bsky.app/profile/noahbello.bsky.social" target="_blank">
-                    <img src="bluesky.png" alt="Bluesky" class="custom-icon">
-                </a>
-                <a href="https://nbello.itch.io/" target="_blank">
-                    <img src="itchio.png" alt="Itch.io" class="custom-icon">
-                </a>
+                <!-- Social Media Icons -->
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/nbello.creates/" target="_blank">
+                        <img src="Instagram.png" alt="Instagram" class="custom-icon">
+                    </a>
+                    <a href="https://bsky.app/profile/noahbello.bsky.social" target="_blank">
+                        <img src="bluesky.png" alt="Bluesky" class="custom-icon">
+                    </a>
+                    <a href="https://nbello.itch.io/" target="_blank">
+                        <img src="itchio.png" alt="Itch.io" class="custom-icon">
+                    </a>
+                </div>
             </div>
         </nav>
-    </header>
 
-    <!-- Mobile Navigation Menu -->
-    <div class="mobile-menu">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="projects.html">Projects</a>
-        <a href="contact.html">Contact</a>
-    </div>
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-menu">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <div class="mobile-dropdown">
+                <a href="#" class="mobile-dropbtn" onclick="toggleDropdown()">Projects <i class="fa fa-caret-down"></i></a>
+                <div class="mobile-dropdown-content">
+                    <a href="photography.html">Photography</a>
+                    <a href="photogrammetry.html">Photogrammetry</a>
+                    <a href="3d-modeling.html">3D Modeling</a>
+                    <a href="environment-art.html">Environment & Game Art</a>
+                    <a href="video-art.html">Video Art</a>
+                </div>
+            </div>
+            <a href="contact.html">Contact</a>
+        </div>
+    </header>
 
     <!-- Contact Section -->
     <section class="fade-in-section contact-section">
@@ -154,13 +86,91 @@
 
             <button type="submit">Send</button>
         </form>
-
-
     </section>
 
     <!-- Footer -->
     <footer>
         <p>&copy; 2025 Noah Bello</p>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const nav = document.querySelector("nav");
+            let lastScrollY = window.scrollY;
+            let ticking = false;
+
+            window.addEventListener("scroll", function () {
+                const currentScrollY = window.scrollY;
+
+                if (!ticking) {
+                    window.requestAnimationFrame(function () {
+                        if (currentScrollY < 50 || currentScrollY < lastScrollY) {
+                            nav.classList.remove("nav-hidden");
+                        } else if (currentScrollY > lastScrollY + 20) {
+                            nav.classList.add("nav-hidden");
+                        }
+                        lastScrollY = currentScrollY;
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+
+            // Fade-in functionality
+            function fadeInOnScroll() {
+                document.querySelectorAll(".fade-in-section").forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.85) {
+                        section.classList.add("visible");
+                    }
+                });
+            }
+
+            window.addEventListener("scroll", fadeInOnScroll);
+            setTimeout(fadeInOnScroll, 300);
+            fadeInOnScroll();
+
+            // Mobile menu reset on resize
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) {
+                    document.querySelector(".mobile-menu").classList.remove("show");
+                    document.querySelector(".mobile-dropdown-content").classList.remove("show");
+                }
+            });
+
+            // Form submission handling (Formspree)
+            const contactForm = document.getElementById("contact-form");
+            contactForm.addEventListener("submit", async function (event) {
+                event.preventDefault();
+
+                const formData = new FormData(contactForm);
+
+                try {
+                    const response = await fetch(contactForm.action, {
+                        method: contactForm.method,
+                        body: formData,
+                        headers: { "Accept": "application/json" }
+                    });
+
+                    if (response.ok) {
+                        document.getElementById("success-message").style.display = "block";
+                        contactForm.reset();
+                    } else {
+                        alert("Oops! Something went wrong.");
+                    }
+                } catch (error) {
+                    alert("Error submitting form. Please try again.");
+                }
+            });
+        });
+
+        function toggleMenu() {
+            document.querySelector(".mobile-menu").classList.toggle("show");
+        }
+
+        function toggleDropdown() {
+            document.querySelector(".mobile-dropdown-content").classList.toggle("show");
+        }
+    </script>
 </body>
 </html>
