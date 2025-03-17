@@ -3,93 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Portfolio</title>
+    <title>Noah Bello - Artist Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="icon" type="image/png" href="favicon3.png">
-
 </head>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const nav = document.querySelector("nav");
-        let lastScrollY = window.scrollY;
-        const threshold = 20; // Prevent small jitters
-        let ticking = false;
-
-        window.addEventListener("scroll", function () {
-            const currentScrollY = window.scrollY;
-
-            if (!ticking) {
-                window.requestAnimationFrame(function () {
-                    if (Math.abs(currentScrollY - lastScrollY) > threshold) {
-                        if (currentScrollY > lastScrollY && currentScrollY > 100) {
-                            nav.classList.add("nav-hidden");
-                        } else {
-                            nav.classList.remove("nav-hidden");
-                        }
-                        lastScrollY = currentScrollY;
-                    }
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        });
-    });
-</script>
-
-<header>
-
-
-    <!-- Mobile Navigation Menu -->
-    <div class="mobile-menu">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-
-        <!-- Mobile Dropdown for Projects -->
-        <div class="mobile-dropdown">
-            <div class="mobile-dropbtn" onclick="toggleDropdown()">Projects <i class="fa-solid fa-caret-down"></i></div>
-            <div class="mobile-dropdown-content">
-                <a href="photography.html">Photography</a>
-                <a href="photogrammetry.html">Photogrammetry</a>
-                <a href="3d-modeling.html">3D Modeling</a>
-                <a href="environment-art.html">Environment & Game Art</a>
-                <a href="video-art.html">Video Art</a>
-            </div>
-        </div>
-
-        <a href="contact.html">Contact</a>
-    </div>
-
-</header>
-
-<script>
-    function toggleMenu() {
-        const mobileMenu = document.querySelector(".mobile-menu");
-        mobileMenu.classList.toggle("show");
-    }
-
-    function toggleDropdown() {
-        const dropdownContent = document.querySelector(".mobile-dropdown-content");
-        dropdownContent.classList.toggle("show");
-    }
-    window.addEventListener('resize', function () {
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const dropdownContent = document.querySelector('.mobile-dropdown-content');
-
-        if (window.innerWidth > 768) { // threshold for desktop
-            mobileMenu.classList.remove('show');
-            if (dropdownContent) {
-                dropdownContent.classList.remove('show');
-            }
-        }
-    });
-
-</script>
-
-<body>
-
+<body class="homepage">
     <header>
         <nav>
             <!-- Hamburger Menu Icon (Mobile) -->
@@ -114,7 +35,6 @@
                 <a href="contact.html">Contact</a>
             </div>
 
-
             <!-- Social Media Icons -->
             <div class="social-icons">
                 <a href="https://www.instagram.com/nbello.creates/" target="_blank">
@@ -128,18 +48,158 @@
                 </a>
             </div>
         </nav>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-menu">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+
+            <!-- Mobile Dropdown for Projects -->
+            <div class="mobile-dropdown">
+                <div class="mobile-dropbtn" onclick="toggleDropdown()">Projects <i class="fa-solid fa-caret-down"></i></div>
+                <div class="mobile-dropdown-content">
+                    <a href="photography.html">Photography</a>
+                    <a href="photogrammetry.html">Photogrammetry</a>
+                    <a href="3d-modeling.html">3D Modeling</a>
+                    <a href="environment-art.html">Environment & Game Art</a>
+                    <a href="video-art.html">Video Art</a>
+                </div>
+            </div>
+
+            <a href="contact.html">Contact</a>
+        </div>
     </header>
-
-
 
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Noah Bello</h1>
-            <p>Artist</p>
+            <h1 class="animated-text">Noah Bello</h1>
+            <p class="tagline">Visual Artist & Digital Creator</p>
+            <p class="brief-intro">Exploring the intersection of photography, 3D modeling, and interactive art</p>
+            <a href="#featured-work" class="btn">View My Work</a>
         </div>
     </section>
 
-</body>
+    <!-- Featured Work Section -->
+    <section id="featured-work" class="featured-work">
+        <div class="section-header">
+            <h2>Featured Work</h2>
+            <p>A selection of my recent projects</p>
+        </div>
+        <div class="project-grid">
+            <!-- Project 1 -->
+            <div class="project-card">
+                <div class="project-image">
+                    <!-- Replace with your actual image -->
+                    <img src="thumbnails/DSC03183_Thumb.jpg" alt="Photography Project">
+                </div>
+                <div class="project-info">
+                    <h3>Photography Series</h3>
+                    <p>Abstracted nature photography from the PNW.</p>
+                    <a href="photography.html" class="btn">View Series</a>
+                </div>
+            </div>
+            <!-- Project 2 -->
+            <div class="project-card">
+                <div class="project-image">
+                    <!-- Replace with your actual image -->
+                    <img src="thumbnails/ToadallyDreadful2_Thumb.jpg" alt="3D Modeling Project">
+                </div>
+                <div class="project-info">
+                    <h3>3D Environment Art</h3>
+                    <p>An environment created for the unreleased project Toadally Dreadful.</p>
+                    <a href="environment-art.html" class="btn">Explore</a>
+                </div>
+            </div>
+            <!-- Project 3 -->
+            <div class="project-card">
+                <div class="project-image">
+                    <!-- Replace with your actual image -->
+                    <img src="thumbnails/VideoArt.JPG" alt="Interactive Art">
+                </div>
+                <div class="project-info">
+                    <h3>Video Art</h3>
+                    <p>A collection of video art projects spanning a few different themes.</p>
+                    <a href="video-art.html" class="btn">Experience</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- About Preview Section -->
+    <section class="about-preview">
+        <div class="about-content">
+            <h2>About Me</h2>
+            <p>I'm a multimedia artist focused on creating immersive experiences through digital and physical mediums. My work explores the boundaries between reality and digital space.</p>
+            <a href="about.html" class="btn">Learn More</a>
+        </div>
+    </section>
+
+    <script>
+        // Navbar scroll behavior
+        document.addEventListener("DOMContentLoaded", function () {
+            const nav = document.querySelector("nav");
+            let lastScrollY = window.scrollY;
+            const threshold = 20; // Prevent small jitters
+            let ticking = false;
+
+            window.addEventListener("scroll", function () {
+                const currentScrollY = window.scrollY;
+
+                if (!ticking) {
+                    window.requestAnimationFrame(function () {
+                        if (Math.abs(currentScrollY - lastScrollY) > threshold) {
+                            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                                nav.classList.add("nav-hidden");
+                            } else {
+                                nav.classList.remove("nav-hidden");
+                            }
+                            lastScrollY = currentScrollY;
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+
+            // Animated entrance for hero content
+            setTimeout(() => {
+                document.querySelector('.hero-content').classList.add('visible');
+            }, 300);
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+
+        // Mobile menu functions
+        function toggleMenu() {
+            const mobileMenu = document.querySelector(".mobile-menu");
+            mobileMenu.classList.toggle("show");
+        }
+
+        function toggleDropdown() {
+            const dropdownContent = document.querySelector(".mobile-dropdown-content");
+            dropdownContent.classList.toggle("show");
+        }
+
+        window.addEventListener('resize', function () {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const dropdownContent = document.querySelector('.mobile-dropdown-content');
+
+            if (window.innerWidth > 768) { // threshold for desktop
+                mobileMenu.classList.remove('show');
+                if (dropdownContent) {
+                    dropdownContent.classList.remove('show');
+                }
+            }
+        });
+    </script>
+</body>
 </html>

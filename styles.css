@@ -1,227 +1,267 @@
-body {
-    font-family: 'Montserrat', Arial, sans-serif;
+/*============================================================
+MERGED & POLISHED STYLES
+------------------------------------------------------------
+This CSS merges your original styling with the new homepage code,
+ensuring the About page looks correct (white background, dark text)
+and the homepage retains its new hero design & cleanliness.
+============================================================*/
+
+/*------------------------------------------------------------
+GLOBAL RESET / DEFAULTS
+------------------------------------------------------------*/
+
+html, body {
     margin: 0;
     padding: 0;
-    background-color: #333;
-    text-align: center;
+    font-family: 'Montserrat', Arial, sans-serif;
 }
 
-    /* Apply special background & no scrolling ONLY on the homepage */
+body {
+    /* Dark background & white text by default.
+       Specific sections (about-section, contact-section, etc.)
+       override background & text color to suit design. */
+    background: #333;
+    color: #fff;
+    text-align: center;
+    overflow-x: hidden; /* avoid horizontal scroll on small screens */
+}
+
+    /*------------------------------------------------------------
+HOMEPAGE-SPECIFIC (body.homepage)
+------------------------------------------------------------*/
+
     body.homepage {
+        /* Allows auto-scrolling if content exceeds viewport.
+       If you want a fixed full page with no scroll, revert to height: 100vh; overflow: hidden; */
         background: url('splatbackground.png') no-repeat center center/cover;
-        height: 100vh; /* Full viewport height */
-        overflow: hidden; /* Prevent scrolling */
     }
 
-header {
-    background: #333;
-    color: #fff;
-    padding: 20px;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 15px;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-section {
-    padding: 20px;
-    margin: 20px;
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-footer {
-    background: #333;
-    color: white;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
-.photo-wall {
-    text-align: center;
-    padding: 20px;
-    background: #fff; /* Make sure the background is visible */
-    position: relative;
-    z-index: 1; /* Ensures the white container stays behind images */
-    overflow: visible; /* Prevents images from being clipped */
-}
-
-
-
-h3 {
-    margin-top: 40px;
-    font-size: 1.8em;
-}
-
-/* Larger images */
-.gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns */
-    gap: 20px;
+/* Hero Section */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    max-width: 1100px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    color: #fff; /* ensure hero text is white on dark background */
+}
+
+    .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 100%);
+        z-index: 1;
+    }
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 30px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+    /* Make hero heading bigger */
+    .hero-content h1 {
+        font-size: 5em;
+    }
+
+    /* Larger tagline / hero caption */
+    .hero-content .tagline {
+        font-size: 2.5em; /* adjust as needed */
+        margin-top: 10px;
+    }
+
+    .hero-content .brief-intro {
+        font-size: 1.4em; /* optional if you want to enlarge the short intro */
+        margin-top: 10px;
+    }
+
+    .hero-content.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+/* Example of animated text (optional) */
+.animated-text {
+    animation: textPulse 3s infinite alternate;
+}
+
+@keyframes textPulse {
+    0% {
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+    }
+
+    100% {
+        text-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 255, 255, 0.3);
+    }
+}
+
+/* Homepage featured-work / about-preview sections
+   (Used only on homepage for those blocks) */
+
+.featured-work {
+    padding: 80px 5%;
+    background: #f8f8f8;
+    text-align: center;
+    color: #333; /* Dark text on light background */
+}
+
+.section-header {
+    margin-bottom: 40px;
+}
+
+    .section-header h2 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        position: relative;
+        display: inline-block;
+    }
+
+        .section-header h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #333;
+            margin: 10px auto 0;
+        }
+
+    .section-header p {
+        font-size: 1.2em;
+        color: #666;
+    }
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-    /* Initially hide images */
-    .gallery img {
-        width: 100%;
-        height: auto;
-        border-radius: 5px;
-        cursor: pointer;
-        opacity: 0; /* Make sure they start invisible */
-        transform: translateY(30px) scale(1); /* Move slightly down */
-        transition: opacity 1s ease-out, transform 1s ease-out;
-        position: relative; /* Ensure images are above other elements */
-        z-index: 2;
-    }
-
-/* Ensures the fade-in effect only applies when scrolling */
-.fade-in {
-    opacity: 1 !important;
-    transform: translateY(0) scale(1) !important; /* Move image up smoothly */
+.project-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-
-/* Restoring hover enlarge effect */
-@media (min-width: 768px) {
-    .gallery img:hover {
-        transform: scale(1.2) !important;
-        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        position: relative;
-        z-index: 10;
+    .project-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
     }
+
+.project-image {
+    overflow: hidden;
+    height: 250px;
 }
 
-
-
-
-
-    /* Center last row if it has fewer than 3 images */
-    .gallery::after {
-        content: "";
-        display: block;
+    .project-image img {
         width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
     }
 
+.project-card:hover .project-image img {
+    transform: scale(1.1);
+}
 
-/* Lightbox background */
-.lightbox {
+.project-info {
+    padding: 20px;
+    text-align: left;
+}
+
+    .project-info h3 {
+        margin-top: 0;
+        font-size: 1.4em;
+    }
+
+    .project-info p {
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+/* about-preview (homepage snippet) */
+.about-preview {
+    padding: 80px 5%;
+    background: linear-gradient(to right, #333, #555);
+    color: white;
+    text-align: center;
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+    .about-content h2 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+    }
+
+    .about-content p {
+        font-size: 1.2em;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+
+/*------------------------------------------------------------
+GLOBAL NAV & HEADER
+------------------------------------------------------------*/
+
+header {
+    background: transparent;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    background: rgba(51, 51, 51, 0.9);
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-    z-index: 1000; /* Ensures lightbox is above everything */
-}
-
-    /* Make lightbox visible */
-    .lightbox.show {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    /* Lightbox image */
-    .lightbox img {
-        width: auto;
-        max-width: 90vw;
-        max-height: 80vh;
-        border-radius: 5px;
-        box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.3);
-        z-index: 1001; /* Image is also above everything */
-    }
-
-
-    /* Close button */
-    .lightbox .close-btn {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        font-size: 30px;
-        color: white;
-        cursor: pointer;
-        background: none;
-        border: none;
-        z-index: 1002; /* Ensures button is clickable */
-    }
-
-/* Adjust gallery layout for smaller screens */
-@media (max-width: 600px) {
-    .gallery {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center; /* Ensures images are centered */
-        gap: 15px;
-    }
-
-        .gallery img {
-            max-width: 90%;
-            height: auto;
-            margin: 0 auto;
-        }
-
-    body {
-        overflow-x: hidden; /* Prevents horizontal scrolling */
-    }
-}
-
-
-/* Sticky Navigation Bar */
-nav {
-    background: #333;
-    padding: 15px 40px; /* Reduce padding to prevent overflow */
-    position: fixed;
-    top: 0;
-    width: 100%;
+    margin: 0;
+    padding: 20px 20px; /* 20px top/bottom, 20px left/right for spacing */
     z-index: 1000;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-sizing: border-box; /* Prevents padding from increasing width */
-    max-width: 100vw; /* Ensures navbar does not exceed screen width */
-    left: 0; /* Makes sure it starts from the left edge */
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease-in-out;
+}
+/* Thicker nav bar vertically */
+z-index: 1000;
+display: flex;
+justify-content: space-between;
+align-items: center;
+box-sizing: border-box;
+backdrop-filter: blur(10px);
+transition: all 0.3s ease-in-out;
 }
 
-
-/* Smoothly hide the navbar when scrolling down */
 .nav-hidden {
     transform: translateY(-100%);
-    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Smooth animation */
     opacity: 0;
 }
 
-
-
-
-/* Navigation Menu */
 .nav-links {
     display: flex;
     gap: 25px;
 }
-
 
     .nav-links a {
         color: #fff;
@@ -232,16 +272,61 @@ nav {
     }
 
         .nav-links a:hover {
-            color: #ffcc00;
+            color: #95ff7a;
         }
 
-/* Social Media Icons (Align Properly to the Right) */
-/* Social Media Icons (Align to Right) */
+/* Desktop dropdowns */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: color 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: rgba(51, 51, 51, 0.9);
+    min-width: 200px;
+    z-index: 1000;
+    border-radius: 5px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+    .dropdown-content a {
+        color: white;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+        transition: background 0.3s ease;
+    }
+
+        .dropdown-content a:hover {
+            background-color: rgba(85, 85, 85, 0.9);
+        }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    transform: translateY(0);
+    opacity: 1;
+}
+
 .social-icons {
     display: flex;
     gap: 15px;
-    margin-left: auto; /* Push icons to the right */
-    align-items: center; /* Keep them aligned properly */
+    align-items: center;
 }
 
     .social-icons a {
@@ -251,7 +336,7 @@ nav {
     }
 
     .social-icons img {
-        width: 30px; /* Adjust size */
+        width: 30px;
         height: auto;
         transition: transform 0.3s ease-in-out;
     }
@@ -260,199 +345,10 @@ nav {
             transform: scale(1.2);
         }
 
-/* Fix for mobile screens */
-@media (max-width: 768px) {
-    .social-icons {
-        gap: 10px; /* Reduce space between icons */
-        margin-left: auto; /* Keep them aligned right */
-    }
+/*------------------------------------------------------------
+MOBILE NAVIGATION
+------------------------------------------------------------*/
 
-        .social-icons img {
-            width: 25px; /* Slightly smaller for mobile */
-        }
-}
-
-
-
-
-
-/* Hero Section with Background Image */
-.hero {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: url('splatbackground.png') no-repeat center center/cover;
-    color: white;
-    position: relative;
-}
-
-    /* Add an overlay to improve text readability */
-    .hero::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5); /* Dark overlay for better contrast */
-    }
-
-/* Ensures text stays above the overlay */
-.hero-content {
-    position: relative;
-    z-index: 2;
-}
-
-    .hero-content h1 {
-        font-size: 3.5em;
-        margin: 0;
-        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5); /* More dramatic shadow */
-    }
-
-    .hero-content p {
-        font-size: 1.5em;
-        opacity: 0.8;
-        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5); /* More dramatic shadow */
-    }
-
-.btn {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 12px 25px;
-    font-size: 1.2em;
-    color: white;
-    background: #333;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background 0.3s;
-}
-
-    .btn:hover {
-        background: #616161;
-    }
-
-
-/* About Preview */
-.about-preview {
-    padding: 50px 20px;
-    background: #fff;
-    text-align: center;
-}
-
-    .about-preview h2 {
-        font-size: 2em;
-    }
-
-    .about-preview p {
-        font-size: 1.2em;
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-/* Featured Projects */
-.featured-projects {
-    padding: 50px 20px;
-    background: #f4f4f4;
-    text-align: center;
-}
-
-    .featured-projects h2 {
-        font-size: 2em;
-    }
-
-.project-thumbnails {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-    .project-thumbnails img {
-        width: 250px;
-        height: auto;
-        border-radius: 5px;
-        transition: transform 0.3s ease-in-out;
-    }
-
-        .project-thumbnails img:hover {
-            transform: scale(1.1);
-        }
-
-/* Footer */
-footer {
-    background: #333;
-    color: white;
-    padding: 10px;
-    text-align: center;
-}
-
-
-.custom-icon {
-    width: 25px; /* Adjust size as needed */
-    height: auto;
-    transition: transform 0.3s ease-in-out;
-}
-
-    .custom-icon:hover {
-        transform: scale(1.2);
-    }
-
-
-/* Adjust navbar for mobile screens */
-@media (max-width: 768px) {
-    nav {
-        padding: 15px 20px; /* Reduce side padding */
-    }
-
-    .nav-links {
-        display: none; /* Hide main menu */
-    }
-
-    .menu-icon {
-        display: block; /* Show hamburger menu */
-    }
-
-    .social-icons {
-        gap: 10px; /* Reduce space between icons */
-        margin-left: auto; /* Keep them aligned right */
-    }
-
-        .social-icons img {
-            width: 20px; /* Slightly smaller for mobile */
-        }
-}
-
-
-
-/* Default Navbar Styling */
-nav {
-    background: #333;
-    padding: 15px 50px;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
-}
-
-/* Navigation Menu */
-.nav-links {
-    display: flex;
-    gap: 25px;
-}
-
-/* Social Media Icons */
-.social-icons {
-    display: flex;
-    gap: 15px;
-}
-
-/* Hamburger Menu (Hidden by Default) */
 .menu-icon {
     display: none;
     font-size: 1.8em;
@@ -460,7 +356,6 @@ nav {
     cursor: pointer;
 }
 
-/* Mobile Menu (Hidden by Default) */
 .mobile-menu {
     display: none;
     flex-direction: column;
@@ -468,10 +363,11 @@ nav {
     top: 60px;
     left: 0;
     width: 100%;
-    background: #333;
+    background: rgba(51, 51, 51, 0.95);
     text-align: center;
     padding: 20px 0;
     z-index: 999;
+    backdrop-filter: blur(10px);
 }
 
     .mobile-menu a {
@@ -482,14 +378,47 @@ nav {
         font-size: 1.2em;
     }
 
-/* Show Hamburger Menu & Adjust Layout on Mobile */
+.mobile-dropdown {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.mobile-dropbtn {
+    padding: 15px;
+    color: white;
+    font-size: 1.2em;
+}
+
+.mobile-dropdown-content {
+    display: none;
+    flex-direction: column;
+    background-color: rgba(68, 68, 68, 0.9);
+}
+
+    .mobile-dropdown-content a {
+        padding: 12px 15px;
+    }
+
+    .mobile-dropdown-content.show {
+        display: flex;
+    }
+
+.mobile-menu.show {
+    display: flex;
+}
+
 @media (max-width: 768px) {
+    nav {
+        padding: 15px 20px; /* fallback for smaller screens */
+    }
+
     .nav-links {
-        display: none; /* Hide normal menu */
+        display: none; /* hide normal nav links on mobile */
     }
 
     .menu-icon {
-        display: block; /* Show hamburger menu */
+        display: block; /* show hamburger */
     }
 
     .social-icons {
@@ -497,18 +426,175 @@ nav {
     }
 
         .social-icons img {
-            width: 35px; /* Increase icon size */
-            height: auto;
+            width: 25px;
         }
+
+    .hero-content h1 {
+        font-size: 5em;
+    }
+
+    .hero-content .tagline {
+        font-size: 2em;
+    }
+
+    .hero-content .brief-intro {
+        font-size: 1em;
+    }
+
+    .btn {
+        padding: 12px 25px;
+        font-size: 1em;
+    }
+
+    .featured-work {
+        padding: 60px 20px;
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .section-header h2 {
+        font-size: 2em;
+    }
+
+    .mobile-menu.show {
+        display: flex;
+    }
 }
 
-/* Show Mobile Menu When Active */
-.mobile-menu.show {
+/*------------------------------------------------------------
+PHOTO-WALL & GALLERY & LIGHTBOX (for project pages)
+------------------------------------------------------------*/
+
+.photo-wall {
+    text-align: center;
+    padding: 20px;
+    background: #fff;
+    position: relative;
+    z-index: 1;
+    overflow: visible;
+    color: #333; /* dark text for photo walls if needed */
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* explicitly 3 columns by default */
+    gap: 20px;
+    justify-content: center;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+    .gallery img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+        cursor: pointer;
+        opacity: 1;
+        transform: none;
+        transition: opacity 1s ease-out, transform 1s ease-out;
+        position: relative;
+        z-index: 2;
+    }
+
+/* Lightbox style */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    z-index: 1000;
 }
 
+    .lightbox.show {
+        opacity: 1;
+        visibility: visible;
+    }
 
-/* Contact Section */
+    .lightbox img {
+        max-width: 90vw;
+        max-height: 80vh;
+        border-radius: 5px;
+        box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.3);
+        z-index: 1001;
+    }
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+    background: none;
+    border: none;
+    z-index: 1002;
+}
+
+@media (min-width: 768px) {
+    .gallery img:hover {
+        transform: scale(1.2) !important;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        position: relative;
+        z-index: 10;
+    }
+}
+
+/*------------------------------------------------------------
+ABOUT PAGE / CONTACT PAGE CONTENT BLOCKS
+------------------------------------------------------------*/
+
+.about-section {
+    padding: 60px 20px;
+    background: #fff;
+    color: #333;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.about-image {
+    margin: 20px auto;
+    max-width: 200px;
+}
+
+    .about-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 50%;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+/* fade-in-section class for about / contact etc. */
+.fade-in-section {
+    opacity: 1;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+    .fade-in-section.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+/*------------------------------------------------------------
+CONTACT SECTION / FORM
+------------------------------------------------------------*/
+
 .contact-section {
     padding: 60px 20px;
     background: #fff;
@@ -517,16 +603,15 @@ nav {
     max-width: 600px;
     margin: 50px auto;
     text-align: center;
+    color: #333;
 }
 
-
-/* Contact Form Styling */
 form {
     max-width: 500px;
     margin: 20px auto;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.1); /* Light transparency */
-    backdrop-filter: blur(10px); /* Subtle blur effect */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -536,7 +621,7 @@ form {
     form label {
         font-weight: bold;
         margin-bottom: 5px;
-        color: white;
+        color: #333; /* dark text for visibility on white form background */
     }
 
     form input,
@@ -547,6 +632,7 @@ form {
         border: 1px solid #ccc;
         border-radius: 5px;
         font-size: 1em;
+        color: #333;
     }
 
     form button {
@@ -564,173 +650,50 @@ form {
             background: #ffaa00;
         }
 
+/*------------------------------------------------------------
+BUTTONS (Global)
+------------------------------------------------------------*/
 
-/* Fade-in Animation */
-.fade-in-section {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 1s ease-out, transform 1s ease-out;
-}
-
-    .fade-in-section.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-
-/* About Section */
-.about-section {
-    padding: 60px 20px;
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin: 50px auto;
-    text-align: center;
-    line-height: 1.6;
-}
-
-/* Optional Image */
-.about-image {
-    margin: 20px auto;
-    max-width: 200px;
-}
-
-    .about-image img {
-        width: 100%;
-        height: auto;
-        border-radius: 50%;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-/* Fade-in Animation */
-.fade-in-section {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 1s ease-out, transform 1s ease-out;
-}
-
-    .fade-in-section.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-
-/* Dropdown Container */
-.dropdown {
-    position: relative;
+.btn {
     display: inline-block;
-}
-
-/* Dropdown Button */
-.dropbtn {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.1em;
-    transition: color 0.3s ease-in-out;
-    cursor: pointer;
-}
-
-/* Dropdown Content (hidden by default) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #333;
-    min-width: 160px;
-    z-index: 1000;
-    border-radius: 5px;
-    box-shadow: 0px 4px 8px rgba(0,0,0,0.3);
-}
-
-    /* Dropdown Links */
-    .dropdown-content a {
-        color: white;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-        text-align: left;
-        transition: background 0.3s ease;
-    }
-
-        .dropdown-content a:hover {
-            background-color: #555;
-        }
-
-/* Show dropdown on hover */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* Ensure dropdown links match other nav links */
-.dropdown .dropbtn:hover {
-    color: #ffcc00;
-}
-
-
-.photo-wall {
-    overflow: visible !important; /* Ensures images aren't clipped */
-}
-
-.gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    justify-content: center;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-    .gallery figure {
-        margin: 0;
-    }
-
-    .gallery img {
-        opacity: 1 !important; /* Ensures images are visible immediately */
-        transform: none !important; /* Resets any previous transforms */
-        width: 100%;
-        height: auto;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .gallery figcaption {
-        text-align: center;
-        color: #333;
-        font-size: 0.9em;
-        margin-top: 8px;
-    }
-
-/* Mobile Dropdown Menu */
-.mobile-dropdown {
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-}
-
-.mobile-dropbtn {
-    padding: 15px;
-    color: white;
+    margin-top: 25px;
+    padding: 14px 30px;
     font-size: 1.2em;
+    color: #fff;
+    background: rgba(51, 51, 51, 0.7);
+    border: 2px solid #fff;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
 }
 
-.mobile-dropdown-content {
-    display: none;
-    flex-direction: column;
-    background-color: #444;
+    .btn:hover {
+        background: #fff;
+        color: #333;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+/*------------------------------------------------------------
+FOOTER
+------------------------------------------------------------*/
+
+footer {
+    background: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
 }
 
-    .mobile-dropdown-content a {
-        padding: 12px 15px;
-        color: white;
-        text-decoration: none;
-        text-align: center;
-    }
-
-        .mobile-dropdown-content a:hover {
-            background-color: #555;
-        }
-
-    .mobile-dropdown-content.show {
-        display: flex;
-    }
+/*============================================================
+AVOID NAV-BAR OVERLAP ON NON-HOMEPAGES
+------------------------------------------------------------*/
+/* For pages that are not homepage, push content below the fixed nav */
+body:not(.homepage) .photo-wall,
+body:not(.homepage) .about-section,
+body:not(.homepage) .contact-section {
+    margin-top: 100px; /* Adjust so page heading is no longer covered */
+}
