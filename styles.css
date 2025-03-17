@@ -67,6 +67,7 @@ HOMEPAGE-SPECIFIC (body.homepage)
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 1s ease, transform 1s ease;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); /* Add this line for drop shadow */
 }
 
     /* Make hero heading bigger */
