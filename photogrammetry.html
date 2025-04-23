@@ -1,76 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photogrammetry - Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="icon" type="image/png" href="favicon3.png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Photogrammetry – Portfolio</title>
 
+    <!-- External assets -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="icon" type="image/png" href="favicon3.png" />
+
+    <!-- PAGE‑SPECIFIC (FULL‑SCREEN CAROUSEL) -->
     <style>
-        /* Single image view on mobile (same as photography page) */
-        @media (max-width: 800px) {
-            .gallery {
-                grid-template-columns: 1fr !important;
-                gap: 40px;
-            }
-
-                .gallery figure {
-                    max-width: 90%;
-                    margin: 0 auto;
-                }
+        /* Full‑screen container inside .photo-wall */
+        .carousel-container {
+            position: relative;
+            width: 100%; /* respects .photo-wall horizontal padding */
+            height: 85vh; /* full viewport height */
+            margin: 0;
+            overflow: hidden;
         }
 
-        /* Lightbox modal style */
-        .lightbox {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .carousel-slide {
+            position: relative;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
+            background: #000; /* black backdrop */
         }
 
-            .lightbox.show {
-                display: flex;
+            .carousel-slide .slide {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                user-select: none;
+                -webkit-user-drag: none;
+                pointer-events: none;
+                opacity: 0;
+                transform: translateX(50%) scale(1.05);
+                transition: transform 0.9s ease, opacity 0.9s ease;
+                z-index: 0;
+            }
+        /* dots */
+        .carousel-dots {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+            .carousel-dots .dot {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: rgba(255,255,255,0.5);
+                cursor: pointer;
+                transition: background 0.3s;
             }
 
-            .lightbox img {
-                max-width: 95%;
-                max-height: 95%;
-                border-radius: 5px;
-            }
+                .carousel-dots .dot.active {
+                    background: #fff;
+                }
 
-        .close-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            color: white;
-            background: black;
-            border: none;
-            padding: 10px;
-            font-size: 20px;
-            cursor: pointer;
-            border-radius: 5px;
+        @media (max-width:768px) {
+            .carousel-dots .dot {
+                width: 10px;
+                height: 10px;
+            }
         }
     </style>
 </head>
-
 <body>
+    <!-- FIXED NAV (original markup unchanged) -->
     <header>
         <nav>
-            <!-- Hamburger Menu (Mobile) -->
-            <div class="menu-icon" onclick="toggleMenu()">
-                <i class="fas fa-bars"></i>
-            </div>
-
-            <!-- Navigation Links -->
+            <div class="menu-icon" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <div class="dropdown">
@@ -78,31 +87,20 @@
                     <div class="dropdown-content">
                         <a href="photography.html">Photography</a>
                         <a href="photogrammetry.html">Photogrammetry</a>
-                        <a href="3d-modeling.html">3D Modeling</a>
-                        <a href="environment-art.html">Environment & Game Art</a>
-                        <a href="video-art.html">Video Art</a>
+                        <a href="3d-modeling.html">3D Modeling</a>
+                        <a href="environment-art.html">Environment & Game Art</a>
+                        <a href="video-art.html">Video Art</a>
                     </div>
                 </div>
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
             </div>
-
-            <!-- Social Media Icons -->
             <div class="social-icons">
-                <a href="https://www.instagram.com/nbello.creates/" target="_blank">
-                    <img src="Instagram.png" alt="Instagram" class="custom-icon">
-                </a>
-                <a href="https://bsky.app/profile/noahbello.bsky.social" target="_blank">
-                    <img src="bluesky.png" alt="Bluesky" class="custom-icon">
-                </a>
-                <a href="https://nbello.itch.io/" target="_blank">
-                    <img src="itchio.png" alt="Itch.io" class="custom-icon">
-                </a>
+                <a href="https://www.instagram.com/nbello.creates/" target="_blank"><img src="Instagram.png" alt="Instagram" class="custom-icon"></a>
+                <a href="https://bsky.app/profile/noahbello.bsky.social" target="_blank"><img src="bluesky.png" alt="Bluesky" class="custom-icon"></a>
+                <a href="https://nbello.itch.io/" target="_blank"><img src="itchio.png" alt="Itch.io" class="custom-icon"></a>
             </div>
         </nav>
-
-
-        <!-- Mobile Navigation Menu -->
         <div class="mobile-menu">
             <a href="index.html">Home</a>
             <a href="about.html">About</a>
@@ -111,205 +109,139 @@
                 <div class="mobile-dropdown-content">
                     <a href="photography.html">Photography</a>
                     <a href="photogrammetry.html">Photogrammetry</a>
-                    <a href="3d-modeling.html">3D Modeling</a>
-                    <a href="environment-art.html">Environment & Game Art</a>
-                    <a href="video-art.html">Video Art</a>
+                    <a href="3d-modeling.html">3D Modeling</a>
+                    <a href="environment-art.html">Environment & Game Art</a>
+                    <a href="video-art.html">Video Art</a>
                 </div>
             </div>
             <a href="contact.html">Contact</a>
         </div>
     </header>
 
+    <!-- PAGE CONTENT -->
     <section class="photo-wall fade-in-section">
         <h2>Photogrammetry</h2>
-        <div class="gallery">
-            <!-- Commented out for later
-    <figure>
-        <img src="thumbnails/KitBashPCEdited_Thumb.png" data-fullsize="KitBashPCEdited.png" alt="Photogrammetry 1">
-        <figcaption>PC Guts</figcaption>
-    </figure>
-        -->
-            <figure>
-                <img src="thumbnails/InstaShot1_Thumb.jpg" data-fullsize="Insta Shot 1- Splat.jpg" alt="Photogrammetry 2">
-                <figcaption>Radient Overgrowth View 1</figcaption>
-            </figure>
-            <figure>
-                <img src="thumbnails/InstaShot2_Thumb.jpg" data-fullsize="Insta Shot 2- Splat.jpg" alt="Photogrammetry 3">
-                <figcaption>Radient Overgrowth View 2</figcaption>
-            </figure>
-
-            <figure>
-                <img src="Splat Thumbnails/Splat1.jpg" data-fullsize="Splat jpg/Splat1.jpg" alt="Splat Photo 1">
-                <figcaption>Radient Overgrowth View 3</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat2.jpg" data-fullsize="Splat jpg/Splat2.jpg" alt="Splat Photo 2">
-                <figcaption>Radient Overgrowth View 4</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat3.jpg" data-fullsize="Splat jpg/Splat3.jpg" alt="Splat Photo 3">
-                <figcaption>Radient Overgrowth View 5</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat4.jpg" data-fullsize="Splat jpg/Splat4.jpg" alt="Splat Photo 4">
-                <figcaption>Radient Overgrowth View 6</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat5.jpg" data-fullsize="Splat jpg/Splat5.jpg" alt="Splat Photo 5">
-                <figcaption>Radient Overgrowth View 7</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat6.jpg" data-fullsize="Splat jpg/Splat6.jpg" alt="Splat Photo 6">
-                <figcaption>Radient Overgrowth View 8</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat7.jpg" data-fullsize="Splat jpg/Splat7.jpg" alt="Splat Photo 7">
-                <figcaption>Radient Overgrowth View 9</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat8.jpg" data-fullsize="Splat jpg/Splat8.jpg" alt="Splat Photo 8">
-                <figcaption>Radient Overgrowth View 10</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat9.jpg" data-fullsize="Splat jpg/Splat9.jpg" alt="Splat Photo 9">
-                <figcaption>Radient Overgrowth View 11</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat10.jpg" data-fullsize="Splat jpg/Splat10.jpg" alt="Splat Photo 10">
-                <figcaption>Radient Overgrowth View 12</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat11.jpg" data-fullsize="Splat jpg/Splat11.jpg" alt="Splat Photo 11">
-                <figcaption>Radient Overgrowth View 13</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat12.jpg" data-fullsize="Splat jpg/Splat12.jpg" alt="Splat Photo 12">
-                <figcaption>Radient Overgrowth View 14</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat13.jpg" data-fullsize="Splat jpg/Splat13.jpg" alt="Splat Photo 13">
-                <figcaption>Radient Overgrowth View 15</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat14.jpg" data-fullsize="Splat jpg/Splat14.jpg" alt="Splat Photo 14">
-                <figcaption>Radient Overgrowth View 16</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat15.jpg" data-fullsize="Splat jpg/Splat15.jpg" alt="Splat Photo 15">
-                <figcaption>Radient Overgrowth View 17</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat16.jpg" data-fullsize="Splat jpg/Splat16.jpg" alt="Splat Photo 16">
-                <figcaption>Radient Overgrowth View 18</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat17.jpg" data-fullsize="Splat jpg/Splat17.jpg" alt="Splat Photo 17">
-                <figcaption>Radient Overgrowth View 19</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat18.jpg" data-fullsize="Splat jpg/Splat18.jpg" alt="Splat Photo 18">
-                <figcaption>Radient Overgrowth View 20</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat19.jpg" data-fullsize="Splat jpg/Splat19.jpg" alt="Splat Photo 19">
-                <figcaption>Radient Overgrowth View 21</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat20.jpg" data-fullsize="Splat jpg/Splat20.jpg" alt="Splat Photo 20">
-                <figcaption>Radient Overgrowth View 22</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat21.jpg" data-fullsize="Splat jpg/Splat21.jpg" alt="Splat Photo 21">
-                <figcaption>Radient Overgrowth View 23</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat22.jpg" data-fullsize="Splat jpg/Splat22.jpg" alt="Splat Photo 22">
-                <figcaption>Radient Overgrowth View 24</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat23.jpg" data-fullsize="Splat jpg/Splat23.jpg" alt="Splat Photo 23">
-                <figcaption>Radient Overgrowth View 25</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat24.jpg" data-fullsize="Splat jpg/Splat24.jpg" alt="Splat Photo 24">
-                <figcaption>Radient Overgrowth View 26</figcaption>
-            </figure>
-            <figure>
-                <img src="Splat Thumbnails/Splat25.jpg" data-fullsize="Splat jpg/Splat25.jpg" alt="Splat Photo 25">
-                <figcaption>Radient Overgrowth View 27</figcaption>
-            </figure>
+        <div class="carousel-container">
+            <div class="carousel-slide">
+                <img id="slideA" class="slide" src="" alt="Slide" />
+                <img id="slideB" class="slide" src="" alt="Slide" />
+            </div>
+            <div class="carousel-dots"></div>
         </div>
     </section>
 
-    <!-- Footer -->
-            <footer>
-                <p>&copy; 2025 Noah Bello</p>
-            </footer>
+    
 
-            <!-- Lightbox Modal -->
-            <div class="lightbox" id="lightbox">
-                <button class="close-btn" onclick="closeLightbox()">X</button>
-                <img id="lightbox-img" src="" alt="Expanded Image">
-            </div>
+    <!-- SCRIPTS -->
+    <script>
+        // ======== 1. IMAGE LIST ========
+        const imageList = [
+            "Splat jpg/Splat1.jpg", "Splat jpg/Splat2.jpg", "Splat jpg/Splat3.jpg", "Splat jpg/Splat4.jpg", "Splat jpg/Splat5.jpg", "Splat jpg/Splat6.jpg", "Splat jpg/Splat7.jpg", "Splat jpg/Splat8.jpg", "Splat jpg/Splat9.jpg", "Splat jpg/Splat10.jpg", "Splat jpg/Splat11.jpg", "Splat jpg/Splat12.jpg", "Splat jpg/Splat13.jpg", "Splat jpg/Splat14.jpg", "Splat jpg/Splat15.jpg", "Splat jpg/Splat16.jpg", "Splat jpg/Splat17.jpg", "Splat jpg/Splat18.jpg", "Splat jpg/Splat19.jpg", "Splat jpg/Splat20.jpg", "Splat jpg/Splat21.jpg", "Splat jpg/Splat22.jpg", "Splat jpg/Splat23.jpg", "Splat jpg/Splat24.jpg", "Splat jpg/Splat25.jpg"
+        ];
 
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    const images = document.querySelectorAll(".gallery img");
-                    const lightbox = document.getElementById("lightbox");
-                    const lightboxImg = document.getElementById("lightbox-img");
+        // ======== 2. CACHE DOM ========
+        const slides = [document.getElementById("slideA"), document.getElementById("slideB")];
+        let showing = 0;   // 0 | 1 – which slide element is currently visible
+        let currentIndex = 0;   // which image in imageList is showing
+        const dotsWrapper = document.querySelector(".carousel-dots");
+        let autoplayTimer = null;
 
-                    images.forEach(img => {
-                        img.addEventListener("click", function () {
-                            lightboxImg.src = this.getAttribute("data-fullsize");
-                            lightbox.classList.add("show");
-                        });
-                    });
+        // ======== 3. INDICATOR DOTS ========
+        imageList.forEach((_, i) => {
+            const dot = document.createElement("span");
+            dot.className = "dot";
+            dot.dataset.index = i;
+            dot.onclick = () => {
+                showSlide(i);
+                resetAutoplay();
+            };
+            dotsWrapper.appendChild(dot);
+        });
+        function updateDots() {
+            dotsWrapper.querySelectorAll(".dot").forEach(dot => {
+                dot.classList.toggle("active", Number(dot.dataset.index) === currentIndex);
+            });
+        }
 
-                    lightbox.addEventListener("click", function (event) {
-                        if (event.target !== lightboxImg) {
-                            closeLightbox();
-                        }
-                    });
+        // ======== 4. ANIMATION ENGINE ========
+        function showSlide(newIdx) {
+            if (newIdx === currentIndex) return; // no change
 
-                    function closeLightbox() {
-                        lightbox.classList.remove("show");
-                        setTimeout(() => {
-                            lightboxImg.src = "";
-                        }, 200);
-                    }
+            const incoming = slides[1 - showing]; // hidden element
+            const outgoing = slides[showing];     // currently visible element
 
-                    window.closeLightbox = closeLightbox;
+            // Load new image into incoming
+            incoming.src = imageList[newIdx];
 
-                    // Fade-in functionality
-                    function fadeInOnScroll() {
-                        document.querySelectorAll(".fade-in-section").forEach(section => {
-                            const rect = section.getBoundingClientRect();
-                            if (rect.top < window.innerHeight * 0.85) {
-                                section.classList.add("visible");
-                            }
-                        });
-                    }
+            // Prepare incoming off‑screen right
+            incoming.style.transition = "none";
+            incoming.style.transform = "translateX(50%) scale(1.05)";
+            incoming.style.opacity = 0;
+            incoming.style.zIndex = 2;
+            void incoming.offsetWidth; // force reflow to apply starting position
 
-                    window.addEventListener("scroll", fadeInOnScroll);
-                    setTimeout(fadeInOnScroll, 300);
-                    fadeInOnScroll();
+            // Start outgoing animation (to left & fade)
+            outgoing.style.transition = "transform 0.9s ease, opacity 0.9s ease";
+            outgoing.style.transform = "translateX(-50%) scale(0.95)";
+            outgoing.style.opacity = 0;
+            outgoing.style.zIndex = 1;
 
-                    window.addEventListener('resize', function () {
-                        if (window.innerWidth > 768) {
-                            document.querySelector(".mobile-menu").classList.remove("show");
-                            document.querySelector(".mobile-dropdown-content").classList.remove("show");
-                        }
-                    });
-                });
+            // Start incoming animation (center & fade in)
+            incoming.style.transition = "transform 0.9s ease, opacity 0.9s ease";
+            incoming.style.transform = "translateX(0) scale(1)";
+            incoming.style.opacity = 1;
 
-                function toggleMenu() {
-                    document.querySelector(".mobile-menu").classList.toggle("show");
-                }
+            // After animation ends, reset outgoing for reuse
+            setTimeout(() => {
+                outgoing.style.transition = "none";
+                outgoing.style.transform = "translateX(50%) scale(1.05)";
+                outgoing.style.opacity = 0;
+                outgoing.style.zIndex = 0;
+            }, 900);
 
-                function toggleDropdown() {
-                    document.querySelector(".mobile-dropdown-content").classList.toggle("show");
-                }
-            </script>
+            // Swap trackers
+            showing = 1 - showing;
+            currentIndex = newIdx;
+            updateDots();
+        }
 
+        function nextSlide() {
+            showSlide((currentIndex + 1) % imageList.length);
+        }
+
+        // ======== 5. AUTOPLAY ========
+        function startAutoplay() {
+            autoplayTimer = setInterval(nextSlide, 5000);
+        }
+        function resetAutoplay() {
+            clearInterval(autoplayTimer);
+            startAutoplay();
+        }
+
+        // ======== 6. INIT ========
+        document.addEventListener("DOMContentLoaded", () => {
+            // Seed first image
+            slides[showing].src = imageList[0];
+            slides[showing].style.opacity = 1;
+            slides[showing].style.transform = "translateX(0) scale(1)";
+            slides[showing].style.zIndex = 1;
+            updateDots();
+            startAutoplay();
+        });
+
+        // ======== 7. MOBILE NAV HELPERS ========
+        function toggleMenu() {
+            document.querySelector(".mobile-menu").classList.toggle("show");
+        }
+        function toggleDropdown() {
+            document.querySelector(".mobile-dropdown-content").classList.toggle("show");
+        }
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 768) {
+                document.querySelector(".mobile-menu").classList.remove("show");
+                document.querySelector(".mobile-dropdown-content").classList.remove("show");
+            }
+        });
+    </script>
 </body>
 </html>
