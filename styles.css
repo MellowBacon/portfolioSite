@@ -31,10 +31,16 @@ HOMEPAGE-SPECIFIC (body.homepage)
 ------------------------------------------------------------*/
 
     body.homepage {
-        /* Allows auto-scrolling if content exceeds viewport.
-       If you want a fixed full page with no scroll, revert to height: 100vh; overflow: hidden; */
-        background: url('splatbackground.png') no-repeat center center/cover;
+        background-image: url('splatbackground.png');
+        background-repeat: no-repeat;
+        background-position: center right;
+        background-size: auto100%; /* height = viewport, width auto */
+
+
+        min-height: 100vh; /* ensure it always fills vertically */
+        background-color: #000; /* fallback for any empty space */
     }
+
 
 /* Hero Section */
 .hero {
@@ -596,60 +602,75 @@ ABOUT PAGE / CONTACT PAGE CONTENT BLOCKS
 CONTACT SECTION / FORM
 ------------------------------------------------------------*/
 
+/*------------------------------------------------------------
+CONTACT SECTION / FORM
+------------------------------------------------------------*/
+
 .contact-section {
     padding: 60px 20px;
     background: #fff;
     border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 600px;
-    margin: 50px auto;
+    margin: 50px auto; /* centre the whole section */
     text-align: center;
     color: #333;
 }
 
-form {
-    max-width: 500px;
-    margin: 20px auto;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-    form label {
-        font-weight: bold;
-        margin-bottom: 5px;
-        color: #333; /* dark text for visibility on white form background */
+    /* centre the form itself */
+    .contact-section form {
+        max-width: 500px;
+        margin: 20px auto; /* centre the form */
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* horizontally centre all children */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
-    form input,
-    form textarea {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 1em;
-        color: #333;
-    }
-
-    form button {
-        padding: 10px;
-        background: #ffcc00;
-        border: none;
-        color: black;
-        font-weight: bold;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: background 0.3s ease-in-out;
-    }
-
-        form button:hover {
-            background: #ffaa00;
+        .contact-section form label {
+            width: 80%;
+            max-width: 450px;
+            text-align: left; /* keep label text left-aligned */
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
         }
+
+        /* narrow & centre each input/textarea within the form */
+        .contact-section form input,
+        .contact-section form textarea {
+            width: 80%;
+            max-width: 450px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            color: #333;
+            box-sizing: border-box; /* include padding in your width */
+        }
+
+        /* centre the submit button */
+        .contact-section form button {
+            align-self: center;
+            padding: 10px;
+            background: #ffcc00;
+            border: none;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s ease-in-out;
+        }
+
+            .contact-section form button:hover {
+                background: #ffaa00;
+            }
+
 
 /*------------------------------------------------------------
 BUTTONS (Global)
@@ -697,4 +718,20 @@ body:not(.homepage) .photo-wall,
 body:not(.homepage) .about-section,
 body:not(.homepage) .contact-section {
     margin-top: 100px; /* Adjust so page heading is no longer covered */
+}
+
+
+/*------------------------------------------------------------
+CONTACT PAGE BACKGROUND
+------------------------------------------------------------*/
+body.contactpage {
+    /* your homepage splat background */
+    background: url('splatbackground.png') no-repeat center center/cover;
+    /* optional: keep it fixed as you scroll */
+    background-attachment: fixed;
+}
+
+/* restore the form container’s original white background */
+.contact-section {
+    background: #fff;
 }
