@@ -742,6 +742,11 @@ body:not(.homepage) .about-section,
 body:not(.homepage) .contact-section {
     margin-top: 100px; /* Adjust so page heading is no longer covered */
 }
+/* bump down intro & carousel on all non-homepage pages */
+body:not(.homepage) .project-intro,
+body:not(.homepage) .photo-wall {
+    margin-top: 100px; /* adjust this value to match your nav height */
+}
 
 
 /*------------------------------------------------------------
@@ -758,3 +763,43 @@ body.contactpage {
 .contact-section {
     background: #fff;
 }
+
+
+.project-intro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+    padding: 0 5%;
+    text-align: left; /* ensure all text is left-aligned */
+}
+
+.intro-text {
+    flex: 1 1 320px;
+    
+}
+
+.intro-image {
+    flex: 1 1 320px;
+}
+
+    .intro-image figure {
+        margin: 0;
+    }
+
+    .intro-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    .intro-image figcaption {
+        font-size: 0.9em;
+        color: #666;
+        margin-top: 0.5em;
+        line-height: 1.4;
+    }
+
