@@ -30,16 +30,30 @@ body {
 HOMEPAGE-SPECIFIC (body.homepage)
 ------------------------------------------------------------*/
 
+    /*
+   Desktop first: show the whole image (letterboxed)
+    */
     body.homepage {
         background-image: url('splatbackground.png');
         background-repeat: no-repeat;
-        background-position: center right;
-        background-size: auto100%; /* height = viewport, width auto */
-
-
-        min-height: 100vh; /* ensure it always fills vertically */
-        background-color: #000; /* fallback for any empty space */
+        background-size: contain;
+        background-position: top center;
+        background-color: #000;
+        min-height: 100vh;
     }
+
+/* 
+   Mobile: fill & crop (no empty bars)
+    */
+@media (max-width: 768px) {
+    body.homepage {
+        background-size: cover;
+        /* you can tweak the focal point too: */
+        background-position: center top;
+    }
+}
+
+
 
 
 /* Hero Section */
