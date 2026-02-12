@@ -11,81 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     <link rel="icon" type="image/png" href="favicon3.png" />
 
-    <!-- PAGE‑SPECIFIC (FULL‑SCREEN CAROUSEL) -->
-    <style>
-        /* Full-screen container inside .photo-wall */
-        .carousel-container {
-            position: relative;
-            width: 100%; /* respects .photo-wall horizontal padding */
-            height: 85vh; /* full viewport height */
-            margin: 0;
-            overflow: hidden;
-        }
-
-        .carousel-slide {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background: #333333; /* black backdrop */
-            padding: 20px; /* border area on all sides */
-            box-sizing: border-box; /* include padding in container size */
-        }
-
-            .carousel-slide .slide {
-                position: absolute;
-                inset: 0; /* fill the padded container evenly */
-                width: 100%;
-                height: 85%;
-                object-fit: contain; /* preserve aspect, no cropping */
-                user-select: none;
-                -webkit-user-drag: none;
-                pointer-events: none;
-                opacity: 0;
-                transform: translateX(50%) scale(1.05);
-                transition: transform 0.9s ease, opacity 0.9s ease;
-                z-index: 0;
-                align-self: center;
-            }
-
-        /* dots */
-        .carousel-dots {
-            position: absolute;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 10;
-        }
-
-            .carousel-dots .dot {
-                width: 12px;
-                height: 12px;
-                border-radius: 50%;
-                background: rgba(255,255,255,0.5);
-                cursor: pointer;
-                transition: background 0.3s;
-            }
-
-                .carousel-dots .dot.active {
-                    background: #fff;
-                }
-
-        /* smaller dots on mobile */
-        @media (max-width: 768px) {
-
-            .carousel-dots {
-                gap: 5px;
-                
-            }
-            .carousel-dots .dot {
-                width: 8px;
-                height: 8px;
-                
-            }
-        }
-    </style>
-
 </head>
 <body>
     <!-- FIXED NAV (original markup unchanged) -->
@@ -117,7 +42,7 @@
             <a href="index.html">Home</a>
             <a href="about.html">About</a>
             <div class="mobile-dropdown">
-                <a href="#" class="mobile-dropbtn" onclick="toggleDropdown()">Projects <i class="fa fa-caret-down"></i></a>
+                <div class="mobile-dropbtn" onclick="toggleDropdown()">Projects <i class="fa fa-caret-down"></i></div>
                 <div class="mobile-dropdown-content">
                     <a href="photography.html">Photography</a>
                     <a href="photogrammetry.html">Photogrammetry</a>

@@ -10,50 +10,6 @@
     <link rel="icon" type="image/png" href="favicon3.png">
 </head>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let lastScrollY = window.scrollY;
-        const nav = document.querySelector("nav");
-        let isScrollingDown = false;
-        const images = document.querySelectorAll(".gallery img");
-
-        function fadeInOnScroll() {
-            images.forEach(img => {
-                const rect = img.getBoundingClientRect();
-                const isVisible = rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
-
-                if (isVisible && !img.classList.contains("fade-in")) {
-                    img.classList.add("fade-in");
-                }
-            });
-        }
-
-        window.addEventListener("scroll", function () {
-            let currentScrollY = window.scrollY;
-
-            if (currentScrollY === 0) {
-                nav.classList.remove("nav-hidden");
-            } else if (currentScrollY > lastScrollY && !isScrollingDown) {
-                isScrollingDown = true;
-                nav.classList.add("nav-hidden");
-            } else if (currentScrollY < lastScrollY && isScrollingDown) {
-                isScrollingDown = false;
-                nav.classList.remove("nav-hidden");
-            }
-
-            fadeInOnScroll();
-            lastScrollY = currentScrollY;
-        });
-
-        setTimeout(fadeInOnScroll, 300);
-    });
-
-    function toggleMenu() {
-        const mobileMenu = document.querySelector(".mobile-menu");
-        mobileMenu.classList.toggle("show");
-    }
-</script>
-
 <body>
     <header>
         <nav>
@@ -62,8 +18,17 @@
             </div>
             <div class="nav-links">
                 <a href="index.html">Home</a>
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">Projects <i class="fa-solid fa-caret-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="photography.html">Photography</a>
+                        <a href="photogrammetry.html">Photogrammetry</a>
+                        <a href="3d-modeling.html">3D Modeling</a>
+                        <a href="environment-art.html">Environment & Game Art</a>
+                        <a href="video-art.html">Video Art</a>
+                    </div>
+                </div>
                 <a href="about.html">About</a>
-                <a href="projects.html">Projects</a>
                 <a href="contact.html">Contact</a>
             </div>
             <div class="social-icons">
@@ -78,16 +43,25 @@
                 </a>
             </div>
         </nav>
-    </header>
 
-    <div class="mobile-menu">
+        <div class="mobile-menu">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
-        <a href="projects.html">Projects</a>
-        <a href="contact.html">Contact</a>
-    </div>
+        <div class="mobile-dropdown">
+            <div class="mobile-dropbtn" onclick="toggleDropdown()">Projects <i class="fa fa-caret-down"></i></div>
+            <div class="mobile-dropdown-content">
+                <a href="photography.html">Photography</a>
+                <a href="photogrammetry.html">Photogrammetry</a>
+                <a href="3d-modeling.html">3D Modeling</a>
+                <a href="environment-art.html">Environment & Game Art</a>
+                <a href="video-art.html">Video Art</a>
+            </div>
+        </div>
+            <a href="contact.html">Contact</a>
+        </div>
+    </header>
 
-    <section class="photo-wall">
+    <section class="photo-wall fade-in-section">
         <h2>Projects</h2>
 
         <!-- Row 1: Photography -->
@@ -171,13 +145,41 @@
             }
 
             window.closeLightbox = closeLightbox;
+
+            // Fade-in functionality
+            function fadeInOnScroll() {
+                document.querySelectorAll(".fade-in-section").forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.85) {
+                        section.classList.add("visible");
+                    }
+                });
+            }
+
+            window.addEventListener("scroll", fadeInOnScroll);
+            setTimeout(fadeInOnScroll, 300);
+            fadeInOnScroll();
+
+            // Reset mobile menu on resize
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) {
+                    document.querySelector(".mobile-menu").classList.remove("show");
+                    document.querySelector(".mobile-dropdown-content").classList.remove("show");
+                }
+            });
         });
+
+        function toggleMenu() {
+            document.querySelector(".mobile-menu").classList.toggle("show");
+        }
+
+        function toggleDropdown() {
+            document.querySelector(".mobile-dropdown-content").classList.toggle("show");
+        }
     </script>
 
-
-
     <footer>
-        <p>&copy; 2025 My Portfolio</p>
+        <p>&copy; 2025 Noah Bello</p>
     </footer>
 </body>
 </html>

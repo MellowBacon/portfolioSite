@@ -7,6 +7,58 @@ and the homepage retains its new hero design & cleanliness.
 ============================================================*/
 
 /*------------------------------------------------------------
+CSS CUSTOM PROPERTIES
+------------------------------------------------------------*/
+
+:root {
+    /* Colors */
+    --color-bg-dark: #333;
+    --color-bg-darker: #000;
+    --color-bg-light: #fff;
+    --color-bg-featured: #f8f8f8;
+    --color-text-light: #fff;
+    --color-text-dark: #333;
+    --color-text-muted: #666;
+    --color-accent: #95ff7a;
+    --color-btn-primary: #ffcc00;
+    --color-btn-primary-hover: #ffaa00;
+    --color-figcaption: #c3c9d4;
+
+    /* Overlay colors */
+    --color-nav-bg: rgba(51, 51, 51, 0.9);
+    --color-mobile-menu-bg: rgba(51, 51, 51, 0.95);
+    --color-mobile-dropdown-bg: rgba(68, 68, 68, 0.9);
+    --color-dropdown-hover: rgba(85, 85, 85, 0.9);
+    --color-lightbox-bg: rgba(0, 0, 0, 0.9);
+    --color-hero-panel: rgba(30, 30, 30, 0.6);
+    --color-btn-bg: rgba(51, 51, 51, 0.7);
+
+    /* Shadows */
+    --shadow-card: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --shadow-card-hover: 0 15px 30px rgba(0, 0, 0, 0.2);
+    --shadow-form: 0 4px 8px rgba(0, 0, 0, 0.2);
+    --shadow-section: 0 0 10px rgba(0, 0, 0, 0.1);
+    --shadow-profile: 0 4px 10px rgba(0, 0, 0, 0.2);
+    --shadow-dropdown: 0 8px 16px rgba(0, 0, 0, 0.3);
+    --shadow-gallery-hover: 0 5px 15px rgba(0, 0, 0, 0.3);
+    --shadow-btn-hover: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+    /* Radii */
+    --radius-sm: 5px;
+    --radius-md: 8px;
+
+    /* Transitions */
+    --transition-fast: 0.3s ease;
+    --transition-medium: 0.5s ease;
+    --transition-slow: 0.9s ease;
+
+    /* Z-index */
+    --z-nav: 1000;
+    --z-mobile-menu: 999;
+    --z-lightbox: 9999;
+}
+
+/*------------------------------------------------------------
 GLOBAL RESET / DEFAULTS
 ------------------------------------------------------------*/
 
@@ -20,8 +72,8 @@ body {
     /* Dark background & white text by default.
        Specific sections (about-section, contact-section, etc.)
        override background & text color to suit design. */
-    background: #333;
-    color: #fff;
+    background: var(--color-bg-dark);
+    color: var(--color-text-light);
     text-align: center;
     overflow-x: hidden; /* avoid horizontal scroll on small screens */
 }
@@ -38,11 +90,11 @@ HOMEPAGE-SPECIFIC (body.homepage)
         background-repeat: no-repeat;
         background-size: contain;
         background-position: top center;
-        background-color: #000;
+        background-color: var(--color-bg-darker);
         min-height: 100vh;
     }
 
-/* 
+/*
    Mobile: fill & crop (no empty bars)
     */
 @media (max-width: 768px) {
@@ -65,7 +117,7 @@ HOMEPAGE-SPECIFIC (body.homepage)
     text-align: center;
     position: relative;
     overflow: hidden;
-    color: #fff; /* ensure hero text is white on dark background */
+    color: var(--color-text-light); /* ensure hero text is white on dark background */
 }
 
     .hero::before {
@@ -83,9 +135,9 @@ HOMEPAGE-SPECIFIC (body.homepage)
     position: relative;
     z-index: 2;
     /*  translucent panel */
-    background: rgba(30, 30, 30, 0.6);
+    background: var(--color-hero-panel);
     padding: 30px;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     /*  existing layout & animation */
     max-width: 800px;
     opacity: 0;
@@ -140,9 +192,9 @@ HOMEPAGE-SPECIFIC (body.homepage)
 
 .featured-work {
     padding: 80px 5%;
-    background: #f8f8f8;
+    background: var(--color-bg-featured);
     text-align: center;
-    color: #333; /* Dark text on light background */
+    color: var(--color-text-dark); /* Dark text on light background */
 }
 
 .section-header {
@@ -161,13 +213,13 @@ HOMEPAGE-SPECIFIC (body.homepage)
             display: block;
             width: 60px;
             height: 3px;
-            background: #333;
+            background: var(--color-bg-dark);
             margin: 10px auto 0;
         }
 
     .section-header p {
         font-size: 1.2em;
-        color: #666;
+        color: var(--color-text-muted);
     }
 
 .project-grid {
@@ -179,16 +231,16 @@ HOMEPAGE-SPECIFIC (body.homepage)
 }
 
 .project-card {
-    background: white;
-    border-radius: 8px;
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: var(--shadow-card);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
     .project-card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--shadow-card-hover);
     }
 
 .project-image {
@@ -200,7 +252,7 @@ HOMEPAGE-SPECIFIC (body.homepage)
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.5s ease;
+        transition: transform var(--transition-medium);
     }
 
 .project-card:hover .project-image img {
@@ -218,7 +270,7 @@ HOMEPAGE-SPECIFIC (body.homepage)
     }
 
     .project-info p {
-        color: #666;
+        color: var(--color-text-muted);
         margin-bottom: 15px;
     }
 
@@ -226,7 +278,7 @@ HOMEPAGE-SPECIFIC (body.homepage)
 .about-preview {
     padding: 80px 5%;
     background: linear-gradient(to right, #333, #555);
-    color: white;
+    color: var(--color-text-light);
     text-align: center;
 }
 
@@ -252,35 +304,26 @@ GLOBAL NAV & HEADER
 
 header {
     background: transparent;
-    color: #fff;
+    color: var(--color-text-light);
     margin: 0;
     padding: 0;
 }
 
 nav {
-    background: rgba(51, 51, 51, 0.9);
+    background: var(--color-nav-bg);
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     margin: 0;
     padding: 20px 20px; /* 20px top/bottom, 20px left/right for spacing */
-    z-index: 1000;
+    z-index: var(--z-nav);
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease-in-out;
-}
-/* Thicker nav bar vertically */
-z-index: 1000;
-display: flex;
-justify-content: space-between;
-align-items: center;
-box-sizing: border-box;
-backdrop-filter: blur(10px);
-transition: all 0.3s ease-in-out;
 }
 
 .nav-hidden {
@@ -293,16 +336,22 @@ transition: all 0.3s ease-in-out;
     gap: 25px;
 }
 
-    .nav-links a {
-        color: #fff;
+    .nav-links a,
+    .dropbtn {
+        color: var(--color-text-light);
         text-decoration: none;
         font-weight: bold;
         font-size: 1.1em;
         transition: color 0.3s ease-in-out;
     }
 
-        .nav-links a:hover {
-            color: #95ff7a;
+    .dropbtn {
+        cursor: pointer;
+    }
+
+        .nav-links a:hover,
+        .dropbtn:hover {
+            color: var(--color-accent);
         }
 
 /* Desktop dropdowns */
@@ -311,40 +360,31 @@ transition: all 0.3s ease-in-out;
     display: inline-block;
 }
 
-.dropbtn {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.1em;
-    transition: color 0.3s ease-in-out;
-    cursor: pointer;
-}
-
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: rgba(51, 51, 51, 0.9);
+    background-color: var(--color-nav-bg);
     min-width: 200px;
-    z-index: 1000;
-    border-radius: 5px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+    z-index: var(--z-nav);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-dropdown);
     overflow: hidden;
     transform: translateY(10px);
-    transition: all 0.3s ease;
+    transition: all var(--transition-fast);
     opacity: 0;
 }
 
     .dropdown-content a {
-        color: white;
+        color: var(--color-text-light);
         padding: 12px 16px;
         text-decoration: none;
         display: block;
         text-align: left;
-        transition: background 0.3s ease;
+        transition: background var(--transition-fast);
     }
 
         .dropdown-content a:hover {
-            background-color: rgba(85, 85, 85, 0.9);
+            background-color: var(--color-dropdown-hover);
         }
 
 .dropdown:hover .dropdown-content {
@@ -382,7 +422,7 @@ MOBILE NAVIGATION
 .menu-icon {
     display: none;
     font-size: 1.8em;
-    color: white;
+    color: var(--color-text-light);
     cursor: pointer;
 }
 
@@ -393,15 +433,15 @@ MOBILE NAVIGATION
     top: 60px;
     left: 0;
     width: 100%;
-    background: rgba(51, 51, 51, 0.95);
+    background: var(--color-mobile-menu-bg);
     text-align: center;
     padding: 20px 0;
-    z-index: 999;
+    z-index: var(--z-mobile-menu);
     backdrop-filter: blur(10px);
 }
 
     .mobile-menu a {
-        color: white;
+        color: var(--color-text-light);
         text-decoration: none;
         padding: 15px;
         display: block;
@@ -416,14 +456,14 @@ MOBILE NAVIGATION
 
 .mobile-dropbtn {
     padding: 15px;
-    color: white;
+    color: var(--color-text-light);
     font-size: 1.2em;
 }
 
 .mobile-dropdown-content {
     display: none;
     flex-direction: column;
-    background-color: rgba(68, 68, 68, 0.9);
+    background-color: var(--color-mobile-dropdown-bg);
 }
 
     .mobile-dropdown-content a {
@@ -501,11 +541,11 @@ PHOTO-WALL & GALLERY & LIGHTBOX (for project pages)
 .photo-wall {
     text-align: center;
     padding: 20px;
-    background: #fff;
+    background: var(--color-bg-light);
     position: relative;
     z-index: 1;
     overflow: visible;
-    color: #333; /* dark text for photo walls if needed */
+    color: var(--color-text-dark); /* dark text for photo walls if needed */
 }
 
 .gallery {
@@ -520,7 +560,7 @@ PHOTO-WALL & GALLERY & LIGHTBOX (for project pages)
     .gallery img {
         width: 100%;
         height: auto;
-        border-radius: 5px;
+        border-radius: var(--radius-sm);
         cursor: pointer;
         opacity: 1;
         transform: none;
@@ -536,48 +576,56 @@ PHOTO-WALL & GALLERY & LIGHTBOX (for project pages)
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
+    background: var(--color-lightbox-bg);
+    display: none;
     align-items: center;
     justify-content: center;
-    opacity: 1;
-    visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-    z-index: 1000;
+    z-index: var(--z-lightbox);
 }
 
     .lightbox.show {
-        opacity: 1;
-        visibility: visible;
+        display: flex;
     }
 
     .lightbox img {
-        max-width: 90vw;
-        max-height: 80vh;
-        border-radius: 5px;
-        box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.3);
-        z-index: 1001;
+        max-width: 95%;
+        max-height: 95%;
+        border-radius: var(--radius-sm);
     }
 
 .close-btn {
-    position: absolute;
+    position: fixed;
     top: 20px;
-    right: 30px;
-    font-size: 30px;
-    color: white;
-    cursor: pointer;
-    background: none;
+    right: 20px;
+    color: var(--color-text-light);
+    background: var(--color-bg-darker);
     border: none;
-    z-index: 1002;
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
 }
 
 @media (min-width: 768px) {
     .gallery img:hover {
         transform: scale(1.2) !important;
-        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        box-shadow: var(--shadow-gallery-hover);
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         position: relative;
         z-index: 10;
+    }
+}
+
+/* Gallery mobile override - single column on small screens */
+@media (max-width: 768px) {
+    .gallery {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .gallery figure {
+        max-width: 90%;
+        margin: 0 auto;
     }
 }
 
@@ -587,10 +635,10 @@ ABOUT PAGE / CONTACT PAGE CONTENT BLOCKS
 
 .about-section {
     padding: 60px 20px;
-    background: #fff;
-    color: #333;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background: var(--color-bg-light);
+    color: var(--color-text-dark);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-section);
     max-width: 800px;
     margin: 50px auto;
     text-align: center;
@@ -606,7 +654,7 @@ ABOUT PAGE / CONTACT PAGE CONTENT BLOCKS
         width: 100%;
         height: auto;
         border-radius: 50%;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--shadow-profile);
     }
 
 /* fade-in-section class for about / contact etc. */
@@ -625,19 +673,15 @@ ABOUT PAGE / CONTACT PAGE CONTENT BLOCKS
 CONTACT SECTION / FORM
 ------------------------------------------------------------*/
 
-/*------------------------------------------------------------
-CONTACT SECTION / FORM
-------------------------------------------------------------*/
-
 .contact-section {
     padding: 60px 20px;
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: var(--color-bg-light);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-section);
     max-width: 600px;
     margin: 50px auto; /* centre the whole section */
     text-align: center;
-    color: #333;
+    color: var(--color-text-dark);
 }
 
     /* centre the form itself */
@@ -647,51 +691,51 @@ CONTACT SECTION / FORM
         padding: 20px;
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
-        border-radius: 8px;
+        border-radius: var(--radius-md);
         display: flex;
         flex-direction: column;
         align-items: center; /* horizontally centre all children */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--shadow-form);
     }
 
-        .contact-section form label {
+        .contact-section label {
             width: 80%;
             max-width: 450px;
             text-align: left; /* keep label text left-aligned */
             margin-bottom: 5px;
             font-weight: bold;
-            color: #333;
+            color: var(--color-text-dark);
         }
 
         /* narrow & centre each input/textarea within the form */
-        .contact-section form input,
-        .contact-section form textarea {
+        .contact-section input,
+        .contact-section textarea {
             width: 80%;
             max-width: 450px;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: var(--radius-sm);
             font-size: 1em;
-            color: #333;
+            color: var(--color-text-dark);
             box-sizing: border-box; /* include padding in your width */
         }
 
         /* centre the submit button */
-        .contact-section form button {
+        .contact-section button {
             align-self: center;
             padding: 10px;
-            background: #ffcc00;
+            background: var(--color-btn-primary);
             border: none;
-            color: black;
+            color: var(--color-bg-darker);
             font-weight: bold;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: var(--radius-sm);
             transition: background 0.3s ease-in-out;
         }
 
-            .contact-section form button:hover {
-                background: #ffaa00;
+            .contact-section button:hover {
+                background: var(--color-btn-primary-hover);
             }
 
 
@@ -704,22 +748,22 @@ BUTTONS (Global)
     margin-top: 25px;
     padding: 14px 30px;
     font-size: 1.2em;
-    color: #fff;
-    background: rgba(51, 51, 51, 0.7);
-    border: 2px solid #fff;
+    color: var(--color-text-light);
+    background: var(--color-btn-bg);
+    border: 2px solid var(--color-text-light);
     border-radius: 50px;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all var(--transition-fast);
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: bold;
 }
 
     .btn:hover {
-        background: #fff;
-        color: #333;
+        background: var(--color-bg-light);
+        color: var(--color-text-dark);
         transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--shadow-btn-hover);
     }
 
 /*------------------------------------------------------------
@@ -727,8 +771,8 @@ FOOTER
 ------------------------------------------------------------*/
 
 footer {
-    background: #333;
-    color: white;
+    background: var(--color-bg-dark);
+    color: var(--color-text-light);
     padding: 10px;
     text-align: center;
 }
@@ -759,17 +803,11 @@ body.contactpage {
     background-attachment: fixed;
 }
 
-/* restore the form container’s original white background */
-.contact-section {
-    background: #fff;
-}
-
-
 .project-intro {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    gap: 2rem;
+    gap: 30px;
     max-width: 1200px;
     margin: 0 auto 4rem;
     padding: 0 5%;
@@ -778,7 +816,6 @@ body.contactpage {
 
 .intro-text {
     flex: 1 1 320px;
-    
 }
 
 .intro-image {
@@ -792,14 +829,165 @@ body.contactpage {
     .intro-image img {
         width: 100%;
         height: auto;
-        border-radius: 8px;
+        border-radius: var(--radius-md);
         object-fit: cover;
     }
 
     .intro-image figcaption {
         font-size: 0.9em;
-        color: #c3c9d4;
+        color: var(--color-figcaption);
         margin-top: 0.5em;
         line-height: 1.4;
     }
 
+/*------------------------------------------------------------
+CAROUSEL (Photogrammetry page)
+------------------------------------------------------------*/
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 85vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+.carousel-slide {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--color-bg-dark);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+    .carousel-slide .slide {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 85%;
+        object-fit: contain;
+        user-select: none;
+        -webkit-user-drag: none;
+        pointer-events: none;
+        opacity: 0;
+        transform: translateX(50%) scale(1.05);
+        transition: transform var(--transition-slow), opacity var(--transition-slow);
+        z-index: 0;
+        align-self: center;
+    }
+
+.carousel-dots {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+    .carousel-dots .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: background var(--transition-fast);
+    }
+
+        .carousel-dots .dot.active {
+            background: var(--color-text-light);
+        }
+
+@media (max-width: 768px) {
+    .carousel-dots {
+        gap: 5px;
+    }
+
+    .carousel-dots .dot {
+        width: 8px;
+        height: 8px;
+    }
+}
+
+/*------------------------------------------------------------
+VIDEO ART PAGE
+------------------------------------------------------------*/
+
+.video-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 80px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 35%;
+    height: 0;
+    overflow: hidden;
+    max-width: 900px;
+    flex: 1;
+}
+
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+.video-caption {
+    flex: 1;
+    font-size: 1.3em;
+    color: var(--color-text-dark);
+    padding: 20px;
+    max-width: 500px;
+}
+
+.video-section:not(.reverse) .video-caption {
+    text-align: left;
+}
+
+.video-section.reverse .video-caption {
+    text-align: right;
+}
+
+.reverse {
+    flex-direction: row-reverse;
+}
+
+@media (max-width: 768px) {
+    .video-section,
+    .video-section.reverse {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .video-container {
+        padding-bottom: 56.25%;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .video-caption {
+        padding: 10px;
+        max-width: 100%;
+        font-size: 1.1em;
+        text-align: center !important;
+    }
+}
+
+/*------------------------------------------------------------
+CONTACT SUCCESS MESSAGE
+------------------------------------------------------------*/
+
+#success-message {
+    display: none;
+    color: green;
+    margin-top: 10px;
+}
