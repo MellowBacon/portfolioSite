@@ -86,7 +86,7 @@ HOMEPAGE-SPECIFIC (body.homepage)
    Desktop first: show the whole image (letterboxed)
     */
     body.homepage {
-        background-image: url('splatbackground.png');
+        background-image: url('assets/images/splatbackground.png');
         background-repeat: no-repeat;
         background-size: contain;
         background-position: top center;
@@ -798,7 +798,7 @@ CONTACT PAGE BACKGROUND
 ------------------------------------------------------------*/
 body.contactpage {
     /* your homepage splat background */
-    background: url('splatbackground.png') no-repeat center center/cover;
+    background: url('assets/images/splatbackground.png') no-repeat center center/cover;
     /* optional: keep it fixed as you scroll */
     background-attachment: fixed;
 }
