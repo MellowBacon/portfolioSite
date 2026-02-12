@@ -62,6 +62,10 @@ CSS CUSTOM PROPERTIES
 GLOBAL RESET / DEFAULTS
 ------------------------------------------------------------*/
 
+html {
+    scroll-behavior: smooth;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -354,6 +358,13 @@ nav {
             color: var(--color-accent);
         }
 
+.nav-links a[aria-current="page"],
+.dropbtn[aria-current="page"] {
+    color: var(--color-accent);
+    border-bottom: 2px solid var(--color-accent);
+    padding-bottom: 2px;
+}
+
 /* Desktop dropdowns */
 .dropdown {
     position: relative;
@@ -500,7 +511,7 @@ MOBILE NAVIGATION
         }
 
     .hero-content h1 {
-        font-size: 5em;
+        font-size: 2.5em;
     }
 
     .hero-content .tagline {
@@ -569,6 +580,45 @@ PHOTO-WALL & GALLERY & LIGHTBOX (for project pages)
         z-index: 2;
     }
 
+.gallery figure {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+/* Dark overlay */
+.gallery figure::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+/* Caption sits above the overlay, centered */
+.gallery figcaption {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-light);
+    font-size: 1em;
+    font-weight: bold;
+    letter-spacing: 1px;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    z-index: 1;
+    padding: 10px;
+    text-align: center;
+}
+
+.gallery figure:hover::after,
+.gallery figure:hover figcaption {
+    opacity: 1;
+}
+
 /* Lightbox style */
 .lightbox {
     position: fixed;
@@ -606,15 +656,6 @@ PHOTO-WALL & GALLERY & LIGHTBOX (for project pages)
     border-radius: var(--radius-sm);
 }
 
-@media (min-width: 768px) {
-    .gallery img:hover {
-        transform: scale(1.2) !important;
-        box-shadow: var(--shadow-gallery-hover);
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        position: relative;
-        z-index: 10;
-    }
-}
 
 /* Gallery mobile override - single column on small screens */
 @media (max-width: 768px) {
@@ -721,6 +762,13 @@ CONTACT SECTION / FORM
             box-sizing: border-box; /* include padding in your width */
         }
 
+        .contact-section input:focus,
+        .contact-section textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(149, 255, 122, 0.2);
+        }
+
         /* centre the submit button */
         .contact-section button {
             align-self: center;
@@ -773,8 +821,61 @@ FOOTER
 footer {
     background: var(--color-bg-dark);
     color: var(--color-text-light);
-    padding: 10px;
+    padding: 50px 20px 30px;
     text-align: center;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 28px;
+    justify-content: center;
+}
+
+.footer-nav a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    font-size: 0.9em;
+    opacity: 0.65;
+    transition: opacity var(--transition-fast), color var(--transition-fast);
+}
+
+.footer-nav a:hover {
+    opacity: 1;
+    color: var(--color-accent);
+}
+
+.footer-social {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.footer-social img {
+    width: 26px;
+    height: auto;
+    opacity: 0.65;
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.footer-social img:hover {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+.footer-copy {
+    margin: 0;
+    font-size: 0.8em;
+    opacity: 0.4;
 }
 
 /*============================================================

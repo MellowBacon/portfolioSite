@@ -23,7 +23,7 @@
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <div class="dropdown">
-                    <a href="#" class="dropbtn">Projects <i class="fa-solid fa-caret-down"></i></a>
+                    <a href="#" class="dropbtn" aria-current="page">Projects <i class="fa-solid fa-caret-down"></i></a>
                     <div class="dropdown-content">
                         <a href="photography.html">Photography</a>
                         <a href="photogrammetry.html">Photogrammetry</a>
@@ -69,6 +69,24 @@
         </div>
     </header>
 
+    <section class="project-intro fade-in-section">
+        <div class="intro-text">
+            <h2>Photography</h2>
+            <p>
+                These photographs explore the quieter details of the natural world — the textures, patterns, and moments that are easy to overlook. Shot in the Pacific Northwest, the series focuses on abstracted organic forms: moss, leaves, berries, and the subtle geometry of the forest floor.
+            </p>
+            <p>
+                Each image is a close observation, an attempt to find something unfamiliar in the deeply familiar. Replace this text with your own words about your photography practice and what draws you to these subjects.
+            </p>
+        </div>
+        <div class="intro-image">
+            <figure>
+                <img src="assets/images/photography/thumbnails/DSC03183_Thumb.jpg" alt="Moss Highway">
+                <figcaption>Moss Highway</figcaption>
+            </figure>
+        </div>
+    </section>
+
     <section class="photo-wall fade-in-section">
         <h2>Photography</h2>
 
@@ -90,7 +108,30 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Noah Bello</p>
+        <div class="footer-content">
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="photography.html">Photography</a>
+                <a href="photogrammetry.html">Photogrammetry</a>
+                <a href="3d-modeling.html">3D Modeling</a>
+                <a href="environment-art.html">Environment &amp; Game Art</a>
+                <a href="video-art.html">Video Art</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <div class="footer-social">
+                <a href="https://www.instagram.com/nbello.creates/" target="_blank">
+                    <img src="assets/icons/Instagram.png" alt="Instagram">
+                </a>
+                <a href="https://bsky.app/profile/noahbello.bsky.social" target="_blank">
+                    <img src="assets/icons/bluesky.png" alt="Bluesky">
+                </a>
+                <a href="https://nbello.itch.io/" target="_blank">
+                    <img src="assets/icons/itchio.png" alt="Itch.io">
+                </a>
+            </div>
+            <p class="footer-copy">&copy; 2025 Noah Bello</p>
+        </div>
     </footer>
 
     <!-- Lightbox Modal -->
