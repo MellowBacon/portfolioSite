@@ -1,0 +1,59 @@
+.footer {
+  background: #111;
+  color: var(--color-text-light);
+  padding: 50px 20px 30px;
+  text-align: center;
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.footerNav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  justify-content: center;
+}
+
+.footerNav a {
+  color: var(--color-text-light);
+  text-decoration: none;
+  font-size: 0.9em;
+  opacity: 0.65;
+  transition: opacity var(--transition-fast), color var(--transition-fast);
+}
+
+.footerNav a:hover {
+  opacity: 1;
+  color: var(--color-accent);
+}
+
+.footerSocial {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.footerSocial img {
+  width: 26px;
+  height: auto;
+  opacity: 0.65;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.footerSocial img:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.footerCopy {
+  margin: 0;
+  font-size: 0.8em;
+  opacity: 0.4;
+}

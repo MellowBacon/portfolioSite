@@ -1,0 +1,413 @@
+/* ============================================================
+   CSS CUSTOM PROPERTIES
+   ============================================================ */
+
+:root {
+  /* Colors */
+  --color-bg-dark: #050505;
+  --color-bg-darker: #000;
+  --color-bg-light: #fff;
+  --color-bg-featured: #f8f8f8;
+  --color-text-light: #fff;
+  --color-text-dark: #333;
+  --color-text-muted: #666;
+  --color-accent: #95ff7a;
+  --color-btn-primary: #ffcc00;
+  --color-btn-primary-hover: #ffaa00;
+  --color-figcaption: #c3c9d4;
+
+  /* Overlay colors */
+  --color-nav-bg: rgba(5, 5, 5, 0.88);
+  --color-mobile-menu-bg: rgba(5, 5, 5, 0.97);
+  --color-mobile-dropdown-bg: rgba(15, 15, 15, 0.97);
+  --color-dropdown-hover: rgba(30, 30, 30, 0.9);
+  --color-lightbox-bg: rgba(0, 0, 0, 0.92);
+  --color-hero-panel: rgba(5, 5, 5, 0.55);
+  --color-btn-bg: rgba(5, 5, 5, 0.6);
+
+  /* Shadows */
+  --shadow-card: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --shadow-card-hover: 0 15px 30px rgba(0, 0, 0, 0.2);
+  --shadow-form: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --shadow-section: 0 0 10px rgba(0, 0, 0, 0.1);
+  --shadow-profile: 0 4px 10px rgba(0, 0, 0, 0.2);
+  --shadow-dropdown: 0 8px 16px rgba(0, 0, 0, 0.3);
+  --shadow-gallery-hover: 0 5px 15px rgba(0, 0, 0, 0.3);
+  --shadow-btn-hover: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+  /* Radii */
+  --radius-sm: 5px;
+  --radius-md: 8px;
+
+  /* Transitions */
+  --transition-fast: 0.3s ease;
+  --transition-medium: 0.5s ease;
+  --transition-slow: 0.9s ease;
+
+  /* Z-index */
+  --z-nav: 1000;
+  --z-mobile-menu: 999;
+  --z-lightbox: 9999;
+}
+
+/* ============================================================
+   RESET
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Lenis owns scroll physics */
+  scroll-behavior: auto;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+body {
+  background: var(--color-bg-dark);
+  color: var(--color-text-light);
+  text-align: center;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   GLOBAL BUTTON
+   ============================================================ */
+
+.btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 14px 30px;
+  font-size: 1.2em;
+  color: var(--color-text-light);
+  background: var(--color-btn-bg);
+  border: 2px solid var(--color-text-light);
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+.btn:hover {
+  background: var(--color-bg-light);
+  color: var(--color-text-dark);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-btn-hover);
+}
+
+/* ============================================================
+   GALLERY (shared across project pages)
+   ============================================================ */
+
+.photo-wall {
+  text-align: center;
+  padding: 20px;
+  background: var(--color-bg-light);
+  position: relative;
+  z-index: 1;
+  color: var(--color-text-dark);
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  justify-content: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.gallery figure {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  margin: 0;
+}
+
+.gallery figure::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.gallery figcaption {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+  font-size: 1em;
+  font-weight: bold;
+  letter-spacing: 1px;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  z-index: 1;
+  padding: 10px;
+  text-align: center;
+}
+
+.gallery figure:hover::after,
+.gallery figure:hover figcaption {
+  opacity: 1;
+}
+
+.gallery img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  display: block;
+}
+
+/* ============================================================
+   PROJECT INTRO (shared layout)
+   ============================================================ */
+
+.project-intro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto 4rem;
+  padding: 0 5%;
+  text-align: left;
+}
+
+.intro-text {
+  flex: 1 1 320px;
+}
+
+.intro-image {
+  flex: 1 1 320px;
+}
+
+.intro-image figure {
+  margin: 0;
+}
+
+.intro-image img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+}
+
+.intro-image figcaption {
+  font-size: 0.9em;
+  color: var(--color-figcaption);
+  margin-top: 0.5em;
+  line-height: 1.4;
+}
+
+/* ============================================================
+   VIDEO ART PAGE
+   ============================================================ */
+
+.video-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 80px;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 0 5%;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 35%;
+  height: 0;
+  overflow: hidden;
+  max-width: 900px;
+  flex: 1;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.video-caption {
+  flex: 1;
+  font-size: 1.3em;
+  color: var(--color-text-dark);
+  padding: 20px;
+  max-width: 500px;
+  text-align: left;
+}
+
+.video-section.reverse {
+  flex-direction: row-reverse;
+}
+
+.video-section.reverse .video-caption {
+  text-align: right;
+}
+
+/* ============================================================
+   ABOUT SECTION
+   ============================================================ */
+
+.about-section {
+  padding: 60px 20px;
+  background: var(--color-bg-light);
+  color: var(--color-text-dark);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-section);
+  max-width: 800px;
+  margin: 50px auto;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.about-image {
+  margin: 20px auto;
+  max-width: 200px;
+}
+
+.about-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  box-shadow: var(--shadow-profile);
+}
+
+/* ============================================================
+   CONTACT SECTION
+   ============================================================ */
+
+.contact-section {
+  padding: 60px 20px;
+  background: var(--color-bg-light);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-section);
+  max-width: 600px;
+  margin: 50px auto;
+  text-align: center;
+  color: var(--color-text-dark);
+}
+
+.contact-section form {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: var(--shadow-form);
+}
+
+.contact-section label {
+  width: 80%;
+  max-width: 450px;
+  text-align: left;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--color-text-dark);
+}
+
+.contact-section input,
+.contact-section textarea {
+  width: 80%;
+  max-width: 450px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: var(--radius-sm);
+  font-size: 1em;
+  color: var(--color-text-dark);
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.contact-section textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.contact-section input:focus,
+.contact-section textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(149, 255, 122, 0.2);
+}
+
+.contact-section button {
+  align-self: center;
+  padding: 10px 30px;
+  background: var(--color-btn-primary);
+  border: none;
+  color: var(--color-bg-darker);
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background 0.3s ease-in-out;
+  font-family: inherit;
+}
+
+.contact-section button:hover {
+  background: var(--color-btn-primary-hover);
+}
+
+#success-message {
+  color: green;
+  margin-top: 10px;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .gallery {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .gallery figure {
+    max-width: 90%;
+    margin: 0 auto;
+  }
+
+  .video-section,
+  .video-section.reverse {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .video-container {
+    padding-bottom: 56.25%;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .video-caption {
+    padding: 10px;
+    max-width: 100%;
+    font-size: 1.1em;
+    text-align: center !important;
+  }
+
+  .project-intro {
+    flex-direction: column;
+  }
+}
