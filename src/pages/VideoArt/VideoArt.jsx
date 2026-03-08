@@ -1,5 +1,28 @@
+import { useRef, useEffect } from 'react'
 import PageTransition from '../../components/PageTransition/PageTransition'
 import ScrollReveal from '../../components/ScrollReveal/ScrollReveal'
+import styles from './VideoArt.module.css'
+
+function IframeWrap({ children }) {
+  const overlay = useRef()
+  useEffect(() => {
+    function onUp() {
+      if (overlay.current) overlay.current.style.pointerEvents = ''
+    }
+    window.addEventListener('mouseup', onUp)
+    return () => window.removeEventListener('mouseup', onUp)
+  }, [])
+  return (
+    <div className={styles.videoWrap}>
+      {children}
+      <div
+        ref={overlay}
+        className={styles.iframeOverlay}
+        onMouseDown={() => { overlay.current.style.pointerEvents = 'none' }}
+      />
+    </div>
+  )
+}
 
 const VIDEOS = [
   {
@@ -70,7 +93,7 @@ const VIDEOS = [
   },
   {
     id: '1065173650',
-    title: 'Rotoscope',
+    title: 'Untitled',
     reverse: true,
     caption: (
       <>
@@ -93,25 +116,31 @@ const VIDEOS = [
 export default function VideoArt() {
   return (
     <PageTransition>
-      <div style={{ paddingTop: '80px', background: '#fff' }}>
-        <section className="photo-wall">
-          <h2>Video Art</h2>
-          {VIDEOS.map((v, i) => (
-            <ScrollReveal key={v.id} delay={0.05 * i}>
-              <div className={`video-section${v.reverse ? ' reverse' : ''}`}>
-                <div className="video-container">
-                  <iframe
-                    src={`https://player.vimeo.com/video/${v.id}?title=0&byline=0&portrait=0${v.params ? '&' + v.params : ''}`}
-                    frameBorder="0"
-                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
-                    title={v.title}
-                  />
-                </div>
-                <p className="video-caption">{v.caption}</p>
+      <div className={styles.page}>
+        <ScrollReveal>
+          <header className={styles.pageHeader}>
+            <h1>Video Art</h1>
+            <p>Selected works — 2022–2025</p>
+          </header>
+        </ScrollReveal>
+
+        {VIDEOS.map((v, i) => (
+          <ScrollReveal key={v.id} delay={0.05 * i}>
+            <div className={`${styles.videoSection}${v.reverse ? ' ' + styles.reverse : ''}`}>
+              <IframeWrap>
+                <iframe
+                  src={`https://player.vimeo.com/video/${v.id}?title=0&byline=0&portrait=0${v.params ? '&' + v.params : ''}`}
+                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                  title={v.title}
+                />
+              </IframeWrap>
+              <div className={styles.caption}>
+                <h2>{v.title}</h2>
+                <p>{v.caption}</p>
               </div>
-            </ScrollReveal>
-          ))}
-        </section>
+            </div>
+          </ScrollReveal>
+        ))}
       </div>
     </PageTransition>
   )

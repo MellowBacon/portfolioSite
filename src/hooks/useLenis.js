@@ -8,6 +8,7 @@ export default function useLenis() {
       // expo ease-out
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      prevent: (node) => node.tagName === 'IFRAME',
     })
 
     let rafId
