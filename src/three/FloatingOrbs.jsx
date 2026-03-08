@@ -25,7 +25,7 @@ function toWorld(clientX, clientY) {
   return { x: ndcX * halfW, y: ndcY * halfH }
 }
 
-export default function FloatingOrbs({ mobile = false, gyroEnabled = false, xScale = 8, yScale = 7 }) {
+export default function FloatingOrbs({ mobile = false, gyroEnabled = false, xScale = 8, yScale = 7, pathY = 0 }) {
   const ORB_COUNT = mobile ? 40 : 80
   const meshRef = useRef()
 
@@ -96,7 +96,7 @@ export default function FloatingOrbs({ mobile = false, gyroEnabled = false, xSca
     orbs.map(orb => {
       const { x, y } = lemniscatePoint(orb.tOffset, xScale, yScale)
       return {
-        pos: new THREE.Vector3(x, y, orb.z),
+        pos: new THREE.Vector3(x, y + pathY, orb.z),
         vel: new THREE.Vector3(),
       }
     })
@@ -136,7 +136,7 @@ export default function FloatingOrbs({ mobile = false, gyroEnabled = false, xSca
       const offX = mobile ? gyroSmooth.current.x : 0
       const offY = mobile ? gyroSmooth.current.y : 0
       const targetX = tx + Math.sin(t * 1.1 + orb.wobblePhase) * orb.wobbleAmp + offX
-      const targetY = ty + Math.cos(t * 0.8 + orb.wobblePhase) * orb.wobbleAmp * 0.5 + offY
+      const targetY = ty + pathY + Math.cos(t * 0.8 + orb.wobblePhase) * orb.wobbleAmp * 0.5 + offY
 
       const k = 6, damp = 7
       vel.x += ((targetX - pos.x) * k - vel.x * damp) * dt
