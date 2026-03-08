@@ -39,6 +39,39 @@
   color: #050505;
 }
 
+.emotionTabs {
+  display: flex;
+  gap: 6px;
+  padding: 10px 16px 0;
+  background: #1a1a1a;
+  flex-wrap: wrap;
+}
+
+.emotionBtn {
+  padding: 5px 14px;
+  border: 1.5px solid #2a2a2a;
+  background: transparent;
+  color: #888;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: all 0.2s;
+}
+
+.emotionBtn:hover {
+  border-color: #ffcc00;
+  color: #ffcc00;
+}
+
+.emotionBtn.active {
+  background: #ffcc00;
+  border-color: #ffcc00;
+  color: #050505;
+}
+
 .canvasWrap {
   width: 100%;
   height: 70vh;
