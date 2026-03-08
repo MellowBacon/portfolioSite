@@ -55,7 +55,7 @@ export default function HeroScene() {
             mobile={isMobile}
             gyroEnabled={gyroEnabled}
             xScale={isMobile ? 2.2 : 8}
-            yScale={isMobile ? 9 : 7}
+            yScale={isMobile ? 1.925 : 7}
           />
             {!isMobile && (
               <EffectComposer multisampling={0}>
