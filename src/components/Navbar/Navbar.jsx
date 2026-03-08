@@ -6,7 +6,6 @@ import styles from './Navbar.module.css'
 export default function Navbar() {
   const [hidden, setHidden] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [mobileDropOpen, setMobileDropOpen] = useState(false)
   const lastScrollY = useRef(0)
 
   useEffect(() => {
@@ -24,19 +23,11 @@ export default function Navbar() {
 
   useEffect(() => {
     function handleResize() {
-      if (window.innerWidth > 768) {
-        setMobileOpen(false)
-        setMobileDropOpen(false)
-      }
+      if (window.innerWidth > 768) setMobileOpen(false)
     }
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
-
-  const closeMobile = () => {
-    setMobileOpen(false)
-    setMobileDropOpen(false)
-  }
 
   const activeClass = ({ isActive }) => isActive ? styles.active : ''
 
@@ -59,14 +50,9 @@ export default function Navbar() {
 
         <div className={styles.navLinks}>
           <NavLink to="/" end className={activeClass}>Home</NavLink>
-          <div className={styles.dropdown}>
-            <span className={styles.dropbtn}>Projects ▾</span>
-            <div className={styles.dropdownContent}>
-              <NavLink to="/photogrammetry">Exhibitions</NavLink>
-              <NavLink to="/3d-modeling">3D Modeling</NavLink>
-              <NavLink to="/video-art">Video Art</NavLink>
-            </div>
-          </div>
+          <NavLink to="/photogrammetry" className={activeClass}>Exhibitions</NavLink>
+          <NavLink to="/3d-modeling" className={activeClass}>3D Modeling</NavLink>
+          <NavLink to="/video-art" className={activeClass}>Video Art</NavLink>
           <NavLink to="/about" className={activeClass}>About</NavLink>
           <NavLink to="/contact" className={activeClass}>Contact</NavLink>
         </div>
@@ -86,22 +72,12 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       <div className={`${styles.mobileMenu} ${mobileOpen ? styles.show : ''}`}>
-        <NavLink to="/" end onClick={closeMobile}>Home</NavLink>
-        <NavLink to="/about" onClick={closeMobile}>About</NavLink>
-        <div className={styles.mobileDropdown}>
-          <div
-            className={styles.mobileDropbtn}
-            onClick={() => setMobileDropOpen(o => !o)}
-          >
-            Projects ▾
-          </div>
-          <div className={`${styles.mobileDropdownContent} ${mobileDropOpen ? styles.show : ''}`}>
-            <NavLink to="/photogrammetry" onClick={closeMobile}>Exhibitions</NavLink>
-            <NavLink to="/3d-modeling" onClick={closeMobile}>3D Modeling</NavLink>
-            <NavLink to="/video-art" onClick={closeMobile}>Video Art</NavLink>
-          </div>
-        </div>
-        <NavLink to="/contact" onClick={closeMobile}>Contact</NavLink>
+        <NavLink to="/" end onClick={() => setMobileOpen(false)}>Home</NavLink>
+        <NavLink to="/photogrammetry" onClick={() => setMobileOpen(false)}>Exhibitions</NavLink>
+        <NavLink to="/3d-modeling" onClick={() => setMobileOpen(false)}>3D Modeling</NavLink>
+        <NavLink to="/video-art" onClick={() => setMobileOpen(false)}>Video Art</NavLink>
+        <NavLink to="/about" onClick={() => setMobileOpen(false)}>About</NavLink>
+        <NavLink to="/contact" onClick={() => setMobileOpen(false)}>Contact</NavLink>
       </div>
     </>
   )
