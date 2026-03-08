@@ -25,7 +25,7 @@ function toWorld(clientX, clientY) {
   return { x: ndcX * halfW, y: ndcY * halfH }
 }
 
-export default function FloatingOrbs({ mobile = false }) {
+export default function FloatingOrbs({ mobile = false, gyroEnabled = false }) {
   const ORB_COUNT = mobile ? 40 : 80
   const meshRef = useRef()
 
@@ -53,7 +53,7 @@ export default function FloatingOrbs({ mobile = false }) {
 
   // Mobile gyroscope
   useEffect(() => {
-    if (!mobile) return
+    if (!mobile || !gyroEnabled) return
     function onOrientation(e) {
       // gamma: left/right tilt (-90..90), beta: front/back (~0..90 when held upright)
       const gx = (e.gamma ?? 0) * 0.09
@@ -63,7 +63,7 @@ export default function FloatingOrbs({ mobile = false }) {
     }
     window.addEventListener('deviceorientation', onOrientation)
     return () => window.removeEventListener('deviceorientation', onOrientation)
-  }, [mobile])
+  }, [mobile, gyroEnabled])
 
   // Mobile tap burst
   useEffect(() => {

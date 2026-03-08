@@ -1,10 +1,38 @@
 import { Canvas } from '@react-three/fiber'
-import { Suspense } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import FloatingOrbs from './FloatingOrbs'
 
 export default function HeroScene() {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  const [gyroEnabled, setGyroEnabled] = useState(false)
+  const [needsPermission, setNeedsPermission] = useState(false)
+
+  useEffect(() => {
+    if (!isMobile) return
+    if (
+      typeof DeviceOrientationEvent !== 'undefined' &&
+      typeof DeviceOrientationEvent.requestPermission === 'function'
+    ) {
+      // iOS 13+ — must ask
+      setNeedsPermission(true)
+    } else {
+      // Android / older iOS — fires without permission
+      setGyroEnabled(true)
+    }
+  }, [isMobile])
+
+  async function requestGyro() {
+    try {
+      const result = await DeviceOrientationEvent.requestPermission()
+      if (result === 'granted') {
+        setGyroEnabled(true)
+        setNeedsPermission(false)
+      }
+    } catch (e) {
+      console.warn('Gyro permission denied', e)
+    }
+  }
 
   return (
     <div
@@ -22,7 +50,7 @@ export default function HeroScene() {
       >
         <Suspense fallback={null}>
           <ambientLight intensity={0.05} />
-          <FloatingOrbs mobile={isMobile} />
+          <FloatingOrbs mobile={isMobile} gyroEnabled={gyroEnabled} />
           {!isMobile && (
             <EffectComposer multisampling={0}>
               <Bloom
@@ -35,6 +63,32 @@ export default function HeroScene() {
           )}
         </Suspense>
       </Canvas>
+
+      {needsPermission && (
+        <button
+          onClick={requestGyro}
+          style={{
+            position: 'absolute',
+            bottom: 28,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            pointerEvents: 'auto',
+            background: 'rgba(149, 255, 122, 0.1)',
+            border: '1px solid rgba(149, 255, 122, 0.35)',
+            color: '#95ff7a',
+            borderRadius: 20,
+            padding: '9px 22px',
+            fontFamily: 'Montserrat, sans-serif',
+            fontSize: '0.75rem',
+            fontWeight: 700,
+            letterSpacing: '0.08em',
+            cursor: 'pointer',
+            textTransform: 'uppercase',
+          }}
+        >
+          Enable Motion
+        </button>
+      )}
     </div>
   )
 }
