@@ -6,11 +6,15 @@ import styles from './VideoArt.module.css'
 function IframeWrap({ children }) {
   const overlay = useRef()
   useEffect(() => {
-    function onUp() {
+    function restore() {
       if (overlay.current) overlay.current.style.pointerEvents = ''
     }
-    window.addEventListener('mouseup', onUp)
-    return () => window.removeEventListener('mouseup', onUp)
+    window.addEventListener('mouseup', restore)
+    window.addEventListener('touchend', restore)
+    return () => {
+      window.removeEventListener('mouseup', restore)
+      window.removeEventListener('touchend', restore)
+    }
   }, [])
   return (
     <div className={styles.videoWrap}>
@@ -19,6 +23,7 @@ function IframeWrap({ children }) {
         ref={overlay}
         className={styles.iframeOverlay}
         onMouseDown={() => { overlay.current.style.pointerEvents = 'none' }}
+        onTouchStart={() => { overlay.current.style.pointerEvents = 'none' }}
       />
     </div>
   )

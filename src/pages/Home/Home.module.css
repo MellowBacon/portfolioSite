@@ -172,3 +172,9 @@
   .projectGrid { grid-template-columns: 1fr; gap: 20px; }
   .sectionHeader h2 { font-size: 2em; }
 }
+
+@media (max-width: 480px) {
+  .heroContent { padding: 20px 16px; }
+  .heroTitle { font-size: 2em; }
+  .tagline { font-size: 1.4em; }
+}

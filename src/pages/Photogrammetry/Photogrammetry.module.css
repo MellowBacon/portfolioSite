@@ -47,8 +47,13 @@
 }
 
 .posterWrap {
-  position: sticky;
   top: 100px;
+}
+
+@media (min-width: 769px) {
+  .posterWrap {
+    position: sticky;
+  }
 }
 
 .poster {
