@@ -164,10 +164,19 @@
 
 /* Mobile */
 @media (max-width: 768px) {
+  .hero {
+    height: 100svh;
+    align-items: flex-end;
+    padding-bottom: 80px;
+  }
   .heroTitle { font-size: 2.5em; }
   .tagline { font-size: 1.8em; }
   .intro { font-size: 1em; }
-  .heroContent { padding: 25px; }
+  .heroContent {
+    padding: 25px;
+    width: calc(100% - 32px);
+    max-width: none;
+  }
   .featuredWork { padding: 60px 20px; }
   .projectGrid { grid-template-columns: 1fr; gap: 20px; }
   .sectionHeader h2 { font-size: 2em; }

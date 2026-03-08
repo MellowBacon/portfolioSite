@@ -35,34 +35,36 @@ export default function HeroScene() {
   }
 
   return (
-    <div
-      style={{
-        position: 'absolute',
-        inset: 0,
-        zIndex: 0,
-        pointerEvents: 'none',
-      }}
-    >
-      <Canvas
-        camera={{ position: [0, 0, 8], fov: 60 }}
-        dpr={isMobile ? [1, 1] : [1, 1.5]}
-        gl={{ alpha: true, antialias: false }}
+    <>
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
       >
-        <Suspense fallback={null}>
-          <ambientLight intensity={0.05} />
-          <FloatingOrbs mobile={isMobile} gyroEnabled={gyroEnabled} />
-          {!isMobile && (
-            <EffectComposer multisampling={0}>
-              <Bloom
-                intensity={1.2}
-                luminanceThreshold={0.2}
-                luminanceSmoothing={0.9}
-                height={300}
-              />
-            </EffectComposer>
-          )}
-        </Suspense>
-      </Canvas>
+        <Canvas
+          camera={{ position: [0, 0, 8], fov: 60 }}
+          dpr={isMobile ? [1, 1] : [1, 1.5]}
+          gl={{ alpha: true, antialias: false }}
+        >
+          <Suspense fallback={null}>
+            <ambientLight intensity={0.05} />
+            <FloatingOrbs mobile={isMobile} gyroEnabled={gyroEnabled} />
+            {!isMobile && (
+              <EffectComposer multisampling={0}>
+                <Bloom
+                  intensity={1.2}
+                  luminanceThreshold={0.2}
+                  luminanceSmoothing={0.9}
+                  height={300}
+                />
+              </EffectComposer>
+            )}
+          </Suspense>
+        </Canvas>
+      </div>
 
       {needsPermission && (
         <button
@@ -72,7 +74,7 @@ export default function HeroScene() {
             bottom: 28,
             left: '50%',
             transform: 'translateX(-50%)',
-            pointerEvents: 'auto',
+            zIndex: 10,
             background: 'rgba(149, 255, 122, 0.1)',
             border: '1px solid rgba(149, 255, 122, 0.35)',
             color: '#95ff7a',
@@ -89,6 +91,6 @@ export default function HeroScene() {
           Enable Motion
         </button>
       )}
-    </div>
+    </>
   )
 }
