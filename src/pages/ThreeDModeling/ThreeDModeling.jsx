@@ -11,14 +11,9 @@ export default function ThreeDModeling() {
             <div className="intro-text">
               <h2>3D Modeling</h2>
               <p>
-                This work spans a range of styles and subjects — from a detailed Les Paul
-                guitar to a rigged robot and a submarine. Each piece explores a different
-                aspect of form, material, and rendering.
-              </p>
-              <p>
-                The process involves modeling, UV unwrapping, texturing, rigging, and lighting
-                in Blender. Use the viewer below to inspect the models interactively — toggle
-                wireframe, switch models, or watch the animations play.
+                A collection of game-ready 3D models made in Blender. Each one was built
+                with real-time use in mind: low-poly where it counts and textured to hold
+                up in an engine. Some are rigged for animation.
               </p>
             </div>
           </section>

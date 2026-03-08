@@ -202,7 +202,7 @@ function BallbotScene({ wireframe, autoRotate, emotionFile, emotionRows, animInd
       {/* screenScene is rendered via bodyScene once attached to a bone.
           Fall back to rendering it independently until SCREEN_BONE is set. */}
       {!SCREEN_BONE && <primitive object={screenScene} />}
-      <OrbitControls autoRotate={autoRotate} autoRotateSpeed={1.2} makeDefault enableDamping dampingFactor={0.08} />
+      <OrbitControls autoRotate={autoRotate} autoRotateSpeed={1.2} makeDefault enableDamping dampingFactor={0.08} minDistance={1.5} maxDistance={8} />
     </>
   )
 }
@@ -232,7 +232,7 @@ function ModelScene({ modelFile, wireframe, autoRotate, animIndex, onClipsReady 
   return (
     <>
       <primitive object={scene} />
-      <OrbitControls autoRotate={autoRotate} autoRotateSpeed={1.2} makeDefault enableDamping dampingFactor={0.08} />
+      <OrbitControls autoRotate={autoRotate} autoRotateSpeed={1.2} makeDefault enableDamping dampingFactor={0.08} minDistance={1.5} maxDistance={8} />
     </>
   )
 }
@@ -292,7 +292,10 @@ export default function ModelViewer() {
       )}
 
       {/* Canvas */}
-      <div className={styles.canvasWrap}>
+      <div
+        className={styles.canvasWrap}
+        onWheel={e => e.stopPropagation()}
+      >
         <Canvas
           dpr={[1, 1.5]}
           camera={{ position: [0, 1.5, 4], fov: 45 }}
