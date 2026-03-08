@@ -1,6 +1,6 @@
 import { Suspense, useState, useEffect, useRef, useCallback } from 'react'
 import { Canvas, useThree, useFrame } from '@react-three/fiber'
-import { useGLTF, useAnimations, useTexture, OrbitControls, ContactShadows, Html } from '@react-three/drei'
+import { useGLTF, useAnimations, useTexture, OrbitControls, Html } from '@react-three/drei'
 import * as THREE from 'three'
 import styles from './ModelViewer.module.css'
 
@@ -203,7 +203,6 @@ function BallbotScene({ wireframe, autoRotate, emotionFile, emotionRows, animInd
           Fall back to rendering it independently until SCREEN_BONE is set. */}
       {!SCREEN_BONE && <primitive object={screenScene} />}
       <OrbitControls autoRotate={autoRotate} autoRotateSpeed={1.2} makeDefault enableDamping dampingFactor={0.08} />
-      <ContactShadows position={[0, -0.01, 0]} opacity={0.4} scale={10} blur={2} far={4} />
     </>
   )
 }
@@ -234,7 +233,6 @@ function ModelScene({ modelFile, wireframe, autoRotate, animIndex, onClipsReady 
     <>
       <primitive object={scene} />
       <OrbitControls autoRotate={autoRotate} autoRotateSpeed={1.2} makeDefault enableDamping dampingFactor={0.08} />
-      <ContactShadows position={[0, -0.01, 0]} opacity={0.4} scale={10} blur={2} far={4} />
     </>
   )
 }
@@ -296,7 +294,6 @@ export default function ModelViewer() {
       {/* Canvas */}
       <div className={styles.canvasWrap}>
         <Canvas
-          shadows
           dpr={[1, 1.5]}
           camera={{ position: [0, 1.5, 4], fov: 45 }}
           gl={{ antialias: true }}
@@ -304,7 +301,7 @@ export default function ModelViewer() {
         >
           <color attach="background" args={['#1a1a1a']} />
           <ambientLight intensity={0.15} />
-          <directionalLight position={[5, 5, 3]} intensity={1.8} castShadow />
+          <directionalLight position={[5, 5, 3]} intensity={1.8} />
           <directionalLight position={[-4, 2, -3]} intensity={0.6} color="#8ab4f8" />
 
           <Suspense fallback={
