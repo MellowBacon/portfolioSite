@@ -1,5 +1,6 @@
 import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
+import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import FloatingOrbs from './FloatingOrbs'
 
 export default function HeroScene() {
@@ -25,6 +26,14 @@ export default function HeroScene() {
         <Suspense fallback={null}>
           <ambientLight intensity={0.05} />
           <FloatingOrbs />
+          <EffectComposer multisampling={0}>
+            <Bloom
+              intensity={1.2}
+              luminanceThreshold={0.2}
+              luminanceSmoothing={0.9}
+              height={300}
+            />
+          </EffectComposer>
         </Suspense>
       </Canvas>
     </div>
