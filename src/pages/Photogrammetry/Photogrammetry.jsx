@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import PageTransition from '../../components/PageTransition/PageTransition'
 import ScrollReveal from '../../components/ScrollReveal/ScrollReveal'
 import Carousel from '../../components/Carousel/Carousel'
+import Lightbox from '../../components/Lightbox/Lightbox'
 import styles from './Photogrammetry.module.css'
 
 const EXHIBITIONS = [
@@ -26,14 +28,19 @@ const EXHIBITIONS = [
       'Radiant Overgrowth, Unity3D, custom-built PC, flatscreen TV, 43.5×24.5", 2024',
       'Radiant Overgrowth (print series), archival inkjet prints from simulation, 10×10" each (framed), 2025',
     ],
-    images: Array.from({ length: 25 }, (_, i) => `/assets/images/photogrammetry/splats/Splat${i + 1}.jpg`),
+    installation: '/assets/images/photogrammetry/radiant-overgrowth/Full.jpg',
+    installationAlt: 'Radiant Overgrowth installation view, Patchwork group show',
+    images: [1, 6, 7, 8, 9, 12, 15, 17, 22].map(n => `/assets/images/photogrammetry/splats/Splat${n}.jpg`),
   },
 ]
 
 export default function Exhibitions() {
+  const [lightboxSrc, setLightboxSrc] = useState(null)
+
   return (
     <PageTransition>
       <div className={styles.page}>
+      <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />
 
         <ScrollReveal>
           <header className={styles.pageHeader}>
@@ -51,9 +58,10 @@ export default function Exhibitions() {
                   {/* Poster */}
                   <div className={styles.posterWrap}>
                     <img
-                      className={styles.poster}
+                      className={`${styles.poster} ${styles.clickable}`}
                       src={ex.poster}
                       alt={ex.posterAlt}
+                      onClick={() => setLightboxSrc(ex.poster)}
                     />
                     <p className={styles.posterCaption}>{ex.show} — {ex.year}</p>
                   </div>
@@ -76,6 +84,21 @@ export default function Exhibitions() {
                 </div>
               </section>
             </ScrollReveal>
+
+            {/* Installation photo */}
+            {ex.installation && (
+              <ScrollReveal>
+                <div className={styles.installationWrap}>
+                  <img
+                    className={`${styles.installationPhoto} ${styles.clickable}`}
+                    src={ex.installation}
+                    alt={ex.installationAlt}
+                    onClick={() => setLightboxSrc(ex.installation)}
+                  />
+                  <p className={styles.installationCaption}>Installation view — {ex.show}, {ex.year}</p>
+                </div>
+              </ScrollReveal>
+            )}
 
             {/* Carousel */}
             <div className={styles.carouselBand}>

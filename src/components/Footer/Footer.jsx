@@ -8,10 +8,8 @@ export default function Footer() {
         <nav className={styles.footerNav} aria-label="Footer navigation">
           <Link to="/">Home</Link>
           <Link to="/about">About</Link>
-          <Link to="/photography">Photography</Link>
-          <Link to="/photogrammetry">Photogrammetry</Link>
+          <Link to="/photogrammetry">Exhibitions</Link>
           <Link to="/3d-modeling">3D Modeling</Link>
-          <Link to="/environment-art">Environment &amp; Game Art</Link>
           <Link to="/video-art">Video Art</Link>
           <Link to="/contact">Contact</Link>
         </nav>
