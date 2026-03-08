@@ -46,7 +46,7 @@ function CameraReset({ trigger }) {
 }
 
 // ─── Ballbot: body + screen + sprite animation ────────────────────────────────
-function BallbotScene({ wireframe, autoRotate, emotionFile, emotionRows, onClipsReady }) {
+function BallbotScene({ wireframe, autoRotate, emotionFile, emotionRows, animIndex, onClipsReady }) {
   const { scene: bodyScene, animations } = useGLTF('/assets/models/Ballbot.glb')
   const { scene: screenScene } = useGLTF('/assets/models/Ballbot_screen.glb')
   const { actions, clips } = useAnimations(animations, bodyScene)
@@ -137,9 +137,9 @@ function BallbotScene({ wireframe, autoRotate, emotionFile, emotionRows, onClips
   useEffect(() => {
     if (!clips.length) return
     Object.values(actions).forEach(a => a.stop())
-    const first = clips[0]
-    if (first) actions[first.name]?.reset().play()
-  }, [actions, clips])
+    const clip = clips[animIndex % clips.length]
+    if (clip) actions[clip.name]?.reset().play()
+  }, [actions, clips, animIndex])
 
   // Step sprite frames with random pauses between cycles
   useFrame((_, delta) => {
@@ -319,6 +319,7 @@ export default function ModelViewer() {
                 autoRotate={autoRotate}
                 emotionFile={EMOTIONS[emotionIndex].file}
                 emotionRows={EMOTIONS[emotionIndex].rows ?? DEFAULT_ROWS}
+                animIndex={animIndex}
                 onClipsReady={handleClipsReady}
               />
             ) : (
@@ -358,7 +359,7 @@ export default function ModelViewer() {
           ⌂ Reset camera
         </button>
 
-        {!isBallbot && clips.length > 1 && (
+        {clips.length > 1 && (
           <div className={styles.animControls}>
             <button
               className={styles.controlBtn}
