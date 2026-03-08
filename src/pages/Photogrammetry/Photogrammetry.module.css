@@ -1,0 +1,147 @@
+.page {
+  background: #050505;
+  padding-top: 80px;
+}
+
+/* ─── Page header ──────────────────────────────────────────── */
+.pageHeader {
+  padding: clamp(40px, 6vw, 80px) clamp(16px, 5vw, 80px) clamp(24px, 4vw, 48px);
+}
+
+.pageHeader h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+
+.pageHeader p {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ─── Exhibition section ───────────────────────────────────── */
+.exhibition {
+  padding: clamp(40px, 6vw, 80px) clamp(16px, 5vw, 80px);
+  border-top: 1px solid #1a1a1a;
+}
+
+/* Poster + info side by side */
+.exhibitionHeader {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: start;
+  margin-bottom: clamp(40px, 6vw, 64px);
+}
+
+@media (max-width: 768px) {
+  .exhibitionHeader {
+    grid-template-columns: 1fr;
+  }
+}
+
+.posterWrap {
+  position: sticky;
+  top: 100px;
+}
+
+.poster {
+  width: 100%;
+  border-radius: 6px;
+  display: block;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.posterCaption {
+  margin-top: 10px;
+  font-size: 0.72rem;
+  color: #444;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+/* Exhibition info / statement */
+.exhibitionInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.showMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-bottom: 4px;
+}
+
+.tag {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #95ff7a;
+  border: 1px solid #95ff7a33;
+  border-radius: 20px;
+  padding: 4px 12px;
+}
+
+.exhibitionInfo h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.statement p {
+  color: #aaa;
+  line-height: 1.8;
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+}
+
+.statement p:last-child {
+  margin-bottom: 0;
+}
+
+.workCaption {
+  border-top: 1px solid #1a1a1a;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.workCaption span {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  color: #555;
+  letter-spacing: 0.02em;
+}
+
+/* ─── Carousel band ────────────────────────────────────────── */
+.carouselBand {
+  background: #0d0d0d;
+  border-top: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+  padding: 8px 0;
+}
+
+.carouselLabel {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #444;
+  padding: 16px clamp(16px, 5vw, 80px) 8px;
+}

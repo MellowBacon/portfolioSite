@@ -40,8 +40,8 @@ export default function Home() {
               </div>
               <div className={styles.projectInfo}>
                 <h3>Radiant Overgrowth</h3>
-                <p>An experimental photogrammetry project</p>
-                <Link to="/photogrammetry" className="btn">Explore</Link>
+                <p>Shown in Patchwork, a group exhibition — 2025</p>
+                <Link to="/photogrammetry" className="btn">View Exhibition</Link>
               </div>
             </div>
           </ScrollReveal>
@@ -50,14 +50,14 @@ export default function Home() {
             <div className={styles.projectCard}>
               <div className={styles.projectImage}>
                 <img
-                  src="/assets/images/photography/thumbnails/DSC03183_Thumb.jpg"
-                  alt="Photography Project"
+                  src="/assets/images/3d-modeling/thumbnails/sub_thumbnail.png"
+                  alt="3D Modeling"
                 />
               </div>
               <div className={styles.projectInfo}>
-                <h3>Photography Series</h3>
-                <p>Abstracted nature photography from the PNW.</p>
-                <Link to="/photography" className="btn">View Series</Link>
+                <h3>3D Modeling</h3>
+                <p>Rigged characters, instruments, and environments built in Blender.</p>
+                <Link to="/3d-modeling" className="btn">Explore</Link>
               </div>
             </div>
           </ScrollReveal>

@@ -62,10 +62,8 @@ export default function Navbar() {
           <div className={styles.dropdown}>
             <span className={styles.dropbtn}>Projects ▾</span>
             <div className={styles.dropdownContent}>
-              <NavLink to="/photography">Photography</NavLink>
-              <NavLink to="/photogrammetry">Photogrammetry</NavLink>
+              <NavLink to="/photogrammetry">Exhibitions</NavLink>
               <NavLink to="/3d-modeling">3D Modeling</NavLink>
-              <NavLink to="/environment-art">Environment &amp; Game Art</NavLink>
               <NavLink to="/video-art">Video Art</NavLink>
             </div>
           </div>
@@ -98,10 +96,8 @@ export default function Navbar() {
             Projects ▾
           </div>
           <div className={`${styles.mobileDropdownContent} ${mobileDropOpen ? styles.show : ''}`}>
-            <NavLink to="/photography" onClick={closeMobile}>Photography</NavLink>
-            <NavLink to="/photogrammetry" onClick={closeMobile}>Photogrammetry</NavLink>
+            <NavLink to="/photogrammetry" onClick={closeMobile}>Exhibitions</NavLink>
             <NavLink to="/3d-modeling" onClick={closeMobile}>3D Modeling</NavLink>
-            <NavLink to="/environment-art" onClick={closeMobile}>Environment &amp; Game Art</NavLink>
             <NavLink to="/video-art" onClick={closeMobile}>Video Art</NavLink>
           </div>
         </div>
