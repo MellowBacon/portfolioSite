@@ -163,17 +163,14 @@
 }
 
 /* Mobile */
+/* Mobile */
 @media (max-width: 768px) {
-  .hero {
-    height: 100svh;
-    align-items: flex-end;
-    padding-bottom: 80px;
-  }
+  .hero { height: 100svh; }
   .heroTitle { font-size: 2.5em; }
   .tagline { font-size: 1.8em; }
   .intro { font-size: 1em; }
   .heroContent {
-    padding: 25px;
+    padding: 36px 24px;
     width: calc(100% - 32px);
     max-width: none;
   }
@@ -183,7 +180,7 @@
 }
 
 @media (max-width: 480px) {
-  .heroContent { padding: 20px 16px; }
+  .heroContent { padding: 32px 20px; }
   .heroTitle { font-size: 2em; }
   .tagline { font-size: 1.4em; }
 }

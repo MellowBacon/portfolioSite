@@ -51,7 +51,12 @@ export default function HeroScene() {
         >
           <Suspense fallback={null}>
             <ambientLight intensity={0.05} />
-            <FloatingOrbs mobile={isMobile} gyroEnabled={gyroEnabled} />
+            <FloatingOrbs
+            mobile={isMobile}
+            gyroEnabled={gyroEnabled}
+            xScale={isMobile ? 2.2 : 8}
+            yScale={isMobile ? 9 : 7}
+          />
             {!isMobile && (
               <EffectComposer multisampling={0}>
                 <Bloom

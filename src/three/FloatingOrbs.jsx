@@ -25,7 +25,7 @@ function toWorld(clientX, clientY) {
   return { x: ndcX * halfW, y: ndcY * halfH }
 }
 
-export default function FloatingOrbs({ mobile = false, gyroEnabled = false }) {
+export default function FloatingOrbs({ mobile = false, gyroEnabled = false, xScale = 8, yScale = 7 }) {
   const ORB_COUNT = mobile ? 40 : 80
   const meshRef = useRef()
 
@@ -94,7 +94,7 @@ export default function FloatingOrbs({ mobile = false, gyroEnabled = false }) {
 
   const physState = useRef(
     orbs.map(orb => {
-      const { x, y } = lemniscatePoint(orb.tOffset)
+      const { x, y } = lemniscatePoint(orb.tOffset, xScale, yScale)
       return {
         pos: new THREE.Vector3(x, y, orb.z),
         vel: new THREE.Vector3(),
@@ -130,7 +130,7 @@ export default function FloatingOrbs({ mobile = false, gyroEnabled = false }) {
       const { pos, vel } = physState.current[i]
 
       const param = t * orb.speed + orb.tOffset
-      const { x: tx, y: ty } = lemniscatePoint(param)
+      const { x: tx, y: ty } = lemniscatePoint(param, xScale, yScale)
 
       // Gyro shifts the lemniscate target on mobile
       const offX = mobile ? gyroSmooth.current.x : 0
