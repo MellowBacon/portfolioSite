@@ -289,7 +289,7 @@ export const PROJECTS = [
     title: 'Street Lens',
     medium: 'web',
     year: '2026',
-    featured: false,
+    featured: true,
     thumbnail: null,
     summary: 'A virtual photography platform reshaping Google Street View into artistically composed images.',
     meta: [
