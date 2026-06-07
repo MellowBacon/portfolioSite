@@ -9,6 +9,7 @@ export const MEDIUMS = [
   { key: 'video', label: 'Video Art' },
   { key: 'photography', label: 'Photography' },
   { key: 'environment', label: 'Environment Art' },
+  { key: 'web', label: 'Web' },
 ]
 
 export const MEDIUM_LABELS = Object.fromEntries(MEDIUMS.map(m => [m.key, m.label]))
@@ -42,6 +43,7 @@ export const EMOTIONS = [
 //   gallery     — { items: [{ thumb, full, caption }] }
 //   modelViewer — { models, emotions }
 //   captions    — { items: string[] }  (small-print work captions)
+//   link        — { href, label }  (external call-to-action button)
 
 export const PROJECTS = [
   {
@@ -278,6 +280,43 @@ export const PROJECTS = [
             <em>Music Credit: Taras Keen Zомбі</em>
           </>,
         ],
+      },
+    ],
+  },
+
+  {
+    slug: 'street-lens',
+    title: 'Street Lens',
+    medium: 'web',
+    year: '2026',
+    featured: false,
+    thumbnail: null,
+    summary: 'A virtual photography platform reshaping Google Street View into artistically composed images.',
+    meta: [
+      { label: 'Live site', value: 'streetlens.art' },
+    ],
+    blocks: [
+      {
+        type: 'statement',
+        paragraphs: [
+          <>
+            <em>Street Lens</em> is a virtual photography platform I built that reshapes
+            Google Street View documentation into artistically composed images —
+            community discovery in a sea of images. Find your location, make your frame.
+          </>,
+          `Users explore the world through Street View, compose and capture frames, and
+           share them to a community feed. Curated featured captures surface standout
+           images from around the globe, each with location details and artist commentary.`,
+          `The project draws inspiration from Jon Rafman, Doug Rickard, Michael Wolf, and
+           Jacqui Kenny — artists who saw something more in Google's automated archive.
+           Street Lens aims to create global connections by exposing people to parts of
+           the world they may never have a chance to visit in reality.`,
+        ],
+      },
+      {
+        type: 'link',
+        href: 'https://www.streetlens.art/',
+        label: 'Visit streetlens.art',
       },
     ],
   },

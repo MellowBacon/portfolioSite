@@ -3,6 +3,7 @@ import { useParams, Navigate } from 'react-router-dom'
 import PageTransition from '../../components/PageTransition/PageTransition'
 import StaggerText from '../../components/motion/StaggerText'
 import Reveal from '../../components/motion/Reveal'
+import Magnetic from '../../components/motion/Magnetic'
 import Lightbox from '../../components/Lightbox/Lightbox'
 import Carousel from '../../components/Carousel/Carousel'
 import ProjectNav from '../../components/ProjectNav/ProjectNav'
@@ -82,6 +83,22 @@ function Block({ block, onZoom }) {
             </Reveal>
           ))}
         </div>
+      )
+
+    case 'link':
+      return (
+        <Reveal>
+          <Magnetic>
+            <a
+              href={block.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn--solid"
+            >
+              {block.label} <span aria-hidden="true">&nearr;</span>
+            </a>
+          </Magnetic>
+        </Reveal>
       )
 
     case 'modelViewer':
