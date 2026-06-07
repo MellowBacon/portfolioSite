@@ -138,7 +138,7 @@ export const PROJECTS = [
     title: 'Ebb and Flow',
     medium: 'video',
     year: '2025',
-    featured: true,
+    featured: false,
     thumbnail: '/assets/images/video-art/thumbnails/VideoArt.JPG',
     thumbnailAlt: 'Still from Ebb and Flow',
     summary: 'A video art piece thinking about our changing planet.',
@@ -290,7 +290,8 @@ export const PROJECTS = [
     medium: 'web',
     year: '2026',
     featured: true,
-    thumbnail: null,
+    thumbnail: '/assets/images/web/streetlens.jpg',
+    thumbnailAlt: 'Street Lens homepage — community discovery in a sea of images',
     summary: 'A virtual photography platform reshaping Google Street View into artistically composed images.',
     meta: [
       { label: 'Live site', value: 'streetlens.art' },

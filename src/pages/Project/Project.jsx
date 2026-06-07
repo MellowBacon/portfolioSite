@@ -95,7 +95,7 @@ function Block({ block, onZoom }) {
               rel="noopener noreferrer"
               className="btn btn--solid"
             >
-              {block.label} <span aria-hidden="true">&nearr;</span>
+              {block.label} <span aria-hidden="true">{'↗'}</span>
             </a>
           </Magnetic>
         </Reveal>
