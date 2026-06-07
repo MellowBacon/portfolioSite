@@ -2,8 +2,10 @@ import { useRef, useMemo, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-const ACCENT = new THREE.Color('#95ff7a')
-const GOLD = new THREE.Color('#ffcc00')
+// "Pigment dot" palette for the light gallery theme
+const VIOLET = new THREE.Color('#5b2eff')
+const INK = new THREE.Color('#111110')
+const GREEN = new THREE.Color('#27b36b')
 
 function lemniscatePoint(t, xScale = 8, yScale = 7) {
   const s = Math.sin(t)
@@ -25,9 +27,21 @@ function toWorld(clientX, clientY) {
   return { x: ndcX * halfW, y: ndcY * halfH }
 }
 
+function pickColor(i, count) {
+  // ~75% violet, ~15% ink, ~10% green, deterministically interleaved
+  const r = (i * 7) % count / count
+  if (r < 0.75) return VIOLET
+  if (r < 0.9) return INK
+  return GREEN
+}
+
 export default function FloatingOrbs({ mobile = false, gyroEnabled = false, xScale = 8, yScale = 7, pathY = 0 }) {
   const ORB_COUNT = mobile ? 40 : 80
   const meshRef = useRef()
+
+  const prefersReducedMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
   // Desktop: mouse position for repel
   const mouse = useRef({ x: 0, y: 0 })
@@ -41,7 +55,7 @@ export default function FloatingOrbs({ mobile = false, gyroEnabled = false, xSca
 
   // Desktop mouse parallax
   useEffect(() => {
-    if (mobile) return
+    if (mobile || prefersReducedMotion) return
     function onMove(e) {
       const { x, y } = toWorld(e.clientX, e.clientY)
       mouse.current.x = x
@@ -49,11 +63,11 @@ export default function FloatingOrbs({ mobile = false, gyroEnabled = false, xSca
     }
     window.addEventListener('pointermove', onMove)
     return () => window.removeEventListener('pointermove', onMove)
-  }, [mobile])
+  }, [mobile, prefersReducedMotion])
 
   // Mobile gyroscope
   useEffect(() => {
-    if (!mobile || !gyroEnabled) return
+    if (!mobile || !gyroEnabled || prefersReducedMotion) return
     function onOrientation(e) {
       // gamma: left/right tilt (-90..90), beta: front/back (~0..90 when held upright)
       const gx = (e.gamma ?? 0) * 0.09
@@ -63,11 +77,11 @@ export default function FloatingOrbs({ mobile = false, gyroEnabled = false, xSca
     }
     window.addEventListener('deviceorientation', onOrientation)
     return () => window.removeEventListener('deviceorientation', onOrientation)
-  }, [mobile, gyroEnabled])
+  }, [mobile, gyroEnabled, prefersReducedMotion])
 
   // Mobile tap burst
   useEffect(() => {
-    if (!mobile) return
+    if (!mobile || prefersReducedMotion) return
     function onTouch(e) {
       const touch = e.touches[0]
       if (!touch) return
@@ -78,7 +92,7 @@ export default function FloatingOrbs({ mobile = false, gyroEnabled = false, xSca
     }
     window.addEventListener('touchstart', onTouch, { passive: true })
     return () => window.removeEventListener('touchstart', onTouch)
-  }, [mobile])
+  }, [mobile, prefersReducedMotion])
 
   const orbs = useMemo(() => (
     Array.from({ length: ORB_COUNT }, (_, i) => ({
@@ -88,7 +102,7 @@ export default function FloatingOrbs({ mobile = false, gyroEnabled = false, xSca
       wobbleAmp: 0.05 + Math.random() * 0.12,
       z: (Math.random() - 0.5) * 3 - 1,
       radius: 0.04 + Math.random() * 0.18,
-      color: i < 8 ? GOLD : ACCENT,
+      color: pickColor(i, ORB_COUNT),
     }))
   ), [ORB_COUNT])
 
@@ -110,8 +124,21 @@ export default function FloatingOrbs({ mobile = false, gyroEnabled = false, xSca
     meshRef.current.instanceColor.needsUpdate = true
   }, [orbs])
 
+  // Reduced motion: compose the lemniscate once, statically
+  useEffect(() => {
+    if (!prefersReducedMotion || !meshRef.current) return
+    orbs.forEach((orb, i) => {
+      const { pos } = physState.current[i]
+      _pos.set(pos.x, pos.y, pos.z)
+      _scale.setScalar(orb.radius)
+      _matrix.compose(_pos, _quat, _scale)
+      meshRef.current.setMatrixAt(i, _matrix)
+    })
+    meshRef.current.instanceMatrix.needsUpdate = true
+  }, [prefersReducedMotion, orbs])
+
   useFrame(({ clock }, delta) => {
-    if (!meshRef.current) return
+    if (!meshRef.current || prefersReducedMotion) return
     const t = clock.elapsedTime
     const dt = Math.min(delta, 0.05)
 
@@ -179,13 +206,10 @@ export default function FloatingOrbs({ mobile = false, gyroEnabled = false, xSca
 
   return (
     <instancedMesh ref={meshRef} args={[null, null, ORB_COUNT]}>
-      <sphereGeometry args={[1, 8, 8]} />
-      <meshStandardMaterial
-        emissive={ACCENT}
-        emissiveIntensity={1.4}
-        roughness={0.1}
-        metalness={0.05}
-      />
+      {/* Higher segment count: silhouettes are visible against the light bg */}
+      <sphereGeometry args={[1, 16, 16]} />
+      {/* Flat, unlit "gouache dot" look for the gallery-white theme */}
+      <meshBasicMaterial color="#ffffff" toneMapped={false} />
     </instancedMesh>
   )
 }

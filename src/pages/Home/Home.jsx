@@ -1,10 +1,18 @@
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import PageTransition from '../../components/PageTransition/PageTransition'
 import HeroScene from '../../three/HeroScene'
-import ScrollReveal from '../../components/ScrollReveal/ScrollReveal'
+import StaggerText from '../../components/motion/StaggerText'
+import Reveal from '../../components/motion/Reveal'
+import Magnetic from '../../components/motion/Magnetic'
+import Marquee from '../../components/motion/Marquee'
+import ProjectCard from '../../components/ProjectCard/ProjectCard'
+import { getFeatured, MEDIUMS } from '../../data/projects'
 import styles from './Home.module.css'
 
 export default function Home() {
+  const featured = getFeatured()
+
   return (
     <PageTransition>
       {/* Hero */}
@@ -12,88 +20,94 @@ export default function Home() {
         <HeroScene />
         <div className={styles.heroBg} />
         <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>Noah Bello</h1>
-          <p className={styles.tagline}>Visual Artist &amp; Digital Creator</p>
-          <p className={styles.intro}>
+          <motion.p
+            className="section-label"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            Visual Artist &amp; Digital Creator
+          </motion.p>
+          <StaggerText text="Noah Bello" className={styles.heroTitle} delay={0.15} />
+          <motion.p
+            className={styles.intro}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
             Exploring the intersection of photography, 3D modeling, and interactive media
-          </p>
-          <a href="#featured-work" className="btn">View My Work</a>
+          </motion.p>
+          <motion.div
+            className={styles.ctaRow}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.65 }}
+          >
+            <Magnetic>
+              <Link to="/work" className="btn btn--solid">View Work</Link>
+            </Magnetic>
+            <Magnetic>
+              <Link to="/contact" className="btn">Get in Touch</Link>
+            </Magnetic>
+          </motion.div>
         </div>
       </section>
 
+      {/* Medium marquee */}
+      <Marquee items={MEDIUMS.map(m => m.label)} />
+
       {/* Featured Work */}
-      <section id="featured-work" className={styles.featuredWork}>
-        <ScrollReveal>
-          <div className={styles.sectionHeader}>
-            <h2>Featured Work</h2>
-            <p>A selection of my recent projects</p>
+      <section className={styles.featuredWork}>
+        <div className="container">
+          <Reveal>
+            <div className={styles.sectionHeader}>
+              <span className="section-label">Selected projects</span>
+              <h2>Featured Work</h2>
+            </div>
+          </Reveal>
+          <div className={styles.projectGrid}>
+            {featured.map((project, i) => (
+              <Reveal key={project.slug} delay={i * 0.1}>
+                <ProjectCard project={project} />
+              </Reveal>
+            ))}
           </div>
-        </ScrollReveal>
-        <div className={styles.projectGrid}>
-          <ScrollReveal delay={0.1}>
-            <div className={styles.projectCard}>
-              <div className={styles.projectImage}>
-                <img
-                  src="/assets/images/photogrammetry/thumbnails/InstaShot1_Thumb.jpg"
-                  alt="Gaussian Splat"
-                />
-              </div>
-              <div className={styles.projectInfo}>
-                <h3>Radiant Overgrowth</h3>
-                <p>Shown in Patchwork, a group exhibition — 2025</p>
-                <Link to="/photogrammetry" className="btn">View Exhibition</Link>
-              </div>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.2}>
-            <div className={styles.projectCard}>
-              <div className={styles.projectImage}>
-                <img
-                  src="/assets/images/3d-modeling/thumbnails/sub_thumbnail.png"
-                  alt="3D Modeling"
-                />
-              </div>
-              <div className={styles.projectInfo}>
-                <h3>3D Modeling</h3>
-                <p>Rigged characters, instruments, and environments built in Blender.</p>
-                <Link to="/3d-modeling" className="btn">Explore</Link>
-              </div>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.3}>
-            <div className={styles.projectCard}>
-              <div className={styles.projectImage}>
-                <img
-                  src="/assets/images/video-art/thumbnails/VideoArt.JPG"
-                  alt="Video Art"
-                />
-              </div>
-              <div className={styles.projectInfo}>
-                <h3>Video Art</h3>
-                <p>A collection of video art projects spanning a few different themes.</p>
-                <Link to="/video-art" className="btn">Experience</Link>
-              </div>
-            </div>
-          </ScrollReveal>
+          <Reveal>
+            <Link to="/work" className={styles.allWork}>
+              All work <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </Reveal>
         </div>
       </section>
 
       {/* About Preview */}
-      <ScrollReveal>
-        <section className={styles.aboutPreview}>
-          <div className={styles.aboutContent}>
-            <h2>About Me</h2>
-            <p>
-              I'm a multimedia artist focused on creating immersive experiences through
-              digital and physical mediums. My work explores the boundaries between
-              reality and digital space.
-            </p>
-            <Link to="/about" className="btn">Learn More</Link>
+      <section className={styles.aboutPreview}>
+        <div className="container">
+          <div className={styles.aboutInner}>
+            <Reveal direction="left">
+              <img
+                src="/assets/images/profile pic.jpg"
+                alt="Noah Bello"
+                className={styles.aboutImage}
+              />
+            </Reveal>
+            <Reveal direction="right" delay={0.1}>
+              <div className={styles.aboutContent}>
+                <span className="section-label">About</span>
+                <h2>About Me</h2>
+                <p>
+                  I'm a multimedia artist focused on creating immersive experiences through
+                  digital and physical mediums. My work explores the boundaries between
+                  reality and digital space.
+                </p>
+                <Magnetic>
+                  <Link to="/about" className="btn">Learn More</Link>
+                </Magnetic>
+              </div>
+            </Reveal>
           </div>
-        </section>
-      </ScrollReveal>
+        </div>
+      </section>
     </PageTransition>
   )
 }

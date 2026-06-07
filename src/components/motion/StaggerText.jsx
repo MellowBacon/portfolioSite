@@ -44,6 +44,7 @@ export default function StaggerText({
             }}
           >
             {word}
+            {/* NBSP so the space survives inline-block whitespace collapsing */}
             {i < words.length - 1 ? ' ' : ''}
           </motion.span>
         </span>

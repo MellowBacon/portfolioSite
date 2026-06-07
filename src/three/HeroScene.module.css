@@ -1,0 +1,32 @@
+.canvasLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.gyroBtn {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  color: var(--color-accent-deep);
+  border-radius: var(--radius-pill);
+  padding: 10px 24px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: var(--shadow-card);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.gyroBtn:hover {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
