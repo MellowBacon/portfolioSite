@@ -3,6 +3,9 @@ import Lenis from 'lenis'
 
 export default function useLenis() {
   useEffect(() => {
+    // Respect prefers-reduced-motion: fall back to native scroll
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const lenis = new Lenis({
       duration: 1.2,
       // expo ease-out

@@ -1,0 +1,22 @@
+.page {
+  padding-bottom: var(--space-7);
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-top: var(--space-6);
+}
+
+.heading {
+  font-size: var(--text-display);
+  margin: 0;
+}
+
+.count {
+  font-size: var(--text-small);
+  color: var(--color-ink-soft);
+  margin: 0;
+}

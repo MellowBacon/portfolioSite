@@ -1,37 +1,58 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: var(--color-lightbox-bg);
+  background: var(--color-scrim);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: var(--z-lightbox);
   cursor: pointer;
+  padding: var(--space-5);
+}
+
+.figure {
+  margin: 0;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .img {
-  max-width: 95%;
-  max-height: 95vh;
+  max-width: 100%;
+  max-height: 88vh;
   border-radius: var(--radius-sm);
-  cursor: default;
   object-fit: contain;
+}
+
+.caption {
+  color: rgba(251, 251, 248, 0.8);
+  font-size: var(--text-small);
+  text-align: center;
 }
 
 .closeBtn {
   position: fixed;
   top: 20px;
   right: 20px;
-  color: var(--color-text-light);
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 8px 14px;
-  font-size: 18px;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  border: none;
+  width: 44px;
+  height: 44px;
+  font-size: 16px;
   cursor: pointer;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
   line-height: 1;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 1;
 }
 
 .closeBtn:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--color-accent);
+  color: #fff;
+  transform: rotate(90deg);
 }

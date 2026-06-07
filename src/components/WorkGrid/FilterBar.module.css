@@ -1,0 +1,51 @@
+.bar {
+  display: flex;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 var(--space-6);
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  padding: var(--space-1);
+}
+
+.bar::-webkit-scrollbar {
+  display: none;
+}
+
+.pill {
+  position: relative;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  padding: 8px 18px;
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--color-ink-soft);
+  background: none;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.pill:hover {
+  color: var(--color-ink);
+  border-color: var(--color-ink-soft);
+}
+
+.pill.active {
+  color: #fff;
+  border-color: transparent;
+}
+
+.pillBg {
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  border-radius: var(--radius-pill);
+}
+
+.pillLabel {
+  position: relative;
+  z-index: 1;
+}

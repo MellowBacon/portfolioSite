@@ -1,26 +1,12 @@
 import { Suspense, useState, useEffect, useRef, useCallback } from 'react'
 import { Canvas, useThree, useFrame } from '@react-three/fiber'
 import { useGLTF, useAnimations, useTexture, OrbitControls, Html } from '@react-three/drei'
+import { motion } from 'framer-motion'
 import * as THREE from 'three'
+import { MODELS as DEFAULT_MODELS, EMOTIONS as DEFAULT_EMOTIONS } from '../data/projects'
 import styles from './ModelViewer.module.css'
 
-const MODELS = [
-  { name: 'Ballbot',   file: '/assets/models/Ballbot.glb', isBallbot: true },
-  { name: 'Les Paul',  file: '/assets/models/les paul.glb' },
-  { name: 'Submarine', file: '/assets/models/Submarine.glb' },
-]
-
-const EMOTIONS = [
-  { name: '-_-',      file: '/assets/models/robot facial animations/-_-/-_- strip.png' },
-  { name: 'Angry',    file: '/assets/models/robot facial animations/angry/angry.png' },
-  { name: 'Blink',    file: '/assets/models/robot facial animations/blink/Test Blink Animation no CRT_green_alpha.png', rows: 1 },
-  { name: 'Happy',    file: '/assets/models/robot facial animations/happy/happy.png' },
-  { name: 'oO',       file: '/assets/models/robot facial animations/oO/oO.png' },
-  { name: 'Sad',      file: '/assets/models/robot facial animations/sad/Sad.png' },
-  { name: 'Skeptical',file: '/assets/models/robot facial animations/skeptical/skeptical.png' },
-]
-
-// Sprite grid constants (defaults — overridden per emotion via EMOTIONS[].rows)
+// Sprite grid constants (defaults — overridden per emotion via emotions[].rows)
 const COLS = 4
 const DEFAULT_ROWS = 2
 const FPS = 8
@@ -30,7 +16,7 @@ const FPS = 8
 const SCREEN_BONE = 'root_bone'
 
 // Preload all models
-MODELS.forEach(m => useGLTF.preload(m.file))
+DEFAULT_MODELS.forEach(m => useGLTF.preload(m.file))
 useGLTF.preload('/assets/models/Ballbot_screen.glb')
 
 // ─── Camera reset helper ──────────────────────────────────────────────────────
@@ -237,11 +223,44 @@ function ModelScene({ modelFile, wireframe, autoRotate, animIndex, onClipsReady 
   )
 }
 
+// ─── Tab pill with shared layout highlight ────────────────────────────────────
+function TabRow({ items, activeIndex, onSelect, layoutId, small }) {
+  return (
+    <div className={small ? styles.emotionTabs : styles.modelTabs} role="tablist">
+      {items.map((item, i) => {
+        const isActive = i === activeIndex
+        return (
+          <button
+            key={item.name}
+            role="tab"
+            aria-selected={isActive}
+            className={`${styles.tabBtn} ${small ? styles.tabBtnSmall : ''} ${isActive ? styles.active : ''}`}
+            onClick={() => onSelect(i)}
+          >
+            {isActive && (
+              <motion.span
+                className={styles.tabBg}
+                layoutId={layoutId}
+                transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+              />
+            )}
+            <span className={styles.tabLabel}>{item.name}</span>
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
 // ─── Main viewer ──────────────────────────────────────────────────────────────
-export default function ModelViewer() {
+export default function ModelViewer({ models = DEFAULT_MODELS, emotions = DEFAULT_EMOTIONS }) {
+  const prefersReducedMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+
   const [activeIndex, setActiveIndex] = useState(0)
   const [wireframe, setWireframe] = useState(false)
-  const [autoRotate, setAutoRotate] = useState(true)
+  const [autoRotate, setAutoRotate] = useState(!prefersReducedMotion)
   const [animIndex, setAnimIndex] = useState(0)
   const [clips, setClips] = useState([])
   const [resetTrigger, setResetTrigger] = useState(0)
@@ -258,40 +277,31 @@ export default function ModelViewer() {
     setAnimIndex(0)
   }, [])
 
-  const isBallbot = MODELS[activeIndex].isBallbot
+  const isBallbot = models[activeIndex].isBallbot
   const currentClipName = clips[animIndex % (clips.length || 1)]?.name ?? null
 
   return (
     <div className={styles.viewer}>
       {/* Model tabs */}
-      <div className={styles.modelTabs}>
-        {MODELS.map((m, i) => (
-          <button
-            key={m.file}
-            className={`${styles.tabBtn} ${i === activeIndex ? styles.active : ''}`}
-            onClick={() => handleModelSwitch(i)}
-          >
-            {m.name}
-          </button>
-        ))}
-      </div>
+      <TabRow
+        items={models}
+        activeIndex={activeIndex}
+        onSelect={handleModelSwitch}
+        layoutId="modelTab"
+      />
 
       {/* Emotion tabs — only when Ballbot is active */}
       {isBallbot && (
-        <div className={styles.emotionTabs}>
-          {EMOTIONS.map((e, i) => (
-            <button
-              key={e.name}
-              className={`${styles.emotionBtn} ${i === emotionIndex ? styles.active : ''}`}
-              onClick={() => setEmotionIndex(i)}
-            >
-              {e.name}
-            </button>
-          ))}
-        </div>
+        <TabRow
+          items={emotions}
+          activeIndex={emotionIndex}
+          onSelect={setEmotionIndex}
+          layoutId="emotionTab"
+          small
+        />
       )}
 
-      {/* Canvas */}
+      {/* Canvas — dark "vitrine" stage so the glowing CRT sprite reads */}
       <div
         className={styles.canvasWrap}
         onWheel={e => e.stopPropagation()}
@@ -300,16 +310,16 @@ export default function ModelViewer() {
           dpr={[1, 1.5]}
           camera={{ position: [0, 1.5, 4], fov: 45 }}
           gl={{ antialias: true }}
-          style={{ background: '#1a1a1a' }}
+          style={{ background: '#161616' }}
         >
-          <color attach="background" args={['#1a1a1a']} />
+          <color attach="background" args={['#161616']} />
           <ambientLight intensity={0.15} />
           <directionalLight position={[5, 5, 3]} intensity={1.8} />
           <directionalLight position={[-4, 2, -3]} intensity={0.6} color="#8ab4f8" />
 
           <Suspense fallback={
             <Html center>
-              <span className={styles.loading}>Loading…</span>
+              <span className={styles.loading}>Loading&hellip;</span>
             </Html>
           }>
             {isBallbot ? (
@@ -317,15 +327,15 @@ export default function ModelViewer() {
                 key="ballbot"
                 wireframe={wireframe}
                 autoRotate={autoRotate}
-                emotionFile={EMOTIONS[emotionIndex].file}
-                emotionRows={EMOTIONS[emotionIndex].rows ?? DEFAULT_ROWS}
+                emotionFile={emotions[emotionIndex].file}
+                emotionRows={emotions[emotionIndex].rows ?? DEFAULT_ROWS}
                 animIndex={animIndex}
                 onClipsReady={handleClipsReady}
               />
             ) : (
               <ModelScene
-                key={MODELS[activeIndex].file}
-                modelFile={MODELS[activeIndex].file}
+                key={models[activeIndex].file}
+                modelFile={models[activeIndex].file}
                 wireframe={wireframe}
                 autoRotate={autoRotate}
                 animIndex={animIndex}
@@ -344,19 +354,19 @@ export default function ModelViewer() {
           className={`${styles.controlBtn} ${wireframe ? styles.on : ''}`}
           onClick={() => setWireframe(w => !w)}
         >
-          ⬡ Wireframe
+          &#11041; Wireframe
         </button>
         <button
           className={`${styles.controlBtn} ${autoRotate ? styles.on : ''}`}
           onClick={() => setAutoRotate(r => !r)}
         >
-          ↺ Auto-rotate
+          &#8634; Auto-rotate
         </button>
         <button
           className={styles.controlBtn}
           onClick={() => setResetTrigger(t => t + 1)}
         >
-          ⌂ Reset camera
+          &#8962; Reset camera
         </button>
 
         {clips.length > 1 && (
@@ -364,15 +374,17 @@ export default function ModelViewer() {
             <button
               className={styles.controlBtn}
               onClick={() => setAnimIndex(i => (i - 1 + clips.length) % clips.length)}
+              aria-label="Previous animation"
             >
-              ◀
+              &#9664;
             </button>
             <span className={styles.animLabel}>{currentClipName}</span>
             <button
               className={styles.controlBtn}
               onClick={() => setAnimIndex(i => (i + 1) % clips.length)}
+              aria-label="Next animation"
             >
-              ▶
+              &#9654;
             </button>
           </div>
         )}

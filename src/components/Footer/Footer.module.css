@@ -1,59 +1,86 @@
 .footer {
-  background: #111;
-  color: var(--color-text-light);
-  padding: 50px 20px 30px;
-  text-align: center;
+  border-top: 1px solid var(--color-line);
+  background: var(--color-bg);
+  padding: var(--space-8) clamp(16px, 4vw, 48px) var(--space-5);
+  margin-top: var(--space-8);
 }
 
 .footerContent {
-  max-width: 1200px;
+  width: min(1200px, 100%);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  gap: var(--space-6);
+}
+
+.cta {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 550;
+  font-size: clamp(2rem, 6vw, 3.6rem);
+  color: var(--color-ink);
+  align-self: flex-start;
+  line-height: 1.1;
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.cta:hover {
+  color: var(--color-accent-deep);
+}
+
+.arrow {
+  display: inline-block;
+}
+
+.row {
+  display: flex;
   align-items: center;
-  gap: 25px;
+  justify-content: space-between;
+  gap: var(--space-5);
+  flex-wrap: wrap;
 }
 
 .footerNav {
   display: flex;
+  gap: var(--space-5);
   flex-wrap: wrap;
-  gap: 10px 28px;
-  justify-content: center;
 }
 
 .footerNav a {
-  color: var(--color-text-light);
-  text-decoration: none;
-  font-size: 0.9em;
-  opacity: 0.65;
-  transition: opacity var(--transition-fast), color var(--transition-fast);
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--color-ink-soft);
 }
 
 .footerNav a:hover {
-  opacity: 1;
-  color: var(--color-accent);
+  color: var(--color-ink);
 }
 
 .footerSocial {
   display: flex;
-  gap: 18px;
   align-items: center;
+  gap: var(--space-4);
+}
+
+.footerSocial a {
+  display: block;
+  line-height: 0;
 }
 
 .footerSocial img {
-  width: 26px;
-  height: auto;
-  opacity: 0.65;
-  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  width: 20px;
+  height: 20px;
+  filter: invert(1) brightness(0.25);
+  transition: filter var(--transition-fast);
 }
 
-.footerSocial img:hover {
-  opacity: 1;
-  transform: scale(1.15);
+.footerSocial a:hover img {
+  filter: invert(0.4) sepia(1) saturate(30) hue-rotate(245deg);
 }
 
 .footerCopy {
+  font-size: var(--text-tiny);
+  color: var(--color-ink-soft);
   margin: 0;
-  font-size: 0.8em;
-  opacity: 0.4;
 }

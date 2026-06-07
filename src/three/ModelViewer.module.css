@@ -1,7 +1,9 @@
 .viewer {
   width: 100%;
-  background: #1a1a1a;
-  border-radius: 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -9,67 +11,57 @@
 
 .modelTabs {
   display: flex;
-  gap: 8px;
-  padding: 16px 16px 0;
-  background: #1a1a1a;
-}
-
-.tabBtn {
-  padding: 8px 20px;
-  border: 1.5px solid #333;
-  background: transparent;
-  color: #aaa;
-  border-radius: 20px;
-  cursor: pointer;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  transition: all 0.2s;
-}
-
-.tabBtn:hover {
-  border-color: #95ff7a;
-  color: #95ff7a;
-}
-
-.tabBtn.active {
-  background: #95ff7a;
-  border-color: #95ff7a;
-  color: #050505;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-4) 0;
+  flex-wrap: wrap;
 }
 
 .emotionTabs {
   display: flex;
   gap: 6px;
-  padding: 10px 16px 0;
-  background: #1a1a1a;
+  padding: var(--space-3) var(--space-4) 0;
   flex-wrap: wrap;
 }
 
-.emotionBtn {
-  padding: 5px 14px;
-  border: 1.5px solid #2a2a2a;
+.tabBtn {
+  position: relative;
+  padding: 8px 20px;
+  border: 1px solid var(--color-line);
   background: transparent;
-  color: #888;
-  border-radius: 20px;
+  color: var(--color-ink-soft);
+  border-radius: var(--radius-pill);
   cursor: pointer;
-  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tabBtnSmall {
+  padding: 5px 14px;
   font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  transition: all 0.2s;
 }
 
-.emotionBtn:hover {
-  border-color: #ffcc00;
-  color: #ffcc00;
+.tabBtn:hover {
+  border-color: var(--color-ink-soft);
+  color: var(--color-ink);
 }
 
-.emotionBtn.active {
-  background: #ffcc00;
-  border-color: #ffcc00;
-  color: #050505;
+.tabBtn.active {
+  color: #fff;
+  border-color: transparent;
+}
+
+.tabBg {
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  border-radius: var(--radius-pill);
+}
+
+.tabLabel {
+  position: relative;
+  z-index: 1;
 }
 
 .canvasWrap {
@@ -77,53 +69,53 @@
   height: 70vh;
   min-height: 400px;
   position: relative;
+  margin-top: var(--space-4);
+  /* Dark vitrine: glowing CRT face + studio lighting read better on dark */
+  background: #161616;
 }
 
 .controls {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 16px;
-  background: #1a1a1a;
+  gap: var(--space-2);
+  padding: var(--space-4);
   flex-wrap: wrap;
 }
 
 .controlBtn {
   padding: 7px 16px;
-  border: 1.5px solid #333;
+  border: 1px solid var(--color-line);
   background: transparent;
-  color: #ccc;
-  border-radius: 20px;
+  color: var(--color-ink-soft);
+  border-radius: var(--radius-pill);
   cursor: pointer;
-  font-family: 'Montserrat', sans-serif;
   font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   transition: all 0.2s;
   white-space: nowrap;
 }
 
 .controlBtn:hover {
-  border-color: #95ff7a;
-  color: #95ff7a;
+  border-color: var(--color-accent);
+  color: var(--color-accent-deep);
 }
 
 .controlBtn.on {
-  background: #222;
-  border-color: #95ff7a;
-  color: #95ff7a;
+  background: var(--color-accent-tint);
+  border-color: var(--color-accent);
+  color: var(--color-accent-deep);
 }
 
 .animControls {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
   margin-left: auto;
 }
 
 .animLabel {
-  color: #888;
-  font-family: 'Montserrat', sans-serif;
+  color: var(--color-ink-soft);
   font-size: 0.75rem;
   min-width: 80px;
   text-align: center;
@@ -141,8 +133,7 @@
 }
 
 .loading {
-  color: #95ff7a;
-  font-family: 'Montserrat', sans-serif;
+  color: #fbfbf8;
   font-size: 0.9rem;
   letter-spacing: 0.06em;
 }

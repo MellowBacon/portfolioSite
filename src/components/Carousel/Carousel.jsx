@@ -51,6 +51,22 @@ export default function Carousel({ images, interval = 5000 }) {
           transition={{ duration: 0.9, ease: 'easeInOut' }}
         />
       </AnimatePresence>
+
+      <button
+        className={`${styles.arrow} ${styles.arrowLeft}`}
+        onClick={() => paginate(-1)}
+        aria-label="Previous slide"
+      >
+        &larr;
+      </button>
+      <button
+        className={`${styles.arrow} ${styles.arrowRight}`}
+        onClick={() => paginate(1)}
+        aria-label="Next slide"
+      >
+        &rarr;
+      </button>
+
       <div className={styles.dots}>
         {images.map((_, i) => (
           <button
