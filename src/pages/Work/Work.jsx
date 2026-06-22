@@ -35,7 +35,7 @@ export default function Work() {
           </header>
 
           <FilterBar active={active} onChange={handleFilter} />
-          <WorkGrid projects={projects} />
+          <WorkGrid projects={projects} filterKey={active} />
         </div>
       </div>
     </PageTransition>
