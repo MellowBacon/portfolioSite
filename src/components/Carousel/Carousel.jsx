@@ -12,16 +12,22 @@ const SWIPE_THRESHOLD = 60 // px of drag needed to change slides
 const CLICK_SLOP = 6       // movement under this still counts as a click, not a drag
 
 export default function Carousel({ images, onZoom }) {
+  // Each slide may be a plain src string or a { thumb, full } pair — the thumb
+  // is shown in-page, the full-res version opens on click in the lightbox.
+  const slides = images.map((img) =>
+    typeof img === 'string' ? { thumb: img, full: img } : img,
+  )
+
   const [[index, direction], setSlide] = useState([0, 0])
   const pointerDownX = useRef(0)
   const reduce = useReducedMotion()
 
   const paginate = useCallback((newDir) => {
     setSlide(([prev]) => {
-      const next = (prev + newDir + images.length) % images.length
+      const next = (prev + newDir + slides.length) % slides.length
       return [next, newDir]
     })
-  }, [images.length])
+  }, [slides.length])
 
   const goTo = useCallback((i) => {
     setSlide(([prev]) => [i, i > prev ? 1 : -1])
@@ -41,7 +47,7 @@ export default function Carousel({ images, onZoom }) {
     ? { duration: 0 }
     : { duration: 0.45, ease: [0.22, 1, 0.36, 1] }
 
-  const multiple = images.length > 1
+  const multiple = slides.length > 1
 
   return (
     <div
@@ -56,8 +62,8 @@ export default function Carousel({ images, onZoom }) {
         <AnimatePresence mode="sync" custom={direction} initial={false}>
           <motion.img
             key={index}
-            src={images[index]}
-            alt={`Image ${index + 1} of ${images.length}`}
+            src={slides[index].thumb}
+            alt={`Image ${index + 1} of ${slides.length}`}
             className={styles.slide}
             draggable={false}
             custom={direction}
@@ -76,7 +82,7 @@ export default function Carousel({ images, onZoom }) {
             }}
             onClick={(e) => {
               if (onZoom && Math.abs(e.clientX - pointerDownX.current) < CLICK_SLOP) {
-                onZoom(images[index])
+                onZoom(slides[index].full)
               }
             }}
           />
@@ -104,11 +110,11 @@ export default function Carousel({ images, onZoom }) {
 
       <div className={styles.footer}>
         <span className={styles.counter} aria-live="polite">
-          {index + 1} / {images.length}
+          {index + 1} / {slides.length}
         </span>
         {multiple && (
           <div className={styles.dots}>
-            {images.map((_, i) => (
+            {slides.map((_, i) => (
               <button
                 key={i}
                 className={`${styles.dot} ${i === index ? styles.active : ''}`}

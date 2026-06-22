@@ -139,7 +139,7 @@ export const PROJECTS = [
     medium: '3d',
     year: '2025',
     featured: false,
-    thumbnail: '/assets/images/Texture Book/7 Noah Bello - Base Layers (excerpt 1).jpg',
+    thumbnail: '/assets/images/Texture Book/thumbnails/7 Noah Bello - Base Layers (excerpt 1).webp',
     thumbnailAlt: 'Excerpt from Base Layers — a book of 3D model textures',
     summary: 'A book of 3D model textures, unwrapped and presented as standalone images.',
     blocks: [
@@ -159,9 +159,13 @@ export const PROJECTS = [
       {
         type: 'carousel',
         label: 'Selected spreads',
-        images: [1, 2, 3].map(
-          n => `/assets/images/Texture Book/${n + 6} Noah Bello - Base Layers (excerpt ${n}).jpg`,
-        ),
+        images: [1, 2, 3].map((n) => {
+          const base = `${n + 6} Noah Bello - Base Layers (excerpt ${n})`
+          return {
+            thumb: `/assets/images/Texture Book/thumbnails/${base}.webp`,
+            full: `/assets/images/Texture Book/full/${base}.webp`,
+          }
+        }),
       },
     ],
   },
@@ -172,7 +176,7 @@ export const PROJECTS = [
     medium: '3d',
     year: '2025',
     featured: false,
-    thumbnail: '/assets/images/Fidget Series/5 ways to fidget/fidgettoonmetal.png',
+    thumbnail: '/assets/images/Fidget Series/5 ways to fidget/thumbnails/fidgettoonmetal.webp',
     thumbnailAlt: 'Stylized 3D fidget spinner render',
     summary: 'A series of 3D fidget spinners rendered across material studies and furry variations.',
     blocks: [
@@ -193,14 +197,18 @@ export const PROJECTS = [
           'fidgettoonglass',
           'fidgettoonlines',
           'fidget',
-        ].map(name => `/assets/images/Fidget Series/5 ways to fidget/${name}.png`),
+        ].map(name => ({
+          thumb: `/assets/images/Fidget Series/5 ways to fidget/thumbnails/${name}.webp`,
+          full: `/assets/images/Fidget Series/5 ways to fidget/full/${name}.webp`,
+        })),
       },
       {
         type: 'carousel',
         label: 'Furry Fidgets — animal coats',
-        images: ['Dalmation', 'giraffe', 'leopard', 'tiger', 'zebra'].map(
-          name => `/assets/images/Fidget Series/Furry Fidgets/FurryFidget${name}.png`,
-        ),
+        images: ['Dalmation', 'giraffe', 'leopard', 'tiger', 'zebra'].map(name => ({
+          thumb: `/assets/images/Fidget Series/Furry Fidgets/thumbnails/FurryFidget${name}.webp`,
+          full: `/assets/images/Fidget Series/Furry Fidgets/full/FurryFidget${name}.webp`,
+        })),
       },
     ],
   },
