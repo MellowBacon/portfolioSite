@@ -2,10 +2,13 @@ import { useState, useCallback, useRef } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import styles from './Carousel.module.css'
 
+// Full-width directional slide: the outgoing image travels all the way out
+// one side while the incoming one slides in from the other, so they never
+// overlap in place (no crossfade ghosting between mismatched aspect ratios).
 const variants = {
-  enter: (dir) => ({ x: dir > 0 ? '6%' : '-6%', opacity: 0 }),
-  center: { x: '0%', opacity: 1 },
-  exit: (dir) => ({ x: dir > 0 ? '-6%' : '6%', opacity: 0 }),
+  enter: (dir) => ({ x: dir > 0 ? '100%' : '-100%' }),
+  center: { x: '0%' },
+  exit: (dir) => ({ x: dir > 0 ? '-100%' : '100%' }),
 }
 
 const SWIPE_THRESHOLD = 60 // px of drag needed to change slides
@@ -45,7 +48,7 @@ export default function Carousel({ images, onZoom }) {
 
   const transition = reduce
     ? { duration: 0 }
-    : { duration: 0.45, ease: [0.22, 1, 0.36, 1] }
+    : { duration: 0.55, ease: [0.22, 1, 0.36, 1] }
 
   const multiple = slides.length > 1
 
@@ -74,7 +77,7 @@ export default function Carousel({ images, onZoom }) {
             transition={transition}
             drag={multiple ? 'x' : false}
             dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.18}
+            dragElastic={0.5}
             onPointerDown={(e) => { pointerDownX.current = e.clientX }}
             onDragEnd={(e, info) => {
               if (info.offset.x < -SWIPE_THRESHOLD) paginate(1)
