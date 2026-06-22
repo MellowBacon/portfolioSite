@@ -24,6 +24,9 @@ const COLLECTIONS = [
   'Texture Book',
   'Fidget Series/5 ways to fidget',
   'Fidget Series/Furry Fidgets',
+  'Feed Me Chef!/ice cave',
+  'Feed Me Chef!/kitchen',
+  'Feed Me Chef!/route 66',
 ]
 
 const THUMB = { dir: 'thumbnails', maxEdge: 1000, quality: 78 }

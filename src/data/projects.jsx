@@ -494,6 +494,76 @@ export const PROJECTS = [
       },
     ],
   },
+
+  {
+    slug: 'feed-me-chef',
+    title: 'Feed Me Chef!',
+    medium: 'environment',
+    year: '2025',
+    featured: false,
+    thumbnail: '/assets/images/Feed Me Chef!/ice cave/thumbnails/Full with octo arms.webp',
+    thumbnailAlt: 'Ice cave environment from Feed Me Chef!',
+    summary: 'Environment art for Feed Me Chef!, a cooking game that was cancelled in development.',
+    meta: [
+      { label: 'Project', value: 'Cancelled' },
+    ],
+    blocks: [
+      {
+        type: 'statement',
+        paragraphs: [
+          <>
+            <em>Feed Me Chef!</em> was a co-op cooking game, cancelled partway through
+            development. Players worked together to keep their sea monster guests fed
+            while navigating a maze of obstacles across a series of platforms. These are
+            the environments I built for it — three distinct stages the players would
+            cook their way through.
+          </>,
+          `The Ice Cave centers on a fridge guarded by an octopus; the Kitchen sets the
+           core cooking stage; and Route 66 takes the action out onto the open road.
+           Though the game never shipped, the worlds were far enough along to stand on
+           their own.`,
+        ],
+      },
+      {
+        type: 'carousel',
+        label: 'Ice Cave',
+        images: [
+          'Full with octo arms',
+          'From Inside',
+          'Fridge 2',
+          'fridge front',
+          'Screenshot 2025-05-28 114341',
+        ].map(name => ({
+          thumb: `/assets/images/Feed Me Chef!/ice cave/thumbnails/${name}.webp`,
+          full: `/assets/images/Feed Me Chef!/ice cave/full/${name}.webp`,
+        })),
+      },
+      {
+        type: 'carousel',
+        label: 'Kitchen',
+        images: [
+          'Screenshot 2025-06-23 092935',
+          'Screenshot 2025-06-23 093054',
+          'Screenshot 2025-06-23 093121',
+        ].map(name => ({
+          thumb: `/assets/images/Feed Me Chef!/kitchen/thumbnails/${name}.webp`,
+          full: `/assets/images/Feed Me Chef!/kitchen/full/${name}.webp`,
+        })),
+      },
+      {
+        type: 'carousel',
+        label: 'Route 66',
+        images: [
+          'Screenshot 2025-06-27 095127',
+          'Screenshot 2025-06-27 095217',
+          'Screenshot 2025-06-27 095338',
+        ].map(name => ({
+          thumb: `/assets/images/Feed Me Chef!/route 66/thumbnails/${name}.webp`,
+          full: `/assets/images/Feed Me Chef!/route 66/full/${name}.webp`,
+        })),
+      },
+    ],
+  },
 ]
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
