@@ -56,7 +56,7 @@ function Block({ block, onZoom }) {
         <Reveal>
           <div className={styles.carouselBlock}>
             {block.label && <p className={styles.blockLabel}>{block.label}</p>}
-            <Carousel images={block.images} />
+            <Carousel images={block.images} onZoom={(src) => onZoom(src)} />
           </div>
         </Reveal>
       )

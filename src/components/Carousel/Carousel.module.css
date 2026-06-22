@@ -1,45 +1,63 @@
 .container {
   position: relative;
   width: 100%;
-  height: min(75vh, 720px);
+  height: min(72vh, 680px);
   overflow: hidden;
-  /* Splat renders glow on dark - keep a dark vitrine inside the light page */
-  background: #0e0e0d;
+  background: var(--color-stage);
   border: 1px solid var(--color-line);
   border-radius: var(--radius-md);
+  outline: none;
+}
+
+.container:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+/* Image area sits above the footer strip */
+.stage {
+  position: absolute;
+  inset: 0;
+  bottom: 52px;
 }
 
 .slide {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: calc(100% - 64px);
-  margin-top: var(--space-3);
+  height: 100%;
+  padding: var(--space-5);
   object-fit: contain;
-  pointer-events: none;
+  cursor: zoom-in;
   user-select: none;
   -webkit-user-drag: none;
+  touch-action: pan-y; /* let the page scroll vertically; we own horizontal drag */
 }
 
 .arrow {
   position: absolute;
-  top: 50%;
+  /* vertically center within the stage (container minus footer) */
+  top: calc((100% - 52px) / 2);
   transform: translateY(-50%);
   z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 44px;
   height: 44px;
-  border: none;
+  border: 1px solid var(--color-line);
   border-radius: var(--radius-pill);
-  background: var(--color-bg);
+  background: var(--color-surface);
   color: var(--color-ink);
+  box-shadow: var(--shadow-card);
   font-size: 18px;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .arrow:hover {
   background: var(--color-accent);
   color: #fff;
+  border-color: var(--color-accent);
 }
 
 .arrowLeft {
@@ -50,21 +68,36 @@
   right: var(--space-4);
 }
 
-.dots {
+.footer {
   position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: 0 var(--space-4);
+}
+
+.counter {
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.03em;
+}
+
+.dots {
   display: flex;
   gap: 8px;
-  z-index: 10;
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: var(--radius-pill);
-  background: rgba(251, 251, 248, 0.4);
+  background: var(--color-line);
   border: none;
   cursor: pointer;
   padding: 0;
@@ -73,17 +106,21 @@
 
 .dot.active {
   background: var(--color-accent);
-  width: 26px;
+  width: 22px;
 }
 
 @media (max-width: 768px) {
   .container {
-    height: 60vh;
+    height: 56vh;
   }
 
   .arrow {
     width: 36px;
     height: 36px;
     font-size: 15px;
+  }
+
+  .slide {
+    padding: var(--space-4);
   }
 }
