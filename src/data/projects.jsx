@@ -134,6 +134,78 @@ export const PROJECTS = [
   },
 
   {
+    slug: 'base-layers',
+    title: 'Base Layers',
+    medium: '3d',
+    year: '2025',
+    featured: false,
+    thumbnail: '/assets/images/Texture Book/7 Noah Bello - Base Layers (excerpt 1).jpg',
+    thumbnailAlt: 'Excerpt from Base Layers — a book of 3D model textures',
+    summary: 'A book of 3D model textures, unwrapped and presented as standalone images.',
+    blocks: [
+      {
+        type: 'statement',
+        paragraphs: [
+          <>
+            <em>Base Layers</em> is a book that strips 3D models down to their textures —
+            the flat, unwrapped maps that normally stay hidden, wrapped around geometry in
+            an engine. Pulled off the mesh and laid flat on the page, they become images in
+            their own right.
+          </>,
+          `Each spread isolates a texture as a standalone composition, treating the working
+           material of 3D art as something worth looking at directly.`,
+        ],
+      },
+      {
+        type: 'carousel',
+        label: 'Selected spreads',
+        images: [1, 2, 3].map(
+          n => `/assets/images/Texture Book/${n + 6} Noah Bello - Base Layers (excerpt ${n}).jpg`,
+        ),
+      },
+    ],
+  },
+
+  {
+    slug: 'fidget-series',
+    title: 'Fidget Series',
+    medium: '3d',
+    year: '2025',
+    featured: false,
+    thumbnail: '/assets/images/Fidget Series/5 ways to fidget/fidgettoonmetal.png',
+    thumbnailAlt: 'Stylized 3D fidget spinner render',
+    summary: 'A series of 3D fidget spinners rendered across material studies and furry variations.',
+    blocks: [
+      {
+        type: 'statement',
+        paragraphs: [
+          `The Fidget Series takes a single restless object — the fidget spinner — and
+           reworks it as a subject for 3D rendering. Each set runs the same form through
+           a different lens, turning a throwaway toy into a study of material and surface.`,
+        ],
+      },
+      {
+        type: 'carousel',
+        label: '5 Ways to Fidget — material studies',
+        images: [
+          'fidgettoonpng',
+          'fidgettoonmetal',
+          'fidgettoonglass',
+          'fidgettoonlines',
+          'fidget',
+        ].map(name => `/assets/images/Fidget Series/5 ways to fidget/${name}.png`),
+      },
+      {
+        type: 'carousel',
+        label: 'Furry Fidgets — animal coats',
+        images: ['Dalmation', 'giraffe', 'leopard', 'tiger', 'zebra'].map(
+          name => `/assets/images/Fidget Series/Furry Fidgets/FurryFidget${name}.png`,
+        ),
+      },
+    ],
+  },
+
+  {
     slug: 'ebb-and-flow',
     title: 'Ebb and Flow',
     medium: 'video',
