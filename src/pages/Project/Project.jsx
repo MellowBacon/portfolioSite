@@ -5,7 +5,7 @@ import StaggerText from '../../components/motion/StaggerText'
 import Reveal from '../../components/motion/Reveal'
 import Magnetic from '../../components/motion/Magnetic'
 import Lightbox from '../../components/Lightbox/Lightbox'
-import Carousel from '../../components/Carousel/Carousel'
+import ImageStack from '../../components/ImageStack/ImageStack'
 import ProjectNav from '../../components/ProjectNav/ProjectNav'
 import VideoBlock from './blocks/VideoBlock'
 import { getProject, MEDIUM_LABELS } from '../../data/projects'
@@ -56,7 +56,7 @@ function Block({ block, onZoom }) {
         <Reveal>
           <div className={styles.carouselBlock}>
             {block.label && <p className={styles.blockLabel}>{block.label}</p>}
-            <Carousel images={block.images} onZoom={(src) => onZoom(src)} />
+            <ImageStack images={block.images} onZoom={(src) => onZoom(src)} />
           </div>
         </Reveal>
       )

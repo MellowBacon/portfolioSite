@@ -97,7 +97,7 @@
   box-shadow: var(--shadow-lift);
 }
 
-/* Carousel block */
+/* Image stack block */
 .blockLabel {
   font-size: var(--text-tiny);
   font-weight: 600;

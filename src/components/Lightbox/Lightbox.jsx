@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import styles from './Lightbox.module.css'
 
@@ -11,7 +12,10 @@ export default function Lightbox({ src, caption, onClose }) {
     return () => window.removeEventListener('keydown', handleKey)
   }, [onClose])
 
-  return (
+  // Portal to <body> so the fixed overlay is positioned against the viewport.
+  // Rendered inline it would be contained by the page's transformed/blur-filtered
+  // PageTransition wrapper, anchoring the lightbox to that box instead of the screen.
+  return createPortal(
     <AnimatePresence>
       {src && (
         <motion.div
@@ -38,6 +42,7 @@ export default function Lightbox({ src, caption, onClose }) {
           </motion.figure>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   )
 }

@@ -1,0 +1,32 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.item {
+  margin: 0;
+}
+
+.item img {
+  display: block;
+  /* Size to the image and cap by viewport height so tall/square images stay
+     within a 16:9 window; landscapes still run out to the container width. */
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 80vh;
+  margin-inline: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-card);
+}
+
+.clickable {
+  cursor: zoom-in;
+  transition: box-shadow var(--transition-fast);
+}
+
+.clickable:hover {
+  box-shadow: var(--shadow-lift);
+}
