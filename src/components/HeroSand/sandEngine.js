@@ -45,9 +45,29 @@ export const MATERIALS = {
 }
 
 const isLiquid = (m) => m === MAT.WATER || m === MAT.OIL || m === MAT.ACID
-const isGas = (m) => m === MAT.FIRE || m === MAT.SMOKE
 const flammable = (m) => m === MAT.WOOD || m === MAT.PLANT || m === MAT.OIL
-const acidEats = (m) => m === MAT.SAND || m === MAT.STONE || m === MAT.WOOD || m === MAT.SALT || m === MAT.PLANT
+// Stone is acid-proof so it can serve as permanent walls/containers.
+const acidEats = (m) => m === MAT.SAND || m === MAT.WOOD || m === MAT.SALT || m === MAT.PLANT
+
+// Relative density for liquid layering: heavier liquids sink through lighter
+// ones, so oil ends up floating on top of water.
+const LIQUID_DENSITY = {
+  [MAT.OIL]: 2,
+  [MAT.WATER]: 3,
+  [MAT.ACID]: 3,
+}
+
+// Neighbor scan order biased upward, so growing plant creeps up like vines.
+const GROW_ORDER = [
+  [0, -1],
+  [-1, -1],
+  [1, -1],
+  [-1, 0],
+  [1, 0],
+  [0, 1],
+  [-1, 1],
+  [1, 1],
+]
 
 export class SandWorld {
   constructor(w, h) {
@@ -133,7 +153,8 @@ export class SandWorld {
         if (type === POWDER) this.stepPowder(x, y, i, mat)
         else if (type === LIQUID) this.stepLiquid(x, y, i, mat)
         else if (type === GAS) this.stepGas(x, y, i, mat)
-        // SOLID stays put, but wood/plant can still catch fire from a neighbor;
+        else if (mat === MAT.PLANT) this.stepPlant(x, y, i)
+        // Other SOLIDs stay put, but wood can still catch fire from a neighbor;
         // that conversion happens from the fire cell's side in stepGas.
       }
     }
@@ -144,6 +165,14 @@ export class SandWorld {
   canSink(targetMat, fallingMat) {
     if (targetMat === EMPTY) return true
     if (MATERIALS[fallingMat].type === POWDER && isLiquid(targetMat)) return true
+    return false
+  }
+
+  // True if a liquid can flow downward into the target — empty, or a lighter
+  // liquid it can sink past (heavier liquids displace lighter ones, so oil floats).
+  canFlowInto(targetMat, mat) {
+    if (targetMat === EMPTY) return true
+    if (isLiquid(targetMat)) return LIQUID_DENSITY[mat] > LIQUID_DENSITY[targetMat]
     return false
   }
 
@@ -187,7 +216,7 @@ export class SandWorld {
       if (this.corrode(x, y, i)) return
     }
     const below = this.idx(x, y + 1)
-    if (y + 1 < this.h && this.grid[below] === EMPTY && !this.moved[below]) {
+    if (y + 1 < this.h && this.canFlowInto(this.grid[below], mat) && !this.moved[below]) {
       this.swap(i, below)
       this.moved[below] = 1
       return
@@ -198,7 +227,7 @@ export class SandWorld {
       const nx = x + dx
       if (nx < 0 || nx >= this.w || y + 1 >= this.h) continue
       const d = this.idx(nx, y + 1)
-      if (this.grid[d] === EMPTY && !this.moved[d]) {
+      if (this.canFlowInto(this.grid[d], mat) && !this.moved[d]) {
         this.swap(i, d)
         this.moved[d] = 1
         return
@@ -237,6 +266,25 @@ export class SandWorld {
     return false
   }
 
+  // Living plant: creeps into adjacent water cells, consuming them. Because each
+  // new sprout eats a water cell, growth is bounded by available water — vines
+  // spread along a waterline and stop, rather than overrunning the canvas.
+  stepPlant(x, y, i) {
+    if (Math.random() > 0.12) return
+    for (const [dx, dy] of GROW_ORDER) {
+      const nx = x + dx
+      const ny = y + dy
+      if (!this.inBounds(nx, ny)) continue
+      const n = this.idx(nx, ny)
+      if (this.grid[n] === MAT.WATER) {
+        this.grid[n] = MAT.PLANT
+        this.data[n] = (Math.random() * 255) | 0
+        this.moved[n] = 1 // don't let the fresh sprout grow again this tick
+        return
+      }
+    }
+  }
+
   stepGas(x, y, i, mat) {
     // Lifetime: fire burns down into smoke; smoke fades to nothing.
     this.data[i] = this.data[i] > 0 ? this.data[i] - 1 : 0
@@ -260,8 +308,11 @@ export class SandWorld {
         const n = this.idx(nx, ny)
         const nm = this.grid[n]
         if (nm === MAT.WATER) {
-          this.grid[i] = MAT.SMOKE
-          this.data[i] = 50
+          // Water boils off into rising steam; the flame is consumed.
+          this.grid[n] = MAT.SMOKE
+          this.data[n] = 60 + ((Math.random() * 30) | 0)
+          this.grid[i] = EMPTY
+          this.data[i] = 0
           return
         }
         if (flammable(nm) && Math.random() < 0.18) {
