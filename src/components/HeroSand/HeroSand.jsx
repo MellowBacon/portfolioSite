@@ -10,14 +10,18 @@ const MAX_GRID_W = 360 // cap so ultrawide monitors don't balloon the cell count
 const BRUSH_RADIUS = 3
 // Vacuum particle effect — the erased sand lifts off the grid and swirls as free
 // particles (continuous position + velocity), which the grid can't do.
-const VAC_RADIUS = 11 // intake reach, in cells
+const VAC_RADIUS = 22 // intake reach, in cells
 const VAC_INTAKE_P = 0.06 // chance a sand cell in reach lifts off per frame (gradual, windy)
-const VAC_SPIN = 0.07 // tangential force — the windy swirl
-const VAC_PULL = 0.022 // inward force — gentle drift toward the eye
-const VAC_DAMP = 0.94 // velocity damping (lower = draggier, more flowing)
-const VAC_FADE = 0.012 // life lost per frame (~80 frames)
-const VAC_CORE = 1.6 // particles within this of the eye finish fading fast
-const MAX_PARTICLES = 2400
+// Each particle follows a parametric spiral around the vacuum point: its angle
+// advances each frame while its radius shrinks at a rate that ramps with age — so
+// it circles a couple revolutions, then is drawn into the center ever faster.
+const VAC_OMEGA = 0.13 // base angular speed (rad/frame) — ~48 frames per revolution
+const VAC_RAD_MIN = 0.0 // baseline inward creep at age 0 (≈ pure orbit early on)
+const VAC_RAD_RAMP = 0.0009 // inward speed gained per frame — the longer it swirls, the harder the pull
+const VAC_FADE = 0.006 // ambient dim per frame
+const VAC_CORE = 1.4 // reaching the eye fades the particle out fast
+const VAC_MAX_AGE = 600 // safety: retire stragglers
+const MAX_PARTICLES = 4500
 
 export default function HeroSand() {
   const canvasRef = useRef(null)
@@ -131,18 +135,17 @@ export default function HeroSand() {
           if (particles.length >= MAX_PARTICLES) return
           const id = world.takeSand(x, y)
           if (!id) continue
-          // Kick it tangentially so the swirl forms immediately.
-          const ddx = fx - x
-          const ddy = fy - y
-          const dist = Math.hypot(ddx, ddy) || 1
-          const tx = -ddy / dist
-          const ty = ddx / dist
+          // Record its starting polar position around the vacuum point.
+          const rad = Math.hypot(x - fx, y - fy) || 1
           particles.push({
             x,
             y,
-            vx: tx * 0.5 + (Math.random() - 0.5) * 0.3,
-            vy: ty * 0.5 + (Math.random() - 0.5) * 0.3,
+            rad,
+            rad0: rad,
+            theta: Math.atan2(y - fy, x - fx),
+            wob: 0.85 + Math.random() * 0.3, // per-particle spin variation
             life: 1,
+            age: 0,
             css: `rgb(${base[id * 3]},${base[id * 3 + 1]},${base[id * 3 + 2]})`,
           })
         }
@@ -154,21 +157,18 @@ export default function HeroSand() {
     function updateParticles(fx, fy) {
       for (let p = particles.length - 1; p >= 0; p--) {
         const pt = particles[p]
-        const ddx = fx - pt.x
-        const ddy = fy - pt.y
-        const dist = Math.hypot(ddx, ddy) || 1
-        const rx = ddx / dist
-        const ry = ddy / dist
-        const tx = -ry // tangential → swirl
-        const ty = rx
-        pt.vx += rx * VAC_PULL + tx * VAC_SPIN
-        pt.vy += ry * VAC_PULL + ty * VAC_SPIN
-        pt.vx *= VAC_DAMP
-        pt.vy *= VAC_DAMP
-        pt.x += pt.vx
-        pt.y += pt.vy
-        pt.life -= VAC_FADE + (dist < VAC_CORE ? 0.25 : 0)
-        if (pt.life <= 0) {
+        pt.age++
+        // Spin faster as the radius tightens (like a skater pulling their arms in).
+        const omega = VAC_OMEGA * Math.sqrt(pt.rad0 / Math.max(pt.rad, 1.5)) * pt.wob
+        pt.theta += omega
+        // Inward speed ramps with age: orbit first, then drawn in ever harder.
+        pt.rad -= VAC_RAD_MIN + pt.age * VAC_RAD_RAMP
+        if (pt.rad < 0) pt.rad = 0
+        // Position is polar around the (possibly moving) vacuum point.
+        pt.x = fx + Math.cos(pt.theta) * pt.rad
+        pt.y = fy + Math.sin(pt.theta) * pt.rad
+        pt.life -= VAC_FADE + (pt.rad < VAC_CORE ? 0.25 : 0)
+        if (pt.life <= 0 || pt.rad <= 0 || pt.age > VAC_MAX_AGE) {
           particles[p] = particles[particles.length - 1]
           particles.pop()
         }
