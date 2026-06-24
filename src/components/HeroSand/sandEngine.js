@@ -1,79 +1,60 @@
-// A compact falling-sand cellular automaton.
+// A sand-art stencil engine.
 //
-// The world is a coarse grid stored in flat typed arrays — one cell per several
-// screen pixels — which is what makes this cheap enough to run full-bleed behind
-// the hero on phones. `grid` holds a material id per cell; `data` holds a small
-// per-cell byte we reuse for two things depending on the material: a shade seed
-// for static stuff (so sand/water look textured, not flat) and a remaining
-// lifetime for ephemeral stuff (fire/smoke/acid).
+// This is a coarse cellular grid (one cell per several screen pixels) repurposed
+// as a screen-print toy rather than a physics sandbox. The only moving material
+// is colored sand. Two flag layers sit on a passable "glue board" behind the
+// sand: `sticky` (glue you draw) and `mask` (a coating over the glue). Sand
+// falls through empty cells and adheres only where glue is exposed
+// (sticky && !mask), or accretes onto already-stuck sand. Excess sand pours off
+// the bottom, so the canvas keeps only the design.
 
 export const EMPTY = 0
 
-// Material ids. Order here is the order they appear in the selector.
-export const MAT = {
-  SAND: 1,
-  WATER: 2,
-  STONE: 3,
-  WOOD: 4,
-  PLANT: 5,
-  FIRE: 6,
-  SMOKE: 7,
-  OIL: 8,
-  SALT: 9,
-  ACID: 10,
-  // Produced when salt dissolves in water — not a paintable material (kept out of
-  // the selector), only created by the salt + water reaction.
-  SALTWATER: 11,
-}
-
-// Behavioral category for each material.
-const POWDER = 'powder' // falls, slides off piles (sand, salt)
-const LIQUID = 'liquid' // falls and spreads flat (water, oil, acid)
-const GAS = 'gas' // rises and fades (fire, smoke)
-const SOLID = 'solid' // immovable (stone, wood, plant)
-
-// [r,g,b] base colors keyed to the site palette. Shade variation is applied at
-// render time from the per-cell `data` byte.
-export const MATERIALS = {
-  [MAT.SAND]: { name: 'Sand', type: POWDER, color: [91, 46, 255], vary: 26 }, // violet --color-accent
-  [MAT.WATER]: { name: 'Water', type: LIQUID, color: [150, 197, 230], vary: 18 }, // pale blue
-  [MAT.STONE]: { name: 'Stone', type: SOLID, color: [17, 17, 16], vary: 14 }, // ink --color-ink
-  [MAT.WOOD]: { name: 'Wood', type: SOLID, color: [150, 111, 71], vary: 16 }, // warm tan
-  [MAT.PLANT]: { name: 'Plant', type: SOLID, color: [39, 179, 107], vary: 22 }, // green
-  [MAT.FIRE]: { name: 'Fire', type: GAS, color: [240, 150, 40], vary: 40 }, // amber
-  [MAT.SMOKE]: { name: 'Smoke', type: GAS, color: [120, 120, 118], vary: 24 }, // grey
-  [MAT.OIL]: { name: 'Oil', type: LIQUID, color: [44, 40, 54], vary: 14 }, // dark
-  [MAT.SALT]: { name: 'Salt', type: POWDER, color: [244, 244, 240], vary: 12 }, // near-white
-  [MAT.ACID]: { name: 'Acid', type: LIQUID, color: [176, 224, 40], vary: 30 }, // lime
-  [MAT.SALTWATER]: { name: 'Salt water', type: LIQUID, color: [150, 200, 196], vary: 16 }, // pale teal
-}
-
-const isLiquid = (m) =>
-  m === MAT.WATER || m === MAT.OIL || m === MAT.ACID || m === MAT.SALTWATER
-const flammable = (m) => m === MAT.WOOD || m === MAT.PLANT || m === MAT.OIL
-// Stone is acid-proof so it can serve as permanent walls/containers.
-const acidEats = (m) => m === MAT.SAND || m === MAT.WOOD || m === MAT.SALT || m === MAT.PLANT
-
-// Relative density for liquid layering: heavier liquids sink through lighter
-// ones, so oil ends up floating on top of water.
-const LIQUID_DENSITY = {
-  [MAT.OIL]: 2,
-  [MAT.WATER]: 3,
-  [MAT.ACID]: 3,
-  [MAT.SALTWATER]: 4, // brine is denser than fresh water, so it settles below it
-}
-
-// Neighbor scan order biased upward, so growing plant creeps up like vines.
-const GROW_ORDER = [
-  [0, -1],
-  [-1, -1],
-  [1, -1],
-  [-1, 0],
-  [1, 0],
-  [0, 1],
-  [-1, 1],
-  [1, 1],
+// Five cohesive 9-color sand palettes. A placed grain stores an id that encodes
+// (palette, slot), so its color is frozen forever — swapping palettes only
+// changes what new pours look like, never what's already down.
+export const SAND_PALETTES = [
+  // Brand violet
+  ['#5b2eff', '#7048ff', '#8a68ff', '#a385ff', '#4318e0', '#3410b0', '#b9a3ff', '#2a0d8c', '#d4c7ff'],
+  // Desert / earth
+  ['#e8c89a', '#d9a85f', '#c4863c', '#a9692a', '#8a4f22', '#f0dcc0', '#b9763a', '#6e3d1c', '#caa06a'],
+  // Ocean
+  ['#bfe6e3', '#8fd0cf', '#5ab3b8', '#2f8f9c', '#1f6f86', '#16526e', '#7fc6c2', '#0e3b54', '#a6dad4'],
+  // Sunset
+  ['#ffd6a5', '#ffb37a', '#ff8f6b', '#f56a6a', '#d94f7a', '#b23a86', '#ff9e9e', '#7d2a78', '#ffc2b0'],
+  // Forest
+  ['#cfe3a8', '#a7cf72', '#7fb04a', '#5a9136', '#3d7029', '#2a541f', '#bcd98c', '#1c3c16', '#e0ead0'],
+  // Mono ink
+  ['#e6e6e2', '#cfcfc9', '#b3b3ac', '#969690', '#7a7a73', '#5d5d57', '#42423d', '#2a2a26', '#141412'],
+  // Rose
+  ['#ffe0e6', '#ffc1cd', '#ff9bb0', '#f5738f', '#e24e79', '#c2356a', '#9e2558', '#771a45', '#511132'],
+  // Amber gold
+  ['#fff1c2', '#ffe08a', '#ffc94d', '#f5ad2b', '#e08e1f', '#c0701a', '#9c5616', '#763f12', '#52290c'],
+  // Mint
+  ['#d8f5e6', '#aee9cd', '#7fd9b0', '#52c193', '#33a378', '#1f8460', '#15664a', '#0e4836', '#082c20'],
+  // Plum berry
+  ['#f3d6f0', '#e6abe0', '#d57fcf', '#bd54b8', '#a0379c', '#82287f', '#641d62', '#471447', '#2c0c2c'],
 ]
+
+const SAND_BASE = 1 // first sand id
+const PALETTE_COUNT = SAND_PALETTES.length
+const SLOTS = 9
+export const SAND_MAX = SAND_BASE + PALETTE_COUNT * SLOTS - 1 // 45
+
+export const isSand = (id) => id >= SAND_BASE && id <= SAND_MAX
+export const sandId = (paletteIndex, slot) => SAND_BASE + paletteIndex * SLOTS + slot
+
+// Subtle texture for sand grains.
+const SAND_VARY = 12
+
+function hexToRgb(hex) {
+  const n = parseInt(hex.slice(1), 16)
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255]
+}
+
+// Board overlay colors (drawn only on empty cells; sand covers them).
+export const STICKY_RGB = [222, 214, 200] // faint warm sheen
+export const MASK_RGB = [120, 108, 150] // soft violet-grey tint
 
 export class SandWorld {
   constructor(w, h) {
@@ -83,10 +64,12 @@ export class SandWorld {
   resize(w, h) {
     this.w = w
     this.h = h
-    this.grid = new Uint8Array(w * h)
-    this.data = new Uint8Array(w * h)
-    // Tracks the cell a unit moved into this tick so we don't process it twice.
-    this.moved = new Uint8Array(w * h)
+    this.grid = new Uint8Array(w * h) // sand color id or EMPTY
+    this.data = new Uint8Array(w * h) // per-cell shade seed
+    this.frozen = new Uint8Array(w * h) // 1 = stuck in place
+    this.sticky = new Uint8Array(w * h) // glue flag
+    this.mask = new Uint8Array(w * h) // coating flag
+    this.moved = new Uint8Array(w * h) // per-tick move guard
   }
 
   idx(x, y) {
@@ -100,10 +83,30 @@ export class SandWorld {
   clear() {
     this.grid.fill(EMPTY)
     this.data.fill(0)
+    this.frozen.fill(0)
+    this.sticky.fill(0)
+    this.mask.fill(0)
   }
 
-  // Paint a filled circle of `mat` (or EMPTY) at grid cell (cx,cy).
-  paint(cx, cy, radius, mat) {
+  // Pour sand of color `id` in a filled circle. Never overwrites an occupied cell,
+  // so stuck sand (and any sand) is preserved — new sand falls around it.
+  paintSand(cx, cy, radius, id) {
+    this.forEachInBrush(cx, cy, radius, (i) => {
+      if (this.grid[i] !== EMPTY) return
+      this.grid[i] = id
+      this.data[i] = (Math.random() * 255) | 0
+    })
+  }
+
+  // Set/clear a flag layer (sticky or mask) across the brush.
+  paintFlag(layer, cx, cy, radius, value) {
+    const arr = layer === 'sticky' ? this.sticky : this.mask
+    this.forEachInBrush(cx, cy, radius, (i) => {
+      arr[i] = value
+    })
+  }
+
+  forEachInBrush(cx, cy, radius, fn) {
     const r2 = radius * radius
     for (let dy = -radius; dy <= radius; dy++) {
       for (let dx = -radius; dx <= radius; dx++) {
@@ -111,26 +114,9 @@ export class SandWorld {
         const x = cx + dx
         const y = cy + dy
         if (!this.inBounds(x, y)) continue
-        const i = this.idx(x, y)
-        if (mat === EMPTY) {
-          this.grid[i] = EMPTY
-          this.data[i] = 0
-          continue
-        }
-        // Don't overwrite existing material when painting a movable type — lets
-        // you pile sand on top of structures rather than punching holes.
-        if (this.grid[i] !== EMPTY && mat !== MAT.STONE && mat !== MAT.WOOD) continue
-        this.spawn(i, mat)
+        fn(this.idx(x, y))
       }
     }
-  }
-
-  spawn(i, mat) {
-    this.grid[i] = mat
-    if (mat === MAT.FIRE) this.data[i] = 60 + ((Math.random() * 40) | 0) // lifetime
-    else if (mat === MAT.SMOKE) this.data[i] = 90 + ((Math.random() * 60) | 0)
-    else if (mat === MAT.ACID) this.data[i] = 200
-    else this.data[i] = (Math.random() * 255) | 0 // shade seed
   }
 
   swap(a, b) {
@@ -142,9 +128,15 @@ export class SandWorld {
     this.data[b] = dm
   }
 
-  // Advance the simulation one tick. Process bottom-to-top so falling material
-  // settles in a single pass; randomize the horizontal scan direction each row
-  // to avoid a left/right drift bias.
+  freeze(i) {
+    this.frozen[i] = 1
+  }
+
+  exposedGlue(i) {
+    return this.sticky[i] === 1 && this.mask[i] === 0
+  }
+
+  // Advance one tick: bottom-to-top, randomized row direction to avoid drift bias.
   step() {
     this.moved.fill(0)
     const { w, h } = this
@@ -154,231 +146,74 @@ export class SandWorld {
         const x = leftToRight ? k : w - 1 - k
         const i = this.idx(x, y)
         const mat = this.grid[i]
-        if (mat === EMPTY || this.moved[i]) continue
-        const type = MATERIALS[mat].type
-        if (type === POWDER) this.stepPowder(x, y, i, mat)
-        else if (type === LIQUID) this.stepLiquid(x, y, i, mat)
-        else if (type === GAS) this.stepGas(x, y, i, mat)
-        else if (mat === MAT.PLANT) this.stepPlant(x, y, i)
-        // Other SOLIDs stay put, but wood can still catch fire from a neighbor;
-        // that conversion happens from the fire cell's side in stepGas.
+        if (mat === EMPTY || this.frozen[i] || this.moved[i]) continue
+        this.stepSand(x, y, i)
       }
     }
   }
 
-  // True if a falling unit can occupy the target cell — empty, or (for powder)
-  // sinking through a liquid.
-  canSink(targetMat, fallingMat) {
-    if (targetMat === EMPTY) return true
-    if (MATERIALS[fallingMat].type === POWDER && isLiquid(targetMat)) return true
-    return false
-  }
-
-  // True if a liquid can flow downward into the target — empty, or a lighter
-  // liquid it can sink past (heavier liquids displace lighter ones, so oil floats).
-  canFlowInto(targetMat, mat) {
-    if (targetMat === EMPTY) return true
-    if (isLiquid(targetMat)) return LIQUID_DENSITY[mat] > LIQUID_DENSITY[targetMat]
-    return false
-  }
-
-  stepPowder(x, y, i, mat) {
-    // Salt dissolves into water it touches: the salt grain disappears and the
-    // fresh water it met turns to brine (salt water). Once the surrounding water
-    // is all brine, leftover salt just piles up — like a saturated solution.
-    if (mat === MAT.SALT) {
-      for (const [dx, dy] of NEIGHBORS) {
+  stepSand(x, y, i) {
+    // Fall straight down into empty space; adhere the instant we land on exposed
+    // glue so floating stencils catch the sand.
+    if (y + 1 < this.h) {
+      const below = this.idx(x, y + 1)
+      if (this.grid[below] === EMPTY && !this.moved[below]) {
+        this.swap(i, below)
+        this.moved[below] = 1
+        if (this.exposedGlue(below)) this.freeze(below)
+        return
+      }
+      // Slide diagonally down off a slope (spreads sand across an exposed region).
+      const dir = Math.random() < 0.5 ? 1 : -1
+      for (const dx of [dir, -dir]) {
         const nx = x + dx
-        const ny = y + dy
-        if (!this.inBounds(nx, ny)) continue
-        const n = this.idx(nx, ny)
-        if (this.grid[n] === MAT.WATER && Math.random() < 0.04) {
-          this.grid[n] = MAT.SALTWATER
-          this.data[n] = (Math.random() * 255) | 0
-          this.grid[i] = EMPTY
-          this.data[i] = 0
+        if (nx < 0 || nx >= this.w) continue
+        const d = this.idx(nx, y + 1)
+        if (this.grid[d] === EMPTY && !this.moved[d]) {
+          this.swap(i, d)
+          this.moved[d] = 1
+          if (this.exposedGlue(d)) this.freeze(d)
           return
         }
       }
     }
-    const below = this.idx(x, y + 1)
-    if (y + 1 < this.h && this.canSink(this.grid[below], mat) && !this.moved[below]) {
-      this.swap(i, below)
-      this.moved[below] = 1
-      return
-    }
-    // Slide diagonally down off a pile.
-    const dir = Math.random() < 0.5 ? 1 : -1
-    for (const dx of [dir, -dir]) {
-      const nx = x + dx
-      if (nx < 0 || nx >= this.w || y + 1 >= this.h) continue
-      const d = this.idx(nx, y + 1)
-      if (this.canSink(this.grid[d], mat) && !this.moved[d]) {
-        this.swap(i, d)
-        this.moved[d] = 1
-        return
-      }
-    }
+
+    // Can't fall any further. If we're sitting on exposed glue, stick — that's the
+    // design. Otherwise stay put as loose sand: the stream that isn't caught by glue
+    // (or that overflows a now-filled glue cell) piles up at the bottom like a real
+    // sand stream, rather than being absorbed.
+    if (this.exposedGlue(i)) this.freeze(i)
   }
 
-  stepLiquid(x, y, i, mat) {
-    // Acid corrodes whatever it touches, then weakens and dies.
-    if (mat === MAT.ACID) {
-      if (this.corrode(x, y, i)) return
-    }
-    const below = this.idx(x, y + 1)
-    if (y + 1 < this.h && this.canFlowInto(this.grid[below], mat) && !this.moved[below]) {
-      this.swap(i, below)
-      this.moved[below] = 1
-      return
-    }
-    // Diagonal down.
-    const dir = Math.random() < 0.5 ? 1 : -1
-    for (const dx of [dir, -dir]) {
-      const nx = x + dx
-      if (nx < 0 || nx >= this.w || y + 1 >= this.h) continue
-      const d = this.idx(nx, y + 1)
-      if (this.canFlowInto(this.grid[d], mat) && !this.moved[d]) {
-        this.swap(i, d)
-        this.moved[d] = 1
-        return
-      }
-    }
-    // Spread sideways so liquids find their level.
-    for (const dx of [dir, -dir]) {
-      const nx = x + dx
-      if (nx < 0 || nx >= this.w) continue
-      const s = this.idx(nx, y)
-      if (this.grid[s] === EMPTY && !this.moved[s]) {
-        this.swap(i, s)
-        this.moved[s] = 1
-        return
-      }
-    }
+  // Convert the sand cell at (x,y) to empty and return its color id (0 if it was
+  // empty). The vacuum tool uses this to lift sand off the grid into the particle
+  // swirl — free particles, not grid cells, are what actually animate the effect.
+  takeSand(x, y) {
+    const i = this.idx(x, y)
+    const id = this.grid[i]
+    if (id === EMPTY) return 0
+    this.grid[i] = EMPTY
+    this.data[i] = 0
+    this.frozen[i] = 0
+    return id
   }
-
-  corrode(x, y, i) {
-    for (const [dx, dy] of NEIGHBORS) {
-      const nx = x + dx
-      const ny = y + dy
-      if (!this.inBounds(nx, ny)) continue
-      const n = this.idx(nx, ny)
-      if (acidEats(this.grid[n])) {
-        this.grid[n] = EMPTY
-        this.data[n] = 0
-        this.data[i] -= 60 // each bite spends the acid
-        if (this.data[i] <= 0) {
-          this.grid[i] = EMPTY
-          this.data[i] = 0
-          return true
-        }
-      }
-    }
-    return false
-  }
-
-  // Living plant: creeps into adjacent water cells, consuming them. Because each
-  // new sprout eats a water cell, growth is bounded by available water — vines
-  // spread along a waterline and stop, rather than overrunning the canvas.
-  stepPlant(x, y, i) {
-    if (Math.random() > 0.12) return
-    for (const [dx, dy] of GROW_ORDER) {
-      const nx = x + dx
-      const ny = y + dy
-      if (!this.inBounds(nx, ny)) continue
-      const n = this.idx(nx, ny)
-      if (this.grid[n] === MAT.WATER) {
-        this.grid[n] = MAT.PLANT
-        this.data[n] = (Math.random() * 255) | 0
-        this.moved[n] = 1 // don't let the fresh sprout grow again this tick
-        return
-      }
-    }
-  }
-
-  stepGas(x, y, i, mat) {
-    // Lifetime: fire burns down into smoke; smoke fades to nothing.
-    this.data[i] = this.data[i] > 0 ? this.data[i] - 1 : 0
-    if (this.data[i] === 0) {
-      if (mat === MAT.FIRE) {
-        this.grid[i] = MAT.SMOKE
-        this.data[i] = 70 + ((Math.random() * 40) | 0)
-      } else {
-        this.grid[i] = EMPTY
-        this.data[i] = 0
-      }
-      return
-    }
-
-    if (mat === MAT.FIRE) {
-      // Ignite flammable neighbors; get doused by adjacent water.
-      for (const [dx, dy] of NEIGHBORS) {
-        const nx = x + dx
-        const ny = y + dy
-        if (!this.inBounds(nx, ny)) continue
-        const n = this.idx(nx, ny)
-        const nm = this.grid[n]
-        if (nm === MAT.WATER || nm === MAT.SALTWATER) {
-          // Water boils off into rising steam; the flame is consumed.
-          this.grid[n] = MAT.SMOKE
-          this.data[n] = 60 + ((Math.random() * 30) | 0)
-          this.grid[i] = EMPTY
-          this.data[i] = 0
-          return
-        }
-        if (flammable(nm) && Math.random() < 0.18) {
-          this.grid[n] = MAT.FIRE
-          this.data[n] = 40 + ((Math.random() * 30) | 0)
-        }
-      }
-    }
-
-    // Rise; drift up-diagonally or sideways if blocked.
-    const up = this.idx(x, y - 1)
-    if (y - 1 >= 0 && this.grid[up] === EMPTY && !this.moved[up]) {
-      this.swap(i, up)
-      this.moved[up] = 1
-      return
-    }
-    const dir = Math.random() < 0.5 ? 1 : -1
-    for (const dx of [dir, -dir]) {
-      const nx = x + dx
-      if (nx < 0 || nx >= this.w || y - 1 < 0) continue
-      const u = this.idx(nx, y - 1)
-      if (this.grid[u] === EMPTY && !this.moved[u]) {
-        this.swap(i, u)
-        this.moved[u] = 1
-        return
-      }
-    }
-  }
-
 }
 
-const NEIGHBORS = [
-  [-1, 0],
-  [1, 0],
-  [0, -1],
-  [0, 1],
-  [-1, -1],
-  [1, -1],
-  [-1, 1],
-  [1, 1],
-]
-
-// Build a flat RGBA color lookup so render can index by material id without a
-// property access per pixel. Index 0 (EMPTY) is transparent.
+// Build a flat RGBA color lookup for sand ids so render indexes by id directly.
+// Index 0 (EMPTY) is transparent; board overlays (sticky/mask) are handled in the
+// renderer, not here.
 export function buildPalette() {
-  const maxId = Math.max(...Object.values(MAT))
-  const base = new Uint8Array((maxId + 1) * 3)
-  const vary = new Uint8Array(maxId + 1)
-  for (const idStr of Object.keys(MATERIALS)) {
-    const id = Number(idStr)
-    const m = MATERIALS[id]
-    base[id * 3] = m.color[0]
-    base[id * 3 + 1] = m.color[1]
-    base[id * 3 + 2] = m.color[2]
-    vary[id] = m.vary
+  const base = new Uint8Array((SAND_MAX + 1) * 3)
+  const vary = new Uint8Array(SAND_MAX + 1)
+  for (let p = 0; p < PALETTE_COUNT; p++) {
+    for (let s = 0; s < SLOTS; s++) {
+      const id = sandId(p, s)
+      const [r, g, b] = hexToRgb(SAND_PALETTES[p][s])
+      base[id * 3] = r
+      base[id * 3 + 1] = g
+      base[id * 3 + 2] = b
+      vary[id] = SAND_VARY
+    }
   }
   return { base, vary }
 }

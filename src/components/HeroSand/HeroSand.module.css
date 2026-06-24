@@ -19,7 +19,7 @@
   touch-action: pan-y;
 }
 
-/* Bottom-center material pill */
+/* Bottom-center tool pill */
 .selector {
   position: absolute;
   bottom: clamp(16px, 4vh, 32px);
@@ -32,12 +32,19 @@
   gap: 8px;
   flex-wrap: wrap;
   justify-content: center;
-  max-width: min(92vw, 560px);
+  max-width: min(94vw, 680px);
   padding: 8px 12px;
   background: var(--color-surface);
   border: 1px solid var(--color-line);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
+}
+
+.divider {
+  width: 1px;
+  align-self: stretch;
+  margin: 2px 2px;
+  background: var(--color-line);
 }
 
 .swatch {
@@ -58,10 +65,30 @@
   box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-accent);
 }
 
-.eraser {
-  background:
-    linear-gradient(45deg, transparent 44%, #d23 45%, #d23 55%, transparent 56%),
-    var(--color-surface);
+/* Sticky / Mask / Unmask / Palette text buttons */
+.tool {
+  background: transparent;
+  border: 1px solid var(--color-line);
+  color: var(--color-ink-soft);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  transition: color var(--transition-fast), border-color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.tool:hover {
+  color: var(--color-accent-deep);
+  border-color: var(--color-accent);
+}
+
+.toolActive {
+  color: #fff;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 .clearBtn {
