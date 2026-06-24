@@ -22,6 +22,20 @@ const VAC_FADE = 0.006 // ambient dim per frame
 const VAC_CORE = 1.4 // reaching the eye fades the particle out fast
 const VAC_MAX_AGE = 600 // safety: retire stragglers
 const MAX_PARTICLES = 4500
+// On release, particles fly off with their swirl velocity and fall under gravity
+// until they land back in the grid.
+const VAC_FLING = 1.25 // multiplier on the swirl velocity at the moment of release
+const VAC_GRAVITY = 0.08 // downward acceleration for flung particles (cells/frame^2)
+const VAC_AIR = 0.992 // mild air drag on flung particles
+// Cells to try when a released particle settles back in, in preference order
+// (its own cell, then upward, then sideways) so it lands rather than overwriting.
+const DROP_OFFSETS = [
+  [0, 0],
+  [0, -1],
+  [-1, 0],
+  [1, 0],
+  [0, -2],
+]
 
 export default function HeroSand() {
   const canvasRef = useRef(null)
@@ -140,12 +154,18 @@ export default function HeroSand() {
           particles.push({
             x,
             y,
+            px: x,
+            py: y,
             rad,
             rad0: rad,
             theta: Math.atan2(y - fy, x - fx),
             wob: 0.85 + Math.random() * 0.3, // per-particle spin variation
             life: 1,
             age: 0,
+            free: false, // becomes true on release → flies off ballistically
+            vx: 0,
+            vy: 0,
+            id, // remembered so the grain can settle back into the grid
             css: `rgb(${base[id * 3]},${base[id * 3 + 1]},${base[id * 3 + 2]})`,
           })
         }
@@ -158,20 +178,84 @@ export default function HeroSand() {
       for (let p = particles.length - 1; p >= 0; p--) {
         const pt = particles[p]
         pt.age++
-        // Spin faster as the radius tightens (like a skater pulling their arms in).
-        const omega = VAC_OMEGA * Math.sqrt(pt.rad0 / Math.max(pt.rad, 1.5)) * pt.wob
-        pt.theta += omega
-        // Inward speed ramps with age: orbit first, then drawn in ever harder.
-        pt.rad -= VAC_RAD_MIN + pt.age * VAC_RAD_RAMP
-        if (pt.rad < 0) pt.rad = 0
-        // Position is polar around the (possibly moving) vacuum point.
-        pt.x = fx + Math.cos(pt.theta) * pt.rad
-        pt.y = fy + Math.sin(pt.theta) * pt.rad
-        pt.life -= VAC_FADE + (pt.rad < VAC_CORE ? 0.25 : 0)
-        if (pt.life <= 0 || pt.rad <= 0 || pt.age > VAC_MAX_AGE) {
+        let done = false
+        if (pt.free) {
+          done = stepFreeParticle(pt)
+        } else {
+          // Spin faster as the radius tightens (skater pulling their arms in).
+          const omega = VAC_OMEGA * Math.sqrt(pt.rad0 / Math.max(pt.rad, 1.5)) * pt.wob
+          pt.theta += omega
+          // Inward speed ramps with age: orbit first, then drawn in ever harder.
+          pt.rad -= VAC_RAD_MIN + pt.age * VAC_RAD_RAMP
+          if (pt.rad < 0) pt.rad = 0
+          // Track previous position so we can fling with real velocity on release.
+          pt.px = pt.x
+          pt.py = pt.y
+          pt.x = fx + Math.cos(pt.theta) * pt.rad
+          pt.y = fy + Math.sin(pt.theta) * pt.rad
+          pt.life -= VAC_FADE + (pt.rad < VAC_CORE ? 0.25 : 0)
+          done = pt.life <= 0 || pt.rad <= 0
+        }
+        if (done || pt.age > VAC_MAX_AGE) {
+          if (pt.free && pt.age > VAC_MAX_AGE) placeGrain(pt) // stragglers settle
           particles[p] = particles[particles.length - 1]
           particles.pop()
         }
+      }
+    }
+
+    // Ballistic flight after release: gravity + drag until it lands on sand or the
+    // floor, then it settles back into the grid. Returns true when the particle is
+    // spent (landed or flew off-screen) and should be removed.
+    function stepFreeParticle(pt) {
+      pt.vy += VAC_GRAVITY
+      pt.vx *= VAC_AIR
+      pt.vy *= VAC_AIR
+      const nx = pt.x + pt.vx
+      const ny = pt.y + pt.vy
+      const cx = Math.round(nx)
+      const cy = Math.round(ny)
+      if (cx < 0 || cx >= world.w || cy < 0) return true // flew off the top/sides
+      if (cy >= world.h || world.grid[world.idx(cx, cy)] !== EMPTY) {
+        // Hit the floor or a pile — settle at the current cell.
+        placeGrain(pt)
+        return true
+      }
+      pt.x = nx
+      pt.y = ny
+      return false
+    }
+
+    // Settle a particle back into the grid as loose sand at (or just around) its
+    // current cell, so it then falls and piles via the normal sim.
+    function placeGrain(pt) {
+      const x = Math.round(pt.x)
+      const y = Math.round(pt.y)
+      for (const [ox, oy] of DROP_OFFSETS) {
+        const nx = x + ox
+        const ny = y + oy
+        if (!world.inBounds(nx, ny)) continue
+        const i = world.idx(nx, ny)
+        if (world.grid[i] === EMPTY) {
+          world.grid[i] = pt.id
+          world.data[i] = (Math.random() * 255) | 0
+          world.frozen[i] = 0
+          return
+        }
+      }
+    }
+
+    // Release every swirling particle: convert its spiral motion into a real
+    // velocity vector so it flings off tangentially, then falls under gravity.
+    function releaseParticles() {
+      for (const pt of particles) {
+        if (pt.free) continue
+        // Velocity from the last spiral step (captures the tangential whip).
+        pt.vx = (pt.x - (pt.px ?? pt.x)) * VAC_FLING
+        pt.vy = (pt.y - (pt.py ?? pt.y)) * VAC_FLING
+        pt.free = true
+        pt.life = 1 // flung sand reads as solid
+        pt.age = 0 // reset so the straggler timeout applies to the flight
       }
     }
 
@@ -214,6 +298,8 @@ export default function HeroSand() {
       pointers.delete(e.pointerId)
       if (pointers.size === 0) {
         drawing = false
+        // Releasing the vacuum flings the still-swirling sand off naturally.
+        if (vacuumRef.current.active) releaseParticles()
         vacuumRef.current.active = false
       }
     }
