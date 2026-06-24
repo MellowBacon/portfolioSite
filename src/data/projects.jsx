@@ -1,6 +1,6 @@
 // ─── Central content data layer ───────────────────────────────────────────────
 // Single source of truth for all portfolio projects across mediums.
-// Content (text, image paths, Vimeo IDs) migrated verbatim from the previous
+// Content (text, image paths, video IDs) migrated verbatim from the previous
 // page-per-medium components. Captions are JSX, hence the .jsx extension.
 
 export const MEDIUMS = [
@@ -39,7 +39,7 @@ export const EMOTIONS = [
 //   statement   — { paragraphs: (string | JSX)[] }
 //   image       — { src, alt, caption, lightbox }
 //   carousel    — { images: string[], label }
-//   vimeo       — { id, params?, title }
+//   youtube     — { id, title }
 //   gallery     — { items: [{ thumb, full, caption }] }
 //   modelViewer — { models, emotions }
 //   captions    — { items: string[] }  (small-print work captions)
@@ -229,14 +229,13 @@ export const PROJECTS = [
     medium: 'video',
     year: '2025',
     featured: false,
-    thumbnail: '/assets/images/video-art/thumbnails/VideoArt.JPG',
+    thumbnail: 'https://img.youtube.com/vi/k2hFBKodSY4/maxresdefault.jpg',
     thumbnailAlt: 'Still from Ebb and Flow',
     summary: 'A video art piece thinking about our changing planet.',
     blocks: [
       {
-        type: 'vimeo',
-        id: '1066783296',
-        params: 'badge=0&autopause=0&player_id=0&app_id=58479',
+        type: 'youtube',
+        id: 'k2hFBKodSY4',
         title: 'Ebb and Flow',
       },
       {
@@ -262,12 +261,13 @@ export const PROJECTS = [
     medium: 'video',
     year: '2024',
     featured: false,
-    thumbnail: null,
+    thumbnail: 'https://img.youtube.com/vi/zZ0VNM3E_40/maxresdefault.jpg',
+    thumbnailAlt: 'Still from Household Experiments',
     summary: 'A macro video abstracting simple chemical reactions into something otherworldly.',
     blocks: [
       {
-        type: 'vimeo',
-        id: '1064859715',
+        type: 'youtube',
+        id: 'zZ0VNM3E_40',
         title: 'Household Experiments',
       },
       {
@@ -289,12 +289,13 @@ export const PROJECTS = [
     medium: 'video',
     year: '2024',
     featured: false,
-    thumbnail: null,
+    thumbnail: 'https://img.youtube.com/vi/mgkqpiwxlhM/maxresdefault.jpg',
+    thumbnailAlt: 'Still from Culture Shock',
     summary: 'A video collage built from found footage on Google Maps.',
     blocks: [
       {
-        type: 'vimeo',
-        id: '1064853626',
+        type: 'youtube',
+        id: 'mgkqpiwxlhM',
         title: 'Culture Shock',
       },
       {
@@ -317,12 +318,13 @@ export const PROJECTS = [
     medium: 'video',
     year: '2024',
     featured: false,
-    thumbnail: null,
+    thumbnail: 'https://img.youtube.com/vi/ja9Su4az95A/maxresdefault.jpg',
+    thumbnailAlt: 'Still from AI Self Portrait',
     summary: 'An experiment exploring the advancement of AI tech in 2024.',
     blocks: [
       {
-        type: 'vimeo',
-        id: '1064867250',
+        type: 'youtube',
+        id: 'ja9Su4az95A',
         title: 'AI Self Portrait',
       },
       {
@@ -348,12 +350,13 @@ export const PROJECTS = [
     medium: 'video',
     year: '2022',
     featured: false,
-    thumbnail: null,
+    thumbnail: 'https://img.youtube.com/vi/lHX_aQ_DvCg/maxresdefault.jpg',
+    thumbnailAlt: 'Still from Untitled',
     summary: 'A rotoscope-style animation about the war in Ukraine.',
     blocks: [
       {
-        type: 'vimeo',
-        id: '1065173650',
+        type: 'youtube',
+        id: 'lHX_aQ_DvCg',
         title: 'Untitled',
       },
       {

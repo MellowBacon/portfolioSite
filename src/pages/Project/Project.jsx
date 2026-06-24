@@ -61,10 +61,10 @@ function Block({ block, onZoom }) {
         </Reveal>
       )
 
-    case 'vimeo':
+    case 'youtube':
       return (
         <Reveal>
-          <VideoBlock id={block.id} params={block.params} title={block.title} />
+          <VideoBlock id={block.id} title={block.title} />
         </Reveal>
       )
 

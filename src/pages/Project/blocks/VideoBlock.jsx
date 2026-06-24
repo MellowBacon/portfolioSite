@@ -29,12 +29,13 @@ function IframeWrap({ children }) {
   )
 }
 
-export default function VideoBlock({ id, params, title }) {
+export default function VideoBlock({ id, title }) {
   return (
     <IframeWrap>
       <iframe
-        src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0${params ? '&' + params : ''}`}
-        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+        src={`https://www.youtube.com/embed/${id}?rel=0`}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
         title={title}
       />
     </IframeWrap>
