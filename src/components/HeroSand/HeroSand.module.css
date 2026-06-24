@@ -1,0 +1,96 @@
+.canvasLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  /* The wrapper itself ignores pointers; the canvas and selector opt back in so
+     the headline/CTAs above stay clickable through the gaps. */
+  pointer-events: none;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: auto;
+  /* Keep the coarse grid crisp when CSS-stretched — largish "sand pixels". */
+  image-rendering: pixelated;
+  /* Let vertical swipes scroll the page past the hero on touch devices, while
+     taps and horizontal drags paint. */
+  touch-action: pan-y;
+}
+
+/* Bottom-center material pill */
+.selector {
+  position: absolute;
+  bottom: clamp(16px, 4vh, 32px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3; /* above heroBg (1) and heroContent (2) so it's always reachable */
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: min(92vw, 560px);
+  padding: 8px 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-card);
+}
+
+.swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(17, 17, 16, 0.18);
+  cursor: pointer;
+  padding: 0;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.swatch:hover {
+  transform: scale(1.12);
+}
+
+.swatchActive {
+  box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-accent);
+}
+
+.eraser {
+  background:
+    linear-gradient(45deg, transparent 44%, #d23 45%, #d23 55%, transparent 56%),
+    var(--color-surface);
+}
+
+.clearBtn {
+  margin-left: 4px;
+  background: transparent;
+  border: none;
+  color: var(--color-ink-soft);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-pill);
+  transition: color var(--transition-fast);
+}
+
+.clearBtn:hover {
+  color: var(--color-accent-deep);
+}
+
+@media (max-width: 768px) {
+  .swatch {
+    width: 22px;
+    height: 22px;
+  }
+
+  .selector {
+    gap: 6px;
+    padding: 7px 10px;
+  }
+}

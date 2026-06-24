@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import PageTransition from '../../components/PageTransition/PageTransition'
-import HeroScene from '../../three/HeroScene'
+import HeroSand from '../../components/HeroSand/HeroSand'
 import StaggerText from '../../components/motion/StaggerText'
 import Reveal from '../../components/motion/Reveal'
 import Magnetic from '../../components/motion/Magnetic'
@@ -17,7 +17,7 @@ export default function Home() {
     <PageTransition>
       {/* Hero */}
       <section className={styles.hero}>
-        <HeroScene />
+        <HeroSand />
         <div className={styles.heroBg} />
         <div className={styles.heroContent}>
           <motion.p
