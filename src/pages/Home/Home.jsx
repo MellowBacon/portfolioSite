@@ -7,7 +7,7 @@ import Reveal from '../../components/motion/Reveal'
 import Magnetic from '../../components/motion/Magnetic'
 import Marquee from '../../components/motion/Marquee'
 import ProjectCard from '../../components/ProjectCard/ProjectCard'
-import { getFeatured, getVisibleMediums } from '../../data/projects'
+import { getFeatured, MEDIUMS } from '../../data/projects'
 import styles from './Home.module.css'
 
 export default function Home() {
@@ -54,7 +54,7 @@ export default function Home() {
       </section>
 
       {/* Medium marquee */}
-      <Marquee items={getVisibleMediums().map(m => m.label)} />
+      <Marquee items={MEDIUMS.map(m => m.label)} />
 
       {/* Featured Work */}
       <section className={styles.featuredWork}>

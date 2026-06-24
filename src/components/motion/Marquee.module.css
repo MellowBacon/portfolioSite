@@ -14,6 +14,11 @@
   will-change: transform;
 }
 
+.pass {
+  display: inline-flex;
+  align-items: center;
+}
+
 .group {
   display: inline-flex;
   align-items: center;
@@ -39,7 +44,8 @@
 
 @keyframes scroll {
   from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  /* Shift by exactly one pass (track is `--passes` identical passes wide). */
+  to { transform: translateX(calc(-100% / var(--passes))); }
 }
 
 @media (prefers-reduced-motion: reduce) {
