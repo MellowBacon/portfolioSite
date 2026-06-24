@@ -21,6 +21,9 @@ export const MAT = {
   OIL: 8,
   SALT: 9,
   ACID: 10,
+  // Produced when salt dissolves in water — not a paintable material (kept out of
+  // the selector), only created by the salt + water reaction.
+  SALTWATER: 11,
 }
 
 // Behavioral category for each material.
@@ -42,9 +45,11 @@ export const MATERIALS = {
   [MAT.OIL]: { name: 'Oil', type: LIQUID, color: [44, 40, 54], vary: 14 }, // dark
   [MAT.SALT]: { name: 'Salt', type: POWDER, color: [244, 244, 240], vary: 12 }, // near-white
   [MAT.ACID]: { name: 'Acid', type: LIQUID, color: [176, 224, 40], vary: 30 }, // lime
+  [MAT.SALTWATER]: { name: 'Salt water', type: LIQUID, color: [150, 200, 196], vary: 16 }, // pale teal
 }
 
-const isLiquid = (m) => m === MAT.WATER || m === MAT.OIL || m === MAT.ACID
+const isLiquid = (m) =>
+  m === MAT.WATER || m === MAT.OIL || m === MAT.ACID || m === MAT.SALTWATER
 const flammable = (m) => m === MAT.WOOD || m === MAT.PLANT || m === MAT.OIL
 // Stone is acid-proof so it can serve as permanent walls/containers.
 const acidEats = (m) => m === MAT.SAND || m === MAT.WOOD || m === MAT.SALT || m === MAT.PLANT
@@ -55,6 +60,7 @@ const LIQUID_DENSITY = {
   [MAT.OIL]: 2,
   [MAT.WATER]: 3,
   [MAT.ACID]: 3,
+  [MAT.SALTWATER]: 4, // brine is denser than fresh water, so it settles below it
 }
 
 // Neighbor scan order biased upward, so growing plant creeps up like vines.
@@ -177,15 +183,20 @@ export class SandWorld {
   }
 
   stepPowder(x, y, i, mat) {
-    // Salt dissolves when it lands in water: both become water.
+    // Salt dissolves into water it touches: the salt grain disappears and the
+    // fresh water it met turns to brine (salt water). Once the surrounding water
+    // is all brine, leftover salt just piles up — like a saturated solution.
     if (mat === MAT.SALT) {
       for (const [dx, dy] of NEIGHBORS) {
         const nx = x + dx
         const ny = y + dy
         if (!this.inBounds(nx, ny)) continue
-        if (this.grid[this.idx(nx, ny)] === MAT.WATER && Math.random() < 0.04) {
-          this.grid[i] = MAT.WATER
-          this.data[i] = (Math.random() * 255) | 0
+        const n = this.idx(nx, ny)
+        if (this.grid[n] === MAT.WATER && Math.random() < 0.04) {
+          this.grid[n] = MAT.SALTWATER
+          this.data[n] = (Math.random() * 255) | 0
+          this.grid[i] = EMPTY
+          this.data[i] = 0
           return
         }
       }
@@ -307,7 +318,7 @@ export class SandWorld {
         if (!this.inBounds(nx, ny)) continue
         const n = this.idx(nx, ny)
         const nm = this.grid[n]
-        if (nm === MAT.WATER) {
+        if (nm === MAT.WATER || nm === MAT.SALTWATER) {
           // Water boils off into rising steam; the flame is consumed.
           this.grid[n] = MAT.SMOKE
           this.data[n] = 60 + ((Math.random() * 30) | 0)
