@@ -66,13 +66,13 @@ export const PROJECTS = [
           `When I think of something that left a strong impression on me, I usually picture it
            floating in black, isolated. The parts I remember most are vivid and detailed, while
            everything around them fades into nothing. Radiant Overgrowth is a visualization of
-           that kind of memory — a virtual echo of a strong thought, where certain details remain
+           that kind of memory, a virtual echo of a strong thought, where certain details remain
            sharp while others dissolve. The work runs in real-time, a simulation built in Unity
            that's constantly moving and shifting views.`,
           `The nine prints come from inside that space. Each one is a rephotograph of a photograph,
            captured from within the simulation, which itself was built from a 3D scan made with a
            camera. Pulled out of motion and into material form, they sit somewhere between
-           documentation and residue — reminders of a place that's both constructed and remembered.`,
+           documentation and residue, reminders of a place that's both constructed and remembered.`,
         ],
       },
       {
@@ -86,19 +86,19 @@ export const PROJECTS = [
         type: 'image',
         src: '/assets/images/photogrammetry/radiant-overgrowth/Full.jpg',
         alt: 'Radiant Overgrowth installation view, Patchwork group show',
-        caption: 'Installation view — Patchwork, 2025',
+        caption: 'Installation view, Patchwork, 2025',
         lightbox: true,
       },
       {
         type: 'carousel',
-        label: 'Print series — 9 works',
+        label: 'Print series, 9 works',
         images: [1, 6, 7, 8, 9, 12, 15, 17, 22].map(n => `/assets/images/photogrammetry/splats/Splat${n}.jpg`),
       },
       {
         type: 'image',
         src: '/assets/images/show-posters/patchwork_poster.JPEG',
         alt: 'Patchwork group show poster',
-        caption: 'Patchwork — show poster',
+        caption: 'Patchwork show poster',
         lightbox: true,
       },
     ],
@@ -112,7 +112,7 @@ export const PROJECTS = [
     featured: true,
     thumbnail: '/assets/images/3d-modeling/thumbnails/sub_thumbnail.png',
     thumbnailAlt: 'Submarine 3D model render',
-    summary: 'Rigged characters, instruments, and vehicles built in Blender — explore them live.',
+    summary: 'Rigged characters, instruments, and vehicles built in Blender, explore them live.',
     meta: [
       { label: 'Tools', value: 'Blender, Unity' },
     ],
@@ -140,14 +140,14 @@ export const PROJECTS = [
     year: '2025',
     featured: false,
     thumbnail: '/assets/images/Texture Book/thumbnails/7 Noah Bello - Base Layers (excerpt 1).webp',
-    thumbnailAlt: 'Excerpt from Base Layers — a book of 3D model textures',
+    thumbnailAlt: 'Excerpt from Base Layers, a book of 3D model textures',
     summary: 'A book of 3D model textures, unwrapped and presented as standalone images.',
     blocks: [
       {
         type: 'statement',
         paragraphs: [
           <>
-            <em>Base Layers</em> is a book that strips 3D models down to their textures —
+            <em>Base Layers</em> is a book that strips 3D models down to their textures,
             the flat, unwrapped maps that normally stay hidden, wrapped around geometry in
             an engine. Pulled off the mesh and laid flat on the page, they become images in
             their own right.
@@ -193,14 +193,14 @@ export const PROJECTS = [
       {
         type: 'statement',
         paragraphs: [
-          `The Fidget Series takes a single restless object — the fidget spinner — and
+          `The Fidget Series takes a single restless object, the fidget spinner, and
            reworks it as a subject for 3D rendering. Each set runs the same form through
            a different lens, turning a throwaway toy into a study of material and surface.`,
         ],
       },
       {
         type: 'carousel',
-        label: '5 Ways to Fidget — material studies',
+        label: '5 Ways to Fidget, material studies',
         images: [
           'fidgettoonpng',
           'fidgettoonmetal',
@@ -214,7 +214,7 @@ export const PROJECTS = [
       },
       {
         type: 'carousel',
-        label: 'Furry Fidgets — animal coats',
+        label: 'Furry Fidgets, animal coats',
         images: ['Dalmation', 'giraffe', 'leopard', 'tiger', 'zebra'].map(name => ({
           thumb: `/assets/images/Fidget Series/Furry Fidgets/thumbnails/FurryFidget${name}.webp`,
           full: `/assets/images/Fidget Series/Furry Fidgets/full/FurryFidget${name}.webp`,
@@ -381,7 +381,7 @@ export const PROJECTS = [
     year: '2026',
     featured: true,
     thumbnail: '/assets/images/web/streetlens.jpg',
-    thumbnailAlt: 'Street Lens homepage — community discovery in a sea of images',
+    thumbnailAlt: 'Street Lens homepage, community discovery in a sea of images',
     summary: 'A virtual photography platform reshaping Google Street View into artistically composed images.',
     meta: [
       { label: 'Live site', value: 'streetlens.art' },
@@ -392,14 +392,14 @@ export const PROJECTS = [
         paragraphs: [
           <>
             <em>Street Lens</em> is a virtual photography platform I built that reshapes
-            Google Street View documentation into artistically composed images —
+            Google Street View documentation into artistically composed images,
             community discovery in a sea of images. Find your location, make your frame.
           </>,
           `Users explore the world through Street View, compose and capture frames, and
            share them to a community feed. Curated featured captures surface standout
            images from around the globe, each with location details and artist commentary.`,
           `The project draws inspiration from Jon Rafman, Doug Rickard, Michael Wolf, and
-           Jacqui Kenny — artists who saw something more in Google's automated archive.
+           Jacqui Kenny, artists who saw something more in Google's automated archive.
            Street Lens aims to create global connections by exposing people to parts of
            the world they may never have a chance to visit in reality.`,
         ],
@@ -419,13 +419,13 @@ export const PROJECTS = [
     year: '2024',
     featured: false,
     thumbnail: '/assets/images/photography/thumbnails/DSC03183_Thumb.jpg',
-    thumbnailAlt: 'Moss Highway — macro photograph',
+    thumbnailAlt: 'Moss Highway, macro photograph',
     summary: 'Close observations of the quieter details of the natural world.',
     blocks: [
       {
         type: 'statement',
         paragraphs: [
-          `These photographs explore the quieter details of the natural world — the
+          `These photographs explore the quieter details of the natural world, the
            textures, patterns, and moments that are easy to overlook. Shot in the
            Pacific Northwest, the series focuses on abstracted organic forms: moss,
            leaves, berries, and the subtle geometry of the forest floor.`,
@@ -463,7 +463,7 @@ export const PROJECTS = [
     year: '2024',
     featured: false,
     thumbnail: '/assets/images/environment-art/thumbnails/ToadallyDreadful_Thumb.jpg',
-    thumbnailAlt: 'Camper Cabins environment — Toadally Dreadful',
+    thumbnailAlt: 'Camper Cabins environment, Toadally Dreadful',
     summary: 'Game environments built in Unity: campsite cabins, a lakeside, and natural terrain.',
     meta: [
       { label: 'Engine', value: 'Unity' },
@@ -475,7 +475,7 @@ export const PROJECTS = [
           <>
             These environments were created for <em>Toadally Dreadful</em>, a game
             project built in Unity. The scenes include a campsite with cabins, a
-            lakeside setting, and natural terrain with cliffs and trees — all designed
+            lakeside setting, and natural terrain with cliffs and trees, all designed
             to establish tone and atmosphere for the game world.
           </>,
           `Assets were built with a mix of original modeling and kit-bashing, then
@@ -525,7 +525,7 @@ export const PROJECTS = [
             <em>Feed Me Chef!</em> was a co-op cooking game, cancelled partway through
             development. Players worked together to keep their sea monster guests fed
             while navigating a maze of obstacles across a series of platforms. These are
-            the environments I built for it — three distinct stages the players would
+            the environments I built for it, three distinct stages the players would
             cook their way through.
           </>,
           `The Ice Cave centers on a fridge guarded by an octopus; the Kitchen sets the

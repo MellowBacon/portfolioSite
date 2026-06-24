@@ -408,7 +408,7 @@ export default function HeroSand() {
           className={`${styles.tool} ${mode === 'vacuum' ? styles.toolActive : ''}`}
           onClick={() => setMode('vacuum')}
           aria-pressed={mode === 'vacuum'}
-          title="Detach — swirl sand away as particles"
+          title="Detach - swirl sand away as particles"
         >
           Detach
         </button>
