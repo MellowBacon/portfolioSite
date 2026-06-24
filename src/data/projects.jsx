@@ -418,6 +418,7 @@ export const PROJECTS = [
     medium: 'photography',
     year: '2024',
     featured: false,
+    hidden: true, // kept reachable by direct URL, but hidden from Work/filters/marquee/nav
     thumbnail: '/assets/images/photography/thumbnails/DSC03183_Thumb.jpg',
     thumbnailAlt: 'Moss Highway, macro photograph',
     summary: 'Close observations of the quieter details of the natural world.',
@@ -578,24 +579,39 @@ export const PROJECTS = [
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
+// Projects listed in the Work index, filters, and navigation. Hidden projects
+// stay in PROJECTS (so getProject keeps their page reachable by direct URL) but
+// are excluded from anything that browses or enumerates the catalog.
+const listed = () => PROJECTS.filter(p => !p.hidden)
+
 export function getProject(slug) {
   return PROJECTS.find(p => p.slug === slug) ?? null
 }
 
 export function getFeatured() {
-  return PROJECTS.filter(p => p.featured)
+  return listed().filter(p => p.featured)
 }
 
 export function getByMedium(key) {
-  if (!key || key === 'all') return PROJECTS
-  return PROJECTS.filter(p => p.medium === key)
+  const visible = listed()
+  if (!key || key === 'all') return visible
+  return visible.filter(p => p.medium === key)
+}
+
+// Mediums that have at least one listed project — drives the filter chips and the
+// home marquee, so an all-hidden medium (e.g. Photography) drops out of the UI
+// while MEDIUMS/MEDIUM_LABELS stay intact for project-page labels.
+export function getVisibleMediums() {
+  const present = new Set(listed().map(p => p.medium))
+  return MEDIUMS.filter(m => present.has(m.key))
 }
 
 export function getAdjacent(slug) {
-  const i = PROJECTS.findIndex(p => p.slug === slug)
+  const list = listed()
+  const i = list.findIndex(p => p.slug === slug)
   if (i === -1) return { prev: null, next: null }
   return {
-    prev: PROJECTS[(i - 1 + PROJECTS.length) % PROJECTS.length],
-    next: PROJECTS[(i + 1) % PROJECTS.length],
+    prev: list[(i - 1 + list.length) % list.length],
+    next: list[(i + 1) % list.length],
   }
 }

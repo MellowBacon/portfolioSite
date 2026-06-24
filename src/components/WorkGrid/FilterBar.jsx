@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion'
-import { MEDIUMS } from '../../data/projects'
+import { getVisibleMediums } from '../../data/projects'
 import styles from './FilterBar.module.css'
 
-const FILTERS = [{ key: 'all', label: 'All' }, ...MEDIUMS]
+const FILTERS = [{ key: 'all', label: 'All' }, ...getVisibleMediums()]
 
 export default function FilterBar({ active, onChange }) {
   return (
