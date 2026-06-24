@@ -124,9 +124,18 @@
 }
 
 @media (max-width: 768px) {
+  /* No sand canvas on mobile, but keep the hero fullscreen for a strong entrance.
+     Center the content so the surrounding space reads as intentional breathing room
+     rather than the lopsided gap the old bottom-aligned layout left behind. */
   .hero {
-    align-items: flex-end;
-    padding-bottom: 18vh;
+    height: 100vh; /* fallback for browsers without svh */
+    height: 100svh; /* stable visible height — avoids the URL-bar resize jump */
+    min-height: 480px;
+    align-items: center;
+    /* Offset the fixed navbar so the centered content stays optically balanced
+       below it (site-wide nav clearance is 96px). */
+    padding-top: 96px;
+    padding-bottom: var(--space-7);
   }
 
   .heroBg {

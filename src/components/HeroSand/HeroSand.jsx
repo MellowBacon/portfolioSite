@@ -37,10 +37,25 @@ const DROP_OFFSETS = [
   [0, -2],
 ]
 
+// Matches the 768px breakpoint used for cell sizing below. The sim is awkward to
+// drive with touch and runs poorly on phones, so we skip it on small screens.
+const MOBILE_QUERY = '(max-width: 767px)'
+
 export default function HeroSand() {
   const canvasRef = useRef(null)
   const wrapRef = useRef(null)
   const worldRef = useRef(null)
+
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(MOBILE_QUERY).matches,
+  )
+
+  useEffect(() => {
+    const mq = window.matchMedia(MOBILE_QUERY)
+    const onChange = (e) => setIsMobile(e.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
 
   const [slot, setSlot] = useState(0) // selected sand color (0..8)
   const [paletteIndex, setPaletteIndex] = useState(0)
@@ -61,10 +76,10 @@ export default function HeroSand() {
   }, [mode])
 
   useEffect(() => {
+    if (isMobile) return // canvas isn't mounted on mobile — nothing to drive
     const canvas = canvasRef.current
     const wrap = wrapRef.current
     const ctx = canvas.getContext('2d', { alpha: true })
-    const isMobile = window.innerWidth < 768
     const { base, vary } = buildPalette()
 
     let world = null
@@ -365,11 +380,14 @@ export default function HeroSand() {
       window.removeEventListener('pointerup', onPointerUp)
       window.removeEventListener('pointercancel', onPointerUp)
     }
-  }, [])
+  }, [isMobile])
 
   function clearWorld() {
     if (worldRef.current) worldRef.current.clear()
   }
+
+  // On phones the sim is sluggish and hard to drive by touch — skip it entirely.
+  if (isMobile) return null
 
   const palette = SAND_PALETTES[paletteIndex]
 
