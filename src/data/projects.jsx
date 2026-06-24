@@ -159,21 +159,23 @@ export const PROJECTS = [
       {
         type: 'carousel',
         label: 'Selected spreads',
-        images: [
-          ...[1, 2, 3].map((n) => {
-            const base = `${n + 6} Noah Bello - Base Layers (excerpt ${n})`
-            return {
-              thumb: `/assets/images/Texture Book/thumbnails/${base}.webp`,
-              full: `/assets/images/Texture Book/full/${base}.webp`,
-            }
+        images: [1, 2, 3].map((n) => {
+          const base = `${n + 6} Noah Bello - Base Layers (excerpt ${n})`
+          return {
+            thumb: `/assets/images/Texture Book/thumbnails/${base}.webp`,
+            full: `/assets/images/Texture Book/full/${base}.webp`,
+          }
+        }),
+      },
+      {
+        type: 'carousel',
+        label: 'Standalone images',
+        images: ['Ball Pit', 'Com Hub', 'Guitar', 'Roomba', 'Rover', 'Yellow and Blue'].map(
+          (name) => ({
+            thumb: `/assets/images/Texture Book/thumbnails/${name}.webp`,
+            full: `/assets/images/Texture Book/full/${name}.webp`,
           }),
-          ...['Ball Pit', 'Com Hub', 'Guitar', 'Roomba', 'Rover', 'Yellow and Blue'].map(
-            (name) => ({
-              thumb: `/assets/images/Texture Book/thumbnails/${name}.webp`,
-              full: `/assets/images/Texture Book/full/${name}.webp`,
-            }),
-          ),
-        ],
+        ),
       },
     ],
   },
